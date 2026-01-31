@@ -15,38 +15,44 @@ public class DriverFactory {
 
 	private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
-	public WebDriver initBrowser(String browser) {
+	public static WebDriver initBrowser(String browser) {
 
-	BrowserOptions browserOptions = new BrowserOptions();
-	String browserType = browser.trim().toLowerCase();
+		BrowserOptions browserOptions = new BrowserOptions();
+		String browserType = browser.trim().toLowerCase();
 
-	switch (browserType) {
-	case "chrome":
-	driver.set(new ChromeDriver(browserOptions.chromeOption()));
-	break;
-	case "edge":
-	driver.set(new EdgeDriver(browserOptions.edgeOption()));
-	break;
-	case "firefox":
-		driver.set(new FirefoxDriver(browserOptions.firefoxOption()));
-		break;
+		switch (browserType) {
+		case "chrome":
+			driver.set(new ChromeDriver(browserOptions.chromeOption()));
+			break;
+		case "edge":
+			driver.set(new EdgeDriver(browserOptions.edgeOption()));
+			break;
+		case "firefox":
+			driver.set(new FirefoxDriver(browserOptions.firefoxOption()));
+			break;
 
-	default:
-	//	LoggerFactory.getLogger().error("Unexpected value for browser: {}", browserType);
-	throw new IllegalStateException("Unexpected value for browserType: " + browserType);
-		
-}
-if (!browserType.equalsIgnoreCase("firefox"))
-	getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+		default:
+			//LoggerFactory.getLogger().error("Unexpected value for browser: {}",browserType);
+			throw new IllegalStateException("Unexpected value for browserType: " + browserType);
 
-getDriver().manage().window().maximize();
-getDriver().manage().deleteAllCookies();
+		}
+		if (!browserType.equalsIgnoreCase("firefox"))
+			getDriver().manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
 
-return getDriver();
-	}	
+		getDriver().manage().window().maximize();
+		getDriver().manage().deleteAllCookies();
 
-public WebDriver getDriver() {
-return driver.get();
-}
+		return getDriver();
+	}
+
+	public static WebDriver getDriver() {
+		return driver.get();
+	}
+
+	public static void quitDriver() {
+		if (driver.get() != null) {
+			driver.get().quit();
+		}
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.herBalance.stepDefinition;
+package com.herBalance.hooks;
 
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
@@ -13,29 +13,20 @@ import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 
 public class Hooks {
-	
-	DriverFactory driverFactory;
-	ConfigReader configReader;
-	WebDriver driver;
-	String url;
-	String browser;
-
-	public Hooks() {
-		this.driverFactory = new DriverFactory();
-		this.configReader = new ConfigReader();
-	}
+	private ConfigReader configReader;
+	private WebDriver driver;
 	
 	@Before
 	public void setup() {
-		browser = configReader.getBrowser();
-		url = configReader.getUrl();
-		driver= driverFactory.initBrowser(browser);	
-		driver.get(url);
+		configReader = new ConfigReader();
+		configReader.loadProperties();
+		ConfigReader.getBrowserType();
+		driver= DriverFactory.initBrowser(ConfigReader.getBrowserType());	
+		driver.get(ConfigReader.getUrl());
 	}
 
 	@AfterStep
 	public void takeScreenshot(Scenario scenario) {
-
 		if (scenario.isFailed()) {
 			final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
@@ -44,9 +35,7 @@ public class Hooks {
 
 	@After
 	public void tearDown() {
-		if (driver != null) {
-			driver.quit();
-		}
+		DriverFactory.quitDriver();
 	}
 
 }
