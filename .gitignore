@@ -8,3 +8,4 @@ test-output/
 allure-results/
 allure-report/
 /*.html
+/.metadata
