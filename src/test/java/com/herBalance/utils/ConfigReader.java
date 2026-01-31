@@ -7,53 +7,48 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ConfigReader {
-	
-	public static ThreadLocal<Properties> property= new ThreadLocal<Properties>();
 
+	private static ThreadLocal<Properties> property = new ThreadLocal<Properties>();
 	private static final Logger logger = LoggerFactory.getLogger(ConfigReader.class);
+	private static String browserType = null;
 
-	public ConfigReader() {
-	Properties	properties = new Properties();
+	public void loadProperties() {
 		try (InputStream input = getClass().getClassLoader().getResourceAsStream("config.properties")) {
+			Properties properties = new Properties();
 			if (input == null) {
 				throw new FileNotFoundException("config.properties file not found in resources");
 			}
 			properties.load(input);
 			property.set(properties);
+
+			if (getBrowserType() == null || getBrowserType().isEmpty()) {
+				setBrowserType(property.get().getProperty("browser"));
+			}
 			logger.info("Config properties loaded");
 		} catch (Exception e) {
 			logger.error("Config not found: " + e.getMessage());
 		}
 	}
 
-	public String getUsername() {
+	public static String getUsername() {
 		return property.get().getProperty("username");
 	}
 
-	public String getPassword() {
+	public static String getPassword() {
 		return property.get().getProperty("password");
 	}
 
-	public String getBrowser() {
-		return property.get().getProperty("browser");
+	public static String getBrowserType() {
+		return browserType;
 	}
 
-	public void setBrowser(String value) {
-		property.get().setProperty("browser", value);
+	public static void setBrowserType(String browser) {
+		if (browser != null && !browser.isBlank())
+			browserType = browser;
 	}
 
-	public String getUrl() {
+	public static String getUrl() {
 		return property.get().getProperty("url");
-
-	}
-	
-	public String getHomeUrl() {
-		return property.get().getProperty("Homeurl");
-
-	}
-	
-	public String getLoginUrl() {
-		return property.get().getProperty("Loginurl");
 
 	}
 
