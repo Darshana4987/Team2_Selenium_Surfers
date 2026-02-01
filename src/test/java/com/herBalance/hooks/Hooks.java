@@ -20,7 +20,6 @@ public class Hooks {
 	public void setup() {
 		configReader = new ConfigReader();
 		configReader.loadProperties();
-		ConfigReader.getBrowserType();
 		driver= DriverFactory.initBrowser(ConfigReader.getBrowserType());	
 		driver.get(ConfigReader.getUrl());
 	}
