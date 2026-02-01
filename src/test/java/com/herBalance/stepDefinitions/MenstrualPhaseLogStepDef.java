@@ -1,29 +1,43 @@
 package com.herBalance.stepDefinitions;
 
+
+import org.testng.Assert;
+
+import com.herBalance.driverFactory.DriverFactory;
+import com.herBalance.pageObjects.MenstrualPhaseLogPage;
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class MenstrualPhaseLogStepDef {
+	private MenstrualPhaseLogPage menstrualPhaseLogPage;
 	
-	@Given("User clicks Activity Insights button after logged in")
-	public void user_clicks_activity_insights_button_after_logged_in() {
+	private MenstrualPhaseLogStepDef() {
+		menstrualPhaseLogPage = new MenstrualPhaseLogPage(DriverFactory.getDriver());
+	}
+	
+	@Given("User is logged in to Herbalance app")
+	public void user_is_logged_in_to_herbalance_app() {
 	    
 	}
 
 	@Given("User is on the Her Balance Dashboard with the Activity Insights submenu expanded")
 	public void user_is_on_the_her_balance_dashboard_with_the_activity_insights_submenu_expanded() {
-	   
+		menstrualPhaseLogPage.clickActivityInsights();
 	}
 
 	@When("User clicks on Menstrual Phase Logs")
 	public void user_clicks_on_menstrual_phase_logs() {
-	    
+		menstrualPhaseLogPage.clickMenstrualPhaseLogs();
 	}
 
 	@Then("User should be able to see all five sections")
 	public void user_should_be_able_to_see_all_five_sections() {
-	    
+	    Assert.assertTrue(menstrualPhaseLogPage.getCurrentCycleStatus().isDisplayed(), "Current Cycle status section not visible");
+	    Assert.assertTrue(menstrualPhaseLogPage.getUpcomingPhasesSection().isDisplayed(), "Upcoming Phases section not visible");
+	    Assert.assertTrue(menstrualPhaseLogPage.getRecommendedActivitiesSection().isDisplayed(), "Recommended Activities section not visible");
+	    Assert.assertTrue(menstrualPhaseLogPage.getNutritionTipsSection().isDisplayed(), "Nutrition tips section not visible");
 	}
 
 	@Then("User should be able to see {string} button in the Menstrual Phase Log page")

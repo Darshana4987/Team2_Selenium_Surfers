@@ -1,7 +1,7 @@
 Feature: Menstrual Phase Log page
 
 Background:
-Given User clicks Activity Insights button after logged in
+Given User is logged in to Herbalance app
 
 @Buttons_visible
 Scenario: Verify user can see all sections of Menstrual Log Page 
