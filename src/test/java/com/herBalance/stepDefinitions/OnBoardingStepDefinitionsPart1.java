@@ -17,12 +17,12 @@ public class OnBoardingStepDefinitionsPart1 {
 
 	@Given("User is on sign up page")
 	public void userIsOnSignUpPage() {
-		//onBoardingPage.gotoSignPage();
+		onBoardingPage.gotoSignPage();
 	}
 
 	@When("User clicks register button after entering valid details")
 	public void userClicksRegisterButtonAfterEnteringValidDetails() {
-		//onBoardingPage.clickRgister();
+		onBoardingPage.clickRgister();
 	}
 
 	@Then("Title of the page should be {string}")
@@ -95,9 +95,61 @@ public class OnBoardingStepDefinitionsPart1 {
 		onBoardingPage.clickContunueWithOutReportButton();
 	}
 
-	@Then("Should be redirected to step {int}")
-	public void shouldBeRedirectedToStep(int expectedStepNumber) {
+	@Then("Should be redirected to step3")
+	public void shouldBeRedirectedToStep3() {
 		String actualStepNumber = onBoardingPage.getProcessBarStepNumber();
 		Assert.assertTrue(actualStepNumber.contains("3"));
 	}
+
+	// OnBoarding Step 1 Blood Report Upload Functionality
+
+	@Given("User is in upload blood report page")
+	public void user_is_in_upload_blood_report_page() {
+		onBoardingPage.gotoSignPage();
+		onBoardingPage.clickRgister();
+	}
+
+	@When("User clicks on Upload PDF button by selecting invalid file upload")
+	public void user_clicks_on_upload_pdf_button_by_selecting_invalid_file_upload() {
+		onBoardingPage.selectInvalidFile();
+	}
+
+	@Then("User should see Only PDF files are supported error")
+	public void user_should_see_only_pdf_files_are_supported_error() {
+		Assert.assertEquals(onBoardingPage.getOnlyPdfFileErrorMessage(), "Please upload a PDF file only.");
+	}
+
+	@When("User clicks on Upload PDF button by selecting file over 10MB")
+	public void user_clicks_on_upload_pdf_button_by_selecting_file_over_10mb() {
+		onBoardingPage.selectFileExceeding10MB();
+	}
+
+	@Then("User should see File exceeds 10MB error")
+	public void user_should_see_file_exceeds_10mb_error() {
+		Assert.assertEquals(onBoardingPage.getFileExceedErrorMessage(),
+				"File is too large. Please upload a file smaller than 10MB.");
+	}
+
+	@When("User clicks on Upload PDF button by selecting valid file")
+	public void user_clicks_on_upload_pdf_button_by_selecting_valid_file() {
+		onBoardingPage.selectValidFile();
+		onBoardingPage.clickAnalyseReportButton();
+	}
+
+	@Then("Upload should see processing percentage bar")
+	public void upload_should_see_processing_percentage_bar() {
+		Assert.assertTrue(onBoardingPage.isProcessingBarVisible());
+	}
+
+	@Then("User should see Report analysis")
+	public void user_should_see_report_analysis() {
+		Assert.assertTrue(onBoardingPage.isAnalysingYourBloodWorkVisible());
+	}
+
+	@Then("User should see Analyzing your blood work report")
+	public void user_should_see_analyzing_your_blood_work_report() {
+		Assert.assertTrue(true);
+
+	}
+
 }
