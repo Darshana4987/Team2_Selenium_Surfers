@@ -11,15 +11,29 @@ public class MenstrualPhaseLogPage {
 	private WebDriver driver;
 	private By activityButton = By.xpath("//button[@id='radix-:r18:']/span");
 	private By menustrualPhaseLogButton = By.xpath("//div[@role='menuitem']/a[@href='/track/menstrual-cycle']");
+	private By backToDashboard = By.xpath("//span[text()='Back to Dashboard']/parent::a");
+	
+	//sections
 	private By currentCycleStatusSection = By.xpath("//h3[text()='Current Cycle Status']/ancestor::div[2]");
 	private By upcomingPhasesSection = By.xpath("//h3[text()='Upcoming Phases']/ancestor::div[2]");
 	private By recommendedActivitesSection = By.xpath("//h3[text()='Recommended Activities']/ancestor::div[2]");
 	private By nutritionTipsSection = By.xpath("//h3[text()='Nutrition Tips']/ancestor::div[2]");
 	private By nextPeriodSection = By.xpath("//h3[text()='Next Period']/ancestor::div[2]");
-	private By backToDashboard = By.xpath("//span[text()='Back to Dashboard']/parent::a");
+	
+	//current cycle
 	private By cycleProgress = By.xpath(".//div[2]/div[1]/div[1]");
 	private By menstrualPhaseLabels = By.xpath(".//div[2]/div[1]/div[3]");
+	private By currentPhaseSection = By.xpath(".//div[2]/div[2]");
 	private By progressBar = By.xpath("//div[@role='progressbar']/div");
+	private By currentPhase = By.xpath(".//div[2]/div[2]/div[1]/div[2]");
+	private By lastPeriodStarted = By.xpath(".//div[2]/div[2]/div[2]/div[1]/div[2]");
+	private By nextPeriodExpected = By.xpath(".//div[2]/div[2]/div[2]/div[2]/div[2]");
+	private By currentPhaseDetailsHeading = By.xpath(".//div[2]/div[3]/div[1]");
+	private By currentPhaseDetailsContent = By.xpath(".//div[2]/div[3]/div[2]");
+	
+	private By currentCycleStatusLabels(String name) {
+		return By.xpath(String.format("//div[text()='%s']", name));
+	}
 	
 	
 	private By sectionHeading(String heading) {
@@ -97,4 +111,32 @@ public class MenstrualPhaseLogPage {
 	public WebElement getMenstrualProgressBar() {
 		return driver.findElement(progressBar);
 	}
+	
+	//have to check if this is needed
+	public List<WebElement> getCurrentPhaseElements() {
+		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
+		return cycleStatus.findElements(currentPhaseSection);
+	}
+	
+	public WebElement getCycleStatusLabels(String name) {
+		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
+		return cycleStatus.findElement(currentCycleStatusLabels(name));
+	}
+	
+	public WebElement getCurrentPhase() {
+		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
+		return cycleStatus.findElement(currentPhase);
+	}
+	
+	public WebElement getLastPeriodStarted() {
+		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
+		return cycleStatus.findElement(lastPeriodStarted);
+	}
+	
+	public WebElement getNextPeriodExpected() {
+		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
+		return cycleStatus.findElement(nextPeriodExpected);
+	}
+	
+	
 }

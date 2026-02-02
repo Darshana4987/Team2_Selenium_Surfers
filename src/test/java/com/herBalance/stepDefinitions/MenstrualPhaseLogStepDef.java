@@ -17,7 +17,7 @@ import io.cucumber.java.en.When;
 public class MenstrualPhaseLogStepDef {
 	private MenstrualPhaseLogPage menstrualPhaseLogPage;
 	
-	private MenstrualPhaseLogStepDef() {
+	public MenstrualPhaseLogStepDef() {
 		menstrualPhaseLogPage = new MenstrualPhaseLogPage(DriverFactory.getDriver());
 	}
 	
@@ -97,9 +97,10 @@ public class MenstrualPhaseLogStepDef {
 		Assert.assertEquals(progressValue, Helper.calculateCycleProgress("Jan 26, 2026", "28"), "cycle Progress not matched with onboarding data");
 	}
 
-	@Then("User should be able to see all labels in Current Cycle Status section")
-	public void user_should_be_able_to_see_all_labels_in_current_cycle_status_section() {
-	    
+	@Then("User should be able to see all labels {string} in Current Cycle Status section")
+	public void user_should_be_able_to_see_all_labels_in_current_cycle_status_section(String labelName)  {
+		WebElement labelElem = menstrualPhaseLogPage.getCycleStatusLabels(labelName);
+		Assert.assertTrue(labelElem.isDisplayed(), "Current cycle status label " + labelName + " not displayed");
 	}
 
 	@Then("The phase based on the value entered during onboarding process should be displayed")
