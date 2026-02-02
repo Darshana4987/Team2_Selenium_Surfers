@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Team2_Selenium_Surfers
+Bundle-SymbolicName: Team2_Selenium_Surfers
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-22
+Automatic-Module-Name: Team2.Selenium.Surfers
+Export-Package: com.herBalance.driverFactory,
+ com.herBalance.hooks,
+ com.herBalance.pageObjects,
+ com.herBalance.runner,
+ com.herBalance.stepDefinitions,
+ com.herBalance.utils
