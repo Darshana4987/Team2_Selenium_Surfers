@@ -41,7 +41,6 @@ public class ConfigReader {
 
 	}
 
-	
 	public static String getPassword() {
 		return prop.getProperty("password");
 	}
@@ -60,11 +59,14 @@ public class ConfigReader {
 		return property.get().getProperty("password2");
 	}
 	
-	
+	public static String getTestDataPath() {
+		return property.get().getProperty("test_data_path");
+	}
 	
 	public static String getBrowserType() {
 		if (browserType == null) {
-			browserType = prop.getProperty("browser");
+			browserType = property.get().getProperty("browser");
+
 		}
 		return browserType;
 	}
