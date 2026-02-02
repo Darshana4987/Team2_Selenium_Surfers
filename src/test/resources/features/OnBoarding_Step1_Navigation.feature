@@ -52,7 +52,7 @@ Feature: Onboarding Step 1 Blood Report Upload navigation
     When User clicks register button after entering valid details
     Then Note about secure processing and no sharing with third parties is displayed
 
-  Scenario: Navigation to step 3
+  Scenario: Navigation to step3
     When User clicks register button after entering valid details
     When User clicks continue without report button
-    Then Should be redirected to step 3
+    Then Should be redirected to step3
