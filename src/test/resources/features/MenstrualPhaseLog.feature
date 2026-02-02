@@ -16,9 +16,15 @@ When User clicks on Menstrual Phase Logs
 Then User should be able to see "<button_name>" button in the Menstrual Phase Log page
 Examples:
 |        button_name       |
-| Update Cycle Information |
-|    Back to Dashboard     | 
+| Update Cycle Information | 
 |      Add Period Log      |
+
+@Buttons_visible
+Scenario: Verify Back To Dashboard link is visible in Menstrual Phase Log Page
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should be able to see Back To DashBoard link
+
 
 @Buttons_visible
 Scenario: Verify all tabs are visible in the Menstrual Phase Log Page
@@ -35,7 +41,7 @@ Examples:
 Scenario: Verify Current Cycyle Status section heading is displayed 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
-Then User should be able to see "Current Cycyle Status" section heading
+Then User should be able to see "Current Cycle Status" section heading
 
 @current_cycle
 Scenario: Verify current cycle progress is displayed based on onboarding data
@@ -47,7 +53,13 @@ Then Current cycle progress should be displayed in the correct format
 Scenario: Verify progress bar is displayed with phase labels
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
-Then User should be able to see all labels below progress bar
+Then User should be able to see all labels "<label>" below progress bar
+Examples:
+|   label     |
+|  Menstrual  |
+|  Follicular |
+|  Ovulation  |
+|  Luteal     |
 
 @current_cycle
 Scenario: Verify progress bar accuracy for current cycle
