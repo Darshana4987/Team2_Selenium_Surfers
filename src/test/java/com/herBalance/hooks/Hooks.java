@@ -1,5 +1,7 @@
 package com.herBalance.hooks;
 
+import java.util.Collection;
+
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -15,6 +17,7 @@ import io.cucumber.java.Scenario;
 
 public class Hooks {
 	private WebDriver driver;
+	public static Collection<String> scenarioTags;
 	
 	@BeforeAll
 	public static void loadConfigProp() {
@@ -22,14 +25,15 @@ public class Hooks {
 	}
 	
 	@Before
-	public void setup() {
+	public void setup(Scenario scenario) {
 		driver= DriverFactory.initBrowser(ConfigReader.getBrowserType());	
 		driver.get(ConfigReader.getUrl());
+		scenarioTags = scenario.getSourceTagNames(); 
 	}
 
 	@AfterStep
 	public void takeScreenshot(Scenario scenario) {
-		if (scenario.isFailed()) {
+		if (scenario.isFailed() || scenarioTags.contains("@GeneratePlan")) {
 			final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
 			scenario.attach(screenshot, "image/png", scenario.getName());
 		}
