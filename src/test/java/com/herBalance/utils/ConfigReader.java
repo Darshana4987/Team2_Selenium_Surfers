@@ -64,10 +64,12 @@ public class ConfigReader {
 	}
 	
 	public static String getBrowserType() {
+
 		if (browserType == null) {
 			browserType = property.get().getProperty("browser");
 
 		}
+
 		return browserType;
 	}
 
