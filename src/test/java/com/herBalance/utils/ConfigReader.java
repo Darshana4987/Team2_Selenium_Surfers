@@ -7,14 +7,14 @@ import java.util.Properties;
 
 public class ConfigReader {
 
-	private static ThreadLocal<Properties> property = new ThreadLocal<Properties>();
+	//private static ThreadLocal<Properties> property = new ThreadLocal<Properties>();
 	private static String browserType = null;
 	public static Properties prop;
 
 	public static void loadProperties() {
 		FileInputStream fis;
 		try {
-			fis = new FileInputStream("src/test/resources/config/config.properties");
+			fis = new FileInputStream("src/test/resources/config.properties");
 			prop = new Properties();
 			try {
 				prop.load(fis);
@@ -29,14 +29,17 @@ public class ConfigReader {
 	}
 
 	public static String getUsername() {
-		return property.get().getProperty("username");
+		return prop.getProperty("username");
 	}
 
 	public static String getPassword() {
-		return property.get().getProperty("password");
+		return prop.getProperty("password");
 	}
 
 	public static String getBrowserType() {
+		if (browserType == null) {
+			browserType = prop.getProperty("browser");
+		}
 		return browserType;
 	}
 
@@ -46,7 +49,7 @@ public class ConfigReader {
 	}
 
 	public static String getUrl() {
-		return property.get().getProperty("url");
+		return prop.getProperty("url");
 
 	}
 
