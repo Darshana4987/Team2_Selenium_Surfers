@@ -11,7 +11,7 @@ import com.herBalance.utils.ConfigReader;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 
-@CucumberOptions(features = "src/test/resources/features", 
+@CucumberOptions(features = "src/test/resources/features.feature", 
 		glue = { "com.herBalance.hooks","com.herBalance.stepDefinitions" }, 
 		tags = "", 
 		plugin = { "pretty",
