@@ -11,20 +11,33 @@ When The user clicks the Workout button on dashboard
 Then User should see page "<element>" as "<value>"
 
 Examples:
-| element | value |
-| header | Daily Personalized Workouts | 
-| link | Back to Dashboard |
-#| Daily Workout Plan |
-#| Fresh AI-powered workout tailored to your current cycle phase |
+| element 			 | value 					   									 |
+| header 			 | Daily Personalized Workouts 									 | 
+| link 				 | Back to Dashboard 		   									 |
+| headerDailyWorkout | Daily Workout Plan   	   									 |
+| paragraphFreshAI   | Fresh AI-powered workout tailored to your current cycle phase |
+| noworkoutPlan		 | No workout plan found										 |
 
-#Scenario: Verify presence of "Back to Dashboard" text on the Workout page
-#Then User should see the link Back to dashboard
+Scenario: Verify Generate Workout Plan button is clickable on Workout page
+When The user clicks the Workout button on dashboard
+Then User clicks Generate Workout Plan button 
+And User should see the section with "<elementTitle>" as "<values>"
 
-#Scenario: Verify the presence of Daily Workout Plan section 
-#Then User should see the Daily Workout Plan section
+Examples:
+| elementTitle 		 | values 							|
+| headerWorkoutPlan  | Daily Workout Plan				|
+| button			 | Cycle Day 						|
+| heading			 | Cycle Day luteal Phase Workout   |
+| completeButton	 | Complete							|
+| viewButton		 | View All Exercises 				|
+| nextWorkoutButton	 | Generate Next Work Out 			|
+| dailyWorkout		 | About Daily Workouts 			|
 
-#Scenario: Verify the description under daily workout plan section
-#Then User should see the description as "Fresh AI-powered workout tailored to your current cycle phase" 
+#Scenario: Verify Complete button is clickable on Cycle Days phase Workout section
+#When The user clicks the Complete button on dashboard
+
+
+
 
 
 
