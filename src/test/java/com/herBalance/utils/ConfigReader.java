@@ -37,13 +37,31 @@ public class ConfigReader {
 	}
 
 	public static String getUsername() {
-		return prop.getProperty("username");
+		return property.get().getProperty("userName");
+
 	}
 
+	
 	public static String getPassword() {
 		return prop.getProperty("password");
 	}
 
+	public static String getUrl() {
+		return property.get().getProperty("url");
+
+	}
+	public static String getUseremail() {
+		return property.get().getProperty("useremail");
+	}
+	public static String getpassword1() {
+		return property.get().getProperty("password1");
+	}
+	public static String getpassword2() {
+		return property.get().getProperty("password2");
+	}
+	
+	
+	
 	public static String getBrowserType() {
 		if (browserType == null) {
 			browserType = prop.getProperty("browser");
@@ -54,11 +72,6 @@ public class ConfigReader {
 	public static void setBrowserType(String browser) {
 		if (browser != null && !browser.isBlank())
 			browserType = browser;
-	}
-
-	public static String getUrl() {
-		return prop.getProperty("url");
-
 	}
 
 }
