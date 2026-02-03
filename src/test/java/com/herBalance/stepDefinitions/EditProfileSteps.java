@@ -12,72 +12,31 @@ import org.testng.Assert;
 import java.time.Duration;
 import java.util.List;
 
-// WebDriverManager
 import io.github.bonigarcia.wdm.WebDriverManager;
 
 public class EditProfileSteps {
 
     public static WebDriver driver;
     
-    
-    @Given("User is on login pagess")
-	public void user_is_on_login_page() {
-		EditProfileSteps.loginPage();
+   
 
-	}
-
-	private static void loginPage() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@When("The user clicks the Workout button on dashboard")
-	public void the_user_clicks_the_workout_button_on_dashboard() {
-		EditProfileSteps.clickWorkoutBtn();
-	}
-
-	private static void clickWorkoutBtn() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Then("User should navigate to Workout page")
-	public void user_should_navigate_to_workout_page() {
-		Assert.assertTrue(EditProfileSteps.getUrl().contains("workouts"), "Failed");
-		
-	}
-
-
-    private static @Nullable String getUrl() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	// ----------------- Given Step -----------------
     @Given("User is on the Her Balance Dashboard with the Edit Profile submenu expanded")
     public void user_is_on_dashboard_with_edit_profile_expanded() {
-        // Setup ChromeDriver automatically
-        WebDriverManager.chromedriver().setup();  // No manual path needed
+        WebDriverManager.chromedriver().setup(); 
         driver = new ChromeDriver();
 
-        // Maximize window and set implicit wait
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
 
-        // Navigate to Edit Profile page
         driver.get("https://herbalance.numpyninja.com/profile/edit");
 
-        // Verify page loaded
         Assert.assertTrue(driver.getTitle().contains("Her Balance"), "Dashboard page not loaded properly");
     }
 
-    // ----------------- When Step -----------------
     @When("User clicks on Edit Profile")
     public void user_clicks_on_edit_profile() {
-        // Already on page, nothing to do
     }
 
-    // ----------------- Then Steps -----------------
     @Then("Edit your Profile should be visible")
     public void edit_your_profile_should_be_visible() {
         WebElement title = driver.findElement(By.xpath("//h1[text()='Edit your Profile']"));
@@ -106,7 +65,7 @@ public class EditProfileSteps {
 
     @Then("Basic Information should be visible by default")
     public void default_tab() {
-        WebElement defaultTabContent = driver.findElement(By.id("basic-information")); // Update ID if needed
+        WebElement defaultTabContent = driver.findElement(By.id("basic-information"));
         Assert.assertTrue(defaultTabContent.isDisplayed(), "Basic Information tab is not visible by default");
     }
 
@@ -116,7 +75,6 @@ public class EditProfileSteps {
         Assert.assertTrue(backButton.isDisplayed(), "Back button is not visible");
     }
 
-    // ----------------- Close Browser -----------------
     public static void closeBrowser() {
         if (driver != null) {
             driver.quit();
