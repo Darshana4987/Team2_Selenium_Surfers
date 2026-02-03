@@ -1,60 +1,63 @@
 package com.herBalance.pageObjects;
 
-import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import java.util.List;
 
 public class EditProfilePage {
-    private WebDriver driver;
 
-    
-    private By profileTitle = By.xpath("//h1[text()='Edit your Profile']");
-    private By profileSubText = By.xpath("//p[contains(text(),'Update your personal information')]");
-    private By basicInfoTab = By.xpath("//button[text()='Basic Information']");
-    private By bodyMetricsTab = By.xpath("//button[text()='Body Metrics']");
-    private By preferencesHealthTab = By.xpath("//button[text()='Preferences & Health']");
-    private By backButton = By.xpath("//button/span[text()='Back']/parent::button");
-    private By firstNameInput = By.xpath("//input[@id='first_name']");
-    private By lastNameInput = By.xpath("//input[@id='last_name']");
-    private By emailInput = By.xpath("//input[@id='email']");
-    private By dobInput = By.xpath("//input[@id='dob']");
-    private By genderDropdown = By.xpath("//select[@id='gender']");
-    private By heightInput = By.xpath("//input[@id='height']");
-    private By weightInput = By.xpath("//input[@id='weight']");
-    private By activityLevelDropdown = By.xpath("//select[@id='activity_level']");
-    private By healthNotesTextArea = By.xpath("//textarea[@id='health_notes']");
-    private By saveButton = By.xpath("//button[text()='Save']");
+    WebDriver driver;
+
     public EditProfilePage(WebDriver driver) {
         this.driver = driver;
     }
-    public WebElement getProfileTitle() {
-        return driver.findElement(profileTitle);
+
+    public WebElement editProfileSubmenu() {
+        return driver.findElement(By.id("editProfileMenu")); 
     }
 
-    public WebElement getProfileSubText() {
-        return driver.findElement(profileSubText);
+    public WebElement basicInfoTab() {
+        return driver.findElement(By.id("basicInfoTab")); 
     }
 
-    public WebElement getBasicInfoTab() {
-        return driver.findElement(basicInfoTab);
+    public WebElement profileTitle() {
+        return driver.findElement(By.xpath("//h1[text()='Edit your Profile']"));
     }
 
-    public WebElement getBodyMetricsTab() {
-        return driver.findElement(bodyMetricsTab);
+    public WebElement profileSubText() {
+        return driver.findElement(By.xpath("//p[contains(text(),'Update your personal information')]"));
     }
 
-    public WebElement getPreferencesHealthTab() {
-        return driver.findElement(preferencesHealthTab);
+    public List<WebElement> tabs() {
+        return driver.findElements(By.cssSelector(".tabs li"));
     }
 
-    public WebElement getBackButton() {
-        return driver.findElement(backButton);
+    public WebElement getTabByName(String tabName) {
+        return driver.findElement(By.xpath("//li[text()='" + tabName + "']"));
     }
 
-    public WebElement getSaveButton() {
-        return driver.findElement(saveButton);
+    public WebElement backButton() {
+        return driver.findElement(By.id("backButton")); 
     }
-    
+
+    public WebElement basicInfoHeader() {
+        return driver.findElement(By.xpath("//h2[text()='Basic Information']"));
+    }
+
+    public WebElement basicInfoSubText() {
+        return driver.findElement(By.xpath("//p[contains(text(),'Update your name and age')]"));
+    }
+
+    public WebElement nameInput() {
+        return driver.findElement(By.id("nameInput")); 
+    }
+
+    public WebElement ageInput() {
+        return driver.findElement(By.id("ageInput"));
+    }
+
+    public WebElement nextBodyMetricsButton() {
+        return driver.findElement(By.xpath("//button[text()='Next: Body Metrics']"));
+    }
 }
