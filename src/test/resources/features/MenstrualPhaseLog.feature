@@ -102,7 +102,7 @@ Given User is on the Her Balance Dashboard with the Activity Insights submenu ex
 When User clicks on Menstrual Phase Logs
 Then Subsection heading reflects the Current Phase in the correct format  
 
-@current_cycle
+@now @current_cycle
 Scenario: Verify the content below subsection heading 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs

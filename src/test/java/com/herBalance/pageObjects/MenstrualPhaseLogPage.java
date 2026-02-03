@@ -1,15 +1,23 @@
 package com.herBalance.pageObjects;
 
+import java.time.Duration;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 public class MenstrualPhaseLogPage {
+	private static Logger logger = LogManager.getLogger();
 	private WebDriver driver;
-	private By activityButton = By.xpath("//button[@id='radix-:r18:']/span");
+	WebDriverWait wait;
+	
+	private By activityButton = By.xpath("//span[text()='Activity Insights']/parent::button");
 	private By menustrualPhaseLogButton = By.xpath("//div[@role='menuitem']/a[@href='/track/menstrual-cycle']");
 	private By backToDashboard = By.xpath("//span[text()='Back to Dashboard']/parent::a");
 	
@@ -22,12 +30,11 @@ public class MenstrualPhaseLogPage {
 	
 	//current cycle
 	private By cycleProgress = By.xpath(".//div[2]/div[1]/div[1]");
-	private By menstrualPhaseLabels = By.xpath(".//div[2]/div[1]/div[3]");
 	private By currentPhaseSection = By.xpath(".//div[2]/div[2]");
 	private By progressBar = By.xpath("//div[@role='progressbar']/div");
-	private By currentPhase = By.xpath(".//div[2]/div[2]/div[1]/div[2]");
-	private By lastPeriodStarted = By.xpath(".//div[2]/div[2]/div[2]/div[1]/div[2]");
-	private By nextPeriodExpected = By.xpath(".//div[2]/div[2]/div[2]/div[2]/div[2]");
+	private By currentPhase = By.xpath("//div[text()='Current Phase']/parent::div/div[2]");
+	private By lastPeriodStarted = By.xpath("//div[text()='Last period started']/parent::div/div[2]");
+	private By nextPeriodExpected = By.xpath("//div[text()='Next period expected']/parent::div/div[2]");
 	private By currentPhaseDetailsHeading = By.xpath(".//div[2]/div[3]/div[1]");
 	private By currentPhaseDetailsContent = By.xpath(".//div[2]/div[3]/div[2]");
 	
@@ -35,13 +42,16 @@ public class MenstrualPhaseLogPage {
 		return By.xpath(String.format("//div[text()='%s']", name));
 	}
 	
+	private By menstrualPhaseLabels(String name) {
+		return By.xpath(String.format("//div[text()='%s']", name));
+	}
 	
 	private By sectionHeading(String heading) {
 		return By.xpath(String.format("//h3[text()='%s']", heading));
 	}
 	
 	private By menstrualCycleTrackerTab(String tabText) {
-		return By.xpath(String.format("//button[text()='%s')]", tabText));
+		return By.xpath(String.format("//button[text()='%s']", tabText));
 	}
 	
 	
@@ -54,8 +64,28 @@ public class MenstrualPhaseLogPage {
 		this.driver = driver;
 	}
 	
+	public void loginPage() {
+
+		// driver = DriverFactory.getDriver(); // your driver setup
+				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				driver.get("https://herbalance.numpyninja.com");
+				
+				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
+				emailInput.sendKeys("test123456@gmail.com");
+
+				WebElement passwordInput = driver.findElement(By.name("password"));
+				passwordInput.sendKeys("test123456");
+				
+				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
+				loginButton.click();
+		        logger.info("Logging in Her balance application");
+		       
+	}
+	
 	public void clickActivityInsights() {
-		driver.findElement(activityButton).click();
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+					wait.until(
+							ExpectedConditions.elementToBeClickable(activityButton)).click();
 	}
 	
 	public void clickMenstrualPhaseLogs() {
@@ -103,9 +133,8 @@ public class MenstrualPhaseLogPage {
 		return cycleStatus.findElement(cycleProgress).getText();
 	}
 	
-	public List<WebElement> getPhaseLabels() {
-		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
-		return cycleStatus.findElements(menstrualPhaseLabels);
+	public WebElement getPhaseLabels(String labelName) {
+		return driver.findElement(menstrualPhaseLabels(labelName));
 	}
 	
 	public WebElement getMenstrualProgressBar() {
@@ -123,20 +152,24 @@ public class MenstrualPhaseLogPage {
 		return cycleStatus.findElement(currentCycleStatusLabels(name));
 	}
 	
-	public WebElement getCurrentPhase() {
-		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
-		return cycleStatus.findElement(currentPhase);
+	public String getCurrentPhase() {
+		return driver.findElement(currentPhase).getText();
 	}
 	
-	public WebElement getLastPeriodStarted() {
-		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
-		return cycleStatus.findElement(lastPeriodStarted);
+	public String getLastPeriodStarted() {
+		return driver.findElement(lastPeriodStarted).getText();
 	}
 	
-	public WebElement getNextPeriodExpected() {
-		WebElement cycleStatus = driver.findElement(currentCycleStatusSection);
-		return cycleStatus.findElement(nextPeriodExpected);
+	public String getNextPeriodExpected() {
+		return driver.findElement(nextPeriodExpected).getText();
 	}
 	
+	public String getCurrentPhaseDetailsHeading() {
+		return driver.findElement(currentPhaseDetailsHeading).getText();
+	}
 	
+	public String getCurrentPhaseDetailsContent() {
+		return driver.findElement(currentPhaseDetailsContent).getText();
+	}
+
 }
