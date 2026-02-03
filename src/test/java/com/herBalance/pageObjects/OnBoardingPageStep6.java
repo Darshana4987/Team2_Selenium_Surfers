@@ -35,8 +35,8 @@ public class OnBoardingPageStep6 {
 	private By continueBtn = By.xpath("//button[contains(text(),'Continue')]");
 	private By backBtn = By.xpath("//button[contains(text(),'Back')]");
 	
-	private By progressBarCurrentStep = By.xpath("//span[text()='6 of 10']");
-	private By errormsg = By.xpath("//p[contains(text(),'Please select your last period start date')]");
+	private By progressBarCurrentStep = By.xpath("//span[normalize-space()='6 of 10']");
+	private By errormsgInvalidDate = By.xpath("//p[contains(text(),'Please select your last period start date')]");
 	private By inputCalenderControl = By.xpath("//input[@type='date']");
 	private By slider = By.xpath("//input[@id='cycle-length']");
 
@@ -48,30 +48,23 @@ public class OnBoardingPageStep6 {
 //	  .executeScript("arguments[0].value='30'; arguments[0].dispatchEvent(new Event('input'));", slider);
 
 	public void clickContunueWithOutReportButton() {
+		
+		
+		System.out.println("\n Inside Method  \n");
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		wait.until(ExpectedConditions.visibilityOf(driver.findElement(btnContinueWithoutReport))).click();
-	}
-	public void gotoSignPage() {
-		By btnSignUp = By.xpath("//button[text()='Sign Up']");
-		driver.findElement(btnSignUp).click();
-		System.out.println("/n Sign up Clicked /n ");
-	}
+		
 
-	public void clickRgister() {
-		By txtUserName = By.xpath("//input[@name='username']");
-		By txtPwd = By.xpath("//input[@name='password']");
-		By txtConfirmPwd = By.xpath("//input[@name='confirmPassword']");
-		By rdoAgree = By.xpath("//button[@id=':r8:-form-item']");
-		By btnRegister = By.xpath("//button[text()='Register']");
-		String userName = "popopo" + System.currentTimeMillis() + "@gmail.com";
-		String password = "popo123";
-		driver.findElement(txtUserName).sendKeys(userName);
-		driver.findElement(txtPwd).sendKeys(password);
-		driver.findElement(txtConfirmPwd).sendKeys(password);
-		driver.findElement(rdoAgree).click();
-		driver.findElement(btnRegister).click();
-		System.out.println("/n registered successfully /n ");
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(
+				By.xpath("//ol[contains(@class,'fixed') and contains(@class,'z-[100]')]")
+				));
+
+		driver.findElement(By.xpath("//button[text()='Continue Without Report']")).click();
+		
+	//	wait.until(ExpectedConditions.visibilityOf(driver.findElement(btnContinueWithoutReport))).click();
+
+		
 	}
+	
 	
 	public void clickMenstrualCycleAwarenessOptions() { // delete this method
 		
@@ -113,13 +106,13 @@ public class OnBoardingPageStep6 {
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(backBtn))).click();
 
 	}
-	public void inputlastMenstrualDate() { 
+	public void enterlastMenstrualDate() { 
 		
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(inputCalenderControl)).click().sendKeys("25/01/2026").build().perform();
 	}
 	
-	public void inputInvalid_lastMenstrualDate() { 
+	public void enterInvalid_lastMenstrualDate() { 
 		
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(inputCalenderControl)).click().sendKeys("25/01/2027").build().perform();
@@ -156,9 +149,9 @@ public class OnBoardingPageStep6 {
 	
 	
 
-	public String getErrorText() {
+	public String getErrorText_InvalidDate() {
 		
-		return driver.findElement(errormsg).getText();
+		return driver.findElement(errormsgInvalidDate).getText();
 	}
 	
 	public String getprogressBarCurrentStep() {
