@@ -40,8 +40,8 @@ public class SubscriptionSlide26StepDefinition {
 	@Then("The user navigates to Subscription page")
 	public void the_user_navigates_to_subscription_page() {
 		
-	//	Assert.assertTrue(subscriptionSlideNo26Page.getUrl().contains("subscription"), "Failed");
-		Assert.assertEquals(subscriptionSlide26Page.getTitle(), "HerBalance - Women's Health & Weight Loss App");
+		Assert.assertTrue(subscriptionSlide26Page.getUrl().contains("subscription"), "Failed");
+		//Assert.assertEquals(subscriptionSlide26Page.getTitle(), "HerBalance - Women's Health & Weight Loss App");
 	}
 
 	@Then("The User should see Subscription page {string} element as {string} value")
