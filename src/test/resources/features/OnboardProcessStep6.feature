@@ -1,5 +1,7 @@
 
+
 Feature: Onboarding step 6 Functionality and Step 7 UI verification
+
 
 Background: User completes onboarding until step 5
 

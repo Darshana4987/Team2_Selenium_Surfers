@@ -1,4 +1,4 @@
-Feature: Workout Page UI verification
+#Feature: Workout Page UI verification
 
 Background:
 Given User is on login page

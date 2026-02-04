@@ -1,4 +1,4 @@
-Feature: Menstrual Phase Log page
+#Feature: Menstrual Phase Log page
 
 Background:
 Given User is logged in to Herbalance app

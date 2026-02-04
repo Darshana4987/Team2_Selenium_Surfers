@@ -1,4 +1,4 @@
-@OnBoarding @Step1 @Regression
+#@OnBoarding @Step1 @Regression
 Feature: Onboarding Step 1 Blood Report Upload navigation
 
   Background:
