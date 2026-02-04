@@ -3,11 +3,13 @@ Feature: Subcription Management page verification
 
 Background:
 Given User logged in to Her balance application and is on dashboard
+@Subs1
 Scenario: Verify that user is able to navigate to Subscription page from dashboard profile button dropdown
 When The user clicks on profile button on dashboard
 Then The user clicks Subscription option from the profile dropdown
 And The user navigates to Subscription page
 
+@Subs
 Scenario Outline: Verify Subscription page elements
 When The user clicks on profile button on dashboard
 Then The user clicks Subscription option from the profile dropdown
