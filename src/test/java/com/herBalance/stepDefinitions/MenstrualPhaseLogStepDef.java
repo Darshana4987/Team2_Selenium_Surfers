@@ -13,6 +13,7 @@ import org.openqa.selenium.WebElement;
 import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
+import com.herBalance.pageObjects.LoginPageObject;
 import com.herBalance.pageObjects.MenstrualPhaseLogPage;
 import com.herBalance.utils.ExcelReader;
 import com.herBalance.utils.Helper;
@@ -24,15 +25,19 @@ import io.cucumber.java.en.When;
 public class MenstrualPhaseLogStepDef {
 	private static Logger logger = LogManager.getLogger();
 	private MenstrualPhaseLogPage menstrualPhaseLogPage;
+	private LoginPageObject loginPageObject;
 	private static String expectedPhase;
 	
 	public MenstrualPhaseLogStepDef() {
 		menstrualPhaseLogPage = new MenstrualPhaseLogPage(DriverFactory.getDriver());
+		loginPageObject = new LoginPageObject(DriverFactory.getDriver());
 	}
 	
 	@Given("User is logged in to Herbalance app")
 	public void user_is_logged_in_to_herbalance_app() {
-		menstrualPhaseLogPage.loginPage();
+		loginPageObject.getusernamePwd();
+		loginPageObject.loginbtn();
+		logger.info("Logging in Her balance application");
 	}
 
 	@Given("User is on the Her Balance Dashboard with the Activity Insights submenu expanded")
@@ -75,17 +80,17 @@ public class MenstrualPhaseLogStepDef {
 	}
 
 	@Then("Current cycle progress should be displayed in the correct format")
-	public void current_cycle_progress_should_be_displayed_in_the_correct_format() {
+	public void current_cycle_progress_should_be_displayed_in_the_correct_format() throws IOException {
 	    String cycleProgress = menstrualPhaseLogPage.getCurrentCycleProgress();
 	    logger.info("Cycle Progress : " + cycleProgress);
 	    String[] words = cycleProgress.split(" ");
 	    
-	    int cycleDay = Helper.calculateCycleDay("01/14/2026");
+	    int cycleDay = Helper.calculateCycleDay();
 	    Assert.assertEquals(words[1], Integer.toString(cycleDay), "cycle progress not matching with onboarding data");
 	    
 	    String cycleLength = words[4].replaceAll("\\D+", "");
 	    logger.info("Cycle length : " + cycleLength);
-	    Assert.assertEquals(cycleLength, "28", "Cycle length not matched with onboarding data");
+	    Assert.assertEquals(cycleLength, Helper.cycleLengthFromTestData(), "Cycle length not matched with onboarding data");
 	}
 
 	@Then("User should be able to see all labels {string} below progress bar")
@@ -94,12 +99,12 @@ public class MenstrualPhaseLogStepDef {
 	}
 
 	@Then("progress bar should be filled according to the current cycle progress")
-	public void progress_bar_should_be_filled_according_to_the_current_cycle_progress() {
+	public void progress_bar_should_be_filled_according_to_the_current_cycle_progress() throws IOException {
 		WebElement progressBar = menstrualPhaseLogPage.getMenstrualProgressBar();
 		String style = progressBar.getAttribute("style");
 		Double percentage = Double.parseDouble(style.replaceAll("[^0-9.]", ""));
 		Double progressValue = 100 - percentage;
-		Assert.assertEquals(progressValue, Helper.calculateCycleProgress("01/14/2026", 28), "cycle Progress not matched with onboarding data");
+		Assert.assertEquals(progressValue, Helper.calculateCycleProgress(), "cycle Progress not matched with onboarding data");
 	}
 
 	@Then("User should be able to see all labels {string} in Current Cycle Status section")
@@ -109,26 +114,26 @@ public class MenstrualPhaseLogStepDef {
 	}
 
 	@Then("The phase based on the value entered during onboarding process should be displayed")
-	public void the_phase_based_on_the_value_entered_during_onboarding_process_should_be_displayed() {
+	public void the_phase_based_on_the_value_entered_during_onboarding_process_should_be_displayed() throws IOException {
 	    String currentPhase = menstrualPhaseLogPage.getCurrentPhase();
-	    String expectedPhase = Helper.calculateMenstrualPhase("01/14/2026", 28);
+	    String expectedPhase = Helper.calculateMenstrualPhase();
 	    Assert.assertEquals(currentPhase, expectedPhase, "Current phase not matched with onboarding data");
 	}
 
 	@Then("Last period started date should be based on the date entered during onboarding process")
-	public void last_period_started_date_should_be_based_on_the_date_entered_during_onboarding_process() {
+	public void last_period_started_date_should_be_based_on_the_date_entered_during_onboarding_process() throws IOException {
 		String lastPeriod = menstrualPhaseLogPage.getLastPeriodStarted();
 		logger.info("Last period date from UI: " + lastPeriod);
 		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy", Locale.ENGLISH);
 		LocalDate date = LocalDate.parse(lastPeriod, inputFormatter);
 		DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
 		
-	    Assert.assertEquals(date.format(outputFormatter), "01/14/2026", "Last period date not matched");
+	    Assert.assertEquals(date.format(outputFormatter), Helper.lastPeriodDateFromTestData(), "Last period date not matched");
 	}
 
 	@Then("Next period expected date should be based on the date entered during onboarding process")
-	public void next_period_expected_date_should_be_based_on_the_date_entered_during_onboarding_process() {
-		String expectedNextPeriod = Helper.calculateNextPeriodExpected("01/14/2026", 28);
+	public void next_period_expected_date_should_be_based_on_the_date_entered_during_onboarding_process() throws IOException {
+		String expectedNextPeriod = Helper.calculateNextPeriodExpected();
 		String nextPeriod = menstrualPhaseLogPage.getNextPeriodExpected();
 		logger.info("Next expected period date from UI: " + nextPeriod);
 		DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("MMMM dd, yyyy", Locale.ENGLISH);
@@ -139,15 +144,15 @@ public class MenstrualPhaseLogStepDef {
 	}
 
 	@Then("Subsection heading reflects the Current Phase in the correct format")
-	public void subsection_heading_reflects_the_current_phase_in_the_correct_format() {
-		expectedPhase = Helper.calculateMenstrualPhase("01/14/2026", 28);
+	public void subsection_heading_reflects_the_current_phase_in_the_correct_format() throws IOException {
+		expectedPhase = Helper.calculateMenstrualPhase();
 		Assert.assertEquals(menstrualPhaseLogPage.getCurrentPhaseDetailsHeading(), expectedPhase + " Details");
 	}
 
 	@Then("Display content should match current phase")
 	public void display_content_should_match_current_phase() throws IOException {
 	    String details = menstrualPhaseLogPage.getCurrentPhaseDetailsContent();
-	    String expectedPhase = Helper.calculateMenstrualPhase("01/14/2026", 28);
+	    String expectedPhase = Helper.calculateMenstrualPhase();
 	    Map<String, String> expected = ExcelReader.readExcelData("Menstrual Phase Logs", expectedPhase);
 	    logger.info(expectedPhase + "Details: " + expected.get("Details"));
 	    Assert.assertEquals(details, expected.get("Details"), "Phase details not matching with onboarding data");

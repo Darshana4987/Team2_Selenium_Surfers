@@ -1,34 +1,48 @@
 package com.herBalance.utils;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Locale;
+import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Helper {
 	private static Logger logger = LogManager.getLogger();
-	public static int calculateCycleDay(String lastPeriod) {
+	public static int calculateCycleDay() throws IOException {
 		LocalDate today = LocalDate.now();
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
-		LocalDate periodDate = LocalDate.parse(lastPeriod, formatter);
+		LocalDate periodDate = LocalDate.parse(lastPeriodDateFromTestData(), formatter);
 		int daysBetween = (int)ChronoUnit.DAYS.between(periodDate, today) + 1;
 		logger.info("Days between last period date and today:" + daysBetween);
 		return daysBetween;
 	}
 	
-	public static Double calculateCycleProgress(String lastPeriod, int cycleLength) {
-		Double cycleDay = (double) calculateCycleDay(lastPeriod);
+	public static Double calculateCycleProgress() throws IOException {
+		Double cycleDay = (double) calculateCycleDay();
+		int cycleLength = Integer.parseInt(cycleLengthFromTestData());
 		logger.info("cycle day: " + cycleDay);
 		String progress = String.format("%.4f", (cycleDay/cycleLength) * 100);
 		logger.info("cycle day: " + cycleDay + "Bar Progress : " + progress);
 		return Double.parseDouble(progress);
 	}
 	
-	public static String calculateMenstrualPhase(String lastPeriod, int cycleLength) {
-		int cycleDay = calculateCycleDay(lastPeriod);
+	public static String lastPeriodDateFromTestData() throws IOException {
+		Map<String, String> row = ExcelReader.readExcelData("Onboarding", "Menstrual Data");
+		return row.get("Last Period Date");
+		
+	}
+	
+	public static String cycleLengthFromTestData() throws IOException {
+		Map<String, String> row = ExcelReader.readExcelData("Onboarding", "Menstrual Data");
+		return row.get("Cycle Length");
+	}
+	
+	public static String calculateMenstrualPhase() throws IOException {
+		int cycleDay = calculateCycleDay();
 		
 		if (cycleDay >= 1 && cycleDay <= 5) {
 			return "Menstrual Phase";
@@ -44,12 +58,12 @@ public class Helper {
 		}
 	}
 	
-	public static String calculateNextPeriodExpected(String lastPeriod, int cycleLength) {
+	public static String calculateNextPeriodExpected() throws IOException {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
-		LocalDate periodDate = LocalDate.parse(lastPeriod, formatter);
+		LocalDate periodDate = LocalDate.parse(lastPeriodDateFromTestData(), formatter);
+		int cycleLength = Integer.parseInt(cycleLengthFromTestData());
 		LocalDate expected = periodDate.plusDays(cycleLength);
 		logger.info("Expected period date :" + expected);
-		System.out.println("Expected period date :" + expected);
 		return expected.format(formatter);
 	}
 	
