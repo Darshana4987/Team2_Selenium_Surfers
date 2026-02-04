@@ -15,29 +15,31 @@ public class OnBoardingStepDefinitionStep6 {
 	private static final Logger logger = LoggerFactory.getLogger(OnBoardingStepDefinitionStep6.class);
 	
 	private OnBoardingPageStep6 obj_OnboardStep6;
+	private OnBoardingPagePart1 onBoardingPage;
 
 	public OnBoardingStepDefinitionStep6() {
 		
 		obj_OnboardStep6 = new OnBoardingPageStep6(DriverFactory.getDriver());
+		onBoardingPage = new OnBoardingPagePart1(DriverFactory.getDriver());
 	}
 	
-	@Given("User is in step {int} of onboarding")
-	public void user_is_in_step_of_onboarding(Integer int1) {
-	   
-		
-		obj_OnboardStep6.gotoSignPage();
-		obj_OnboardStep6.clickRgister();
-		obj_OnboardStep6.clickContunueWithOutReportButton();
+	@Given("User is in step six of onboarding")
+	public void user_is_in_step_six_of_onboarding() {
+
+		onBoardingPage.gotoSignPage();
+		onBoardingPage.clickRgister();	
+		onBoardingPage.clickContunueWithOutReportButton(); // Onboard Step 2
 		
 		obj_OnboardStep6.clickHealthCondition();
-		obj_OnboardStep6.clickContinueBtn();
+		obj_OnboardStep6.clickContinueBtn(); // Step 3
 		
 		obj_OnboardStep6.enterPersonalDetails();
 		obj_OnboardStep6.clickBloodPressureStatus();
-		obj_OnboardStep6.clickContinueBtn();
+		obj_OnboardStep6.clickContinueBtn();          // step4
 		
 		obj_OnboardStep6.clickMenstrualCycleAwarenessOptions();
-		obj_OnboardStep6.clickContinueBtn();
+		obj_OnboardStep6.clickContinueBtn();        // Step 5
+	
 		
 		logger.info("You are on Onboard Process step 6");
 	}
@@ -48,22 +50,23 @@ public class OnBoardingStepDefinitionStep6 {
 		obj_OnboardStep6.clickContinueBtn();
 	}
 
-	@Then("Error message {string} should be displayed")
-	public void error_message_should_be_displayed(String errormessage) {
-	   
-		Assert.assertEquals(obj_OnboardStep6.getErrorText(), errormessage);
+	@Then("Error message {string} should be displayed for Step6")
+	public void error_message_should_be_displayed_for_step6(String errormessage ) {
+		Assert.assertEquals(obj_OnboardStep6.getErrorText_InvalidDate(), errormessage);
 		logger.info("Please select your last period start date");
 	}
+
 	
 	@When("User selects last menstrual date")
 	public void user_selects_last_menstrual_date() {
 		
-		obj_OnboardStep6.inputlastMenstrualDate();
+		obj_OnboardStep6.enterlastMenstrualDate();
 	}
 
 	@When("User clicks continue after selecting last menstrual date")
 	public void user_clicks_continue_after_selecting_last_menstrual_date() {
 		
+		obj_OnboardStep6.enterlastMenstrualDate();
 		obj_OnboardStep6.clickContinueBtn();
 	}
 
@@ -86,17 +89,25 @@ public class OnBoardingStepDefinitionStep6 {
 		// call here swori's method that user is on step 5
 	}
 
-	@Then("User redirected to next Step {int}")
-	public void user_redirected_to_next_step(Integer int1) {
+	@Then("User redirected to next Step7")
+	public void user_redirected_to_next_step7() {
 	    
 	}
 
 	@When("User clicks continue button after entering invalid value in date")
 	public void user_clicks_continue_button_after_entering_invalid_value_in_date() {
 		
-		obj_OnboardStep6.inputInvalid_lastMenstrualDate();
+		obj_OnboardStep6.enterInvalid_lastMenstrualDate();
 	   
 	}
+	@Then("Error message {string} should be displayed invalid value in date")
+	public void error_message_should_be_displayed_invalid_value_in_date(String InvalidDateErrorMsg) {
+	  
+		Assert.assertEquals(obj_OnboardStep6.getErrorText_InvalidDate(), InvalidDateErrorMsg);
+		logger.info("Please select your last period start date");
+	}
+
+
 
 
 }

@@ -37,13 +37,32 @@ public class ConfigReader {
 	}
 
 	public static String getUsername() {
-		return property.get().getProperty("username");
+		return property.get().getProperty("userName");
 	}
 
+	
 	public static String getPassword() {
 		return property.get().getProperty("password");
 	}
 
+	public static String getUrl() {
+		return property.get().getProperty("url");
+
+	}
+	public static String getUseremail() {
+		return property.get().getProperty("useremail");
+	}
+	public static String getpassword1() {
+		return property.get().getProperty("password1");
+	}
+	public static String getpassword2() {
+		return property.get().getProperty("password2");
+	}
+	
+	public static String getTestDataPath() {
+		return property.get().getProperty("test_data_path");
+	}
+	
 	public static String getBrowserType() {
 		return browserType;
 	}
@@ -53,9 +72,5 @@ public class ConfigReader {
 			browserType = browser;
 	}
 
-	public static String getUrl() {
-		return property.get().getProperty("url");
-
-	}
-
+	
 }

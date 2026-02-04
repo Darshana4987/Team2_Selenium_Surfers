@@ -3,13 +3,13 @@ Feature: Menstrual Phase Log page
 Background:
 Given User is logged in to Herbalance app
 
-@Buttons_visible
+@Buttons_visible 
 Scenario: Verify user can see all sections of Menstrual Log Page 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
 Then User should be able to see all five sections
 
-@Buttons_visible
+@Buttons_visible 
 Scenario: Verify all buttons are visible in the Menstrual Phase Log page 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
@@ -19,14 +19,14 @@ Examples:
 | Update Cycle Information | 
 |      Add Period Log      |
 
-@Buttons_visible
+@Buttons_visible 
 Scenario: Verify Back To Dashboard link is visible in Menstrual Phase Log Page
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
 Then User should be able to see Back To DashBoard link
 
 
-@Buttons_visible
+@Buttons_visible 
 Scenario: Verify all tabs are visible in the Menstrual Phase Log Page
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
@@ -71,7 +71,12 @@ Then progress bar should be filled according to the current cycle progress
 Scenario: Verify all labels are displayed in Current Cycle Status section
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
-Then User should be able to see all labels in Current Cycle Status section
+Then User should be able to see all labels "<label>" in Current Cycle Status section
+Examples:
+|        label         |
+|   Current Phase      |
+| Last period started  |
+| Next period expected |
 
 @current_cycle
 Scenario: Verify correct current phase is displayed based on onboarding data
@@ -97,7 +102,7 @@ Given User is on the Her Balance Dashboard with the Activity Insights submenu ex
 When User clicks on Menstrual Phase Logs
 Then Subsection heading reflects the Current Phase in the correct format  
 
-@current_cycle
+@now @current_cycle
 Scenario: Verify the content below subsection heading 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
