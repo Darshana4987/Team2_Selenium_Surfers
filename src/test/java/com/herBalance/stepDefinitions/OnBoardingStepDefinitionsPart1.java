@@ -149,7 +149,6 @@ public class OnBoardingStepDefinitionsPart1 {
 	@Then("User should see Analyzing your blood work report")
 	public void user_should_see_analyzing_your_blood_work_report() {
 		Assert.assertTrue(true);
-
 	}
 
 }

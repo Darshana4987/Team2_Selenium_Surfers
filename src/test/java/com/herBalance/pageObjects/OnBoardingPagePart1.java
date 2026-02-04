@@ -34,6 +34,7 @@ public class OnBoardingPagePart1 {
 	private By txtAnalysingReport = By.xpath("//p[text()='Analyzing your blood work report']");
 	private By txtMedicalConditions = By.xpath("//p[contains(@class,'text-sm font-medium')]");
 	private By msgFileSelected = By.xpath("//h3[text()='File Selected']");
+	private By headerTitleForAll = By.xpath("//h2[contains(@class,'text-2xl')]");
 
 	// Step3
 	private By btnBack = By.xpath("//button[text()='Back']");
@@ -52,6 +53,27 @@ public class OnBoardingPagePart1 {
 	private By txtHelperTextForLabels = By.xpath("//p[contains(@class,'text-xs')]");
 	private By rdoTotalRdButtonsStep4 = By.xpath("//div[contains(@class, 'h-5')]");
 	private By lblOptionsForBlooodPressure = By.xpath("//div[contains(@class, 'space-y-3')]//div//span");
+
+	// step5
+	// private By msgInvalidFirstName=By.xpath("//p[text()='Name is required']");
+	// private By msgEmptyAge=By.xpath("//p[text()='Age is required']");
+	// private By msgInvalidAge=By.xpath("//p[text()='Age must be between 18 and
+	// 100']");
+	// private By msgBloodPressureStatusError=By.xpath("//p[text()='Please select
+	// your blood pressure status']");
+	private By txtInputPersonalDetails = By.xpath("//input[contains(@class,'w-full')]");
+	private By msgInvalidValueError = By.xpath("//p[contains(@class,'text-xs text-red')]");
+	private By headerMenstrualCycleAwareness = By.xpath("//h2[contains(text(),'Menstrual Cycle Awareness')]");
+	private By txaUnderstandingYourCycle = By.xpath("//p[contains(text(),'Understanding your cycle helps')]");
+	private By txaDoYouCurrentlyTrack = By.xpath("//h3[contains(text(),'Do you currently track')]");
+	private By rdoTotalRdButtonsStep5 = By.xpath("//input[@type='radio']");
+	private By lblOptionsForMenstrualCycleAwareness = By.xpath("//label[contains(@class,'block text')]");
+	private By txtFirstName = By.xpath("//input[@id='name']");
+	private By txtAge = By.xpath("//input[@id='age']");
+	// private By rdoImnotSure=By.xpath("//div[contains(@class,'h-3')]");
+	// private By rdoImnotSure=By.xpath("//div[contains(@class,'h-3 w-3')]");
+	private By rdoNeverDiagnosed = By.xpath("//span[text()='I have never been diagnosed']");
+	private By rdYesOptionForTrackCycle = By.xpath("//label[text()='Yes']");
 
 	private WebDriverWait wait;
 
@@ -203,7 +225,9 @@ public class OnBoardingPagePart1 {
 	}
 
 	public boolean isContinueButtonVisible() {
-		return driver.findElement(btnContinue).isDisplayed();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(btnContinue)).isDisplayed();
+		// return driver.findElement(btnContinue).isDisplayed();
 	}
 
 	public boolean isContinueButtonEnabled() {
@@ -223,7 +247,9 @@ public class OnBoardingPagePart1 {
 	}
 
 	public boolean isRadioButtonLabelVisible(String radioButtonOption) {
-		List<WebElement> radiobuttonlabel = driver.findElements(lblOptionsTextForHealthCondition);
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		List<WebElement> radiobuttonlabel = wait
+				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblOptionsTextForHealthCondition));
 
 		for (WebElement r : radiobuttonlabel) {
 			if (r.getText().equals(radioButtonOption))
@@ -233,7 +259,8 @@ public class OnBoardingPagePart1 {
 	}
 
 	public boolean isNoteTextVisible() {
-		return driver.findElement(txaNoteText).isDisplayed();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txaNoteText)).isDisplayed();
 	}
 
 	public void clickContinue() {
@@ -290,6 +317,76 @@ public class OnBoardingPagePart1 {
 
 		for (WebElement b : bloodPressureLabel) {
 			if (b.getText().equals(bloodPressureOptionLabel))
+				return true;
+		}
+		return false;
+	}
+
+	// step5
+
+	public String getTitleForAllSteps() {
+		return driver.findElement(headerTitleForAll).getText();
+	}
+
+	public boolean isContinueButtonEnabledForStep5() {
+		driver.findElement(rdYesOptionForTrackCycle).click();
+		return driver.findElement(btnContinue).isEnabled();
+	}
+
+	public String getDescriptionTextForSteps() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtDescriptionText)).getText();		
+	}
+
+	public void enterInvalidAge(String invalidAge) {
+		driver.findElement(txtAge).sendKeys(invalidAge);
+	}
+
+	public void enterInvalidValuesIntoPersonalDetails(String invalidInput) {
+		driver.findElement(txtInputPersonalDetails).sendKeys(invalidInput);
+	}
+
+	public boolean getErrorMsgForInvalidValues(String errorMessage) {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		List<WebElement> errors = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(msgInvalidValueError));
+
+		for (WebElement e : errors) {
+			if (e.getText().contains(errorMessage))
+				return true;
+		}
+		return false;
+	}
+
+	public void clickBackButton() {
+		driver.findElement(btnBack).click();
+	}
+
+	public void giveValidPersonalDetails() {
+		driver.findElement(txtFirstName).sendKeys("smitha");
+		driver.findElement(txtAge).sendKeys("25");
+		driver.findElement(rdoNeverDiagnosed).click();
+	}
+
+	public void clickImNotSure() {
+		driver.findElement(rdoNeverDiagnosed).click();
+	}
+
+	public String getDoYouCurrentlyTrackQuestion() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txaDoYouCurrentlyTrack)).getText();
+	}
+
+	public int getRadioButtonCountForStep5() {
+		return driver.findElements(rdoTotalRdButtonsStep5).size();
+	}
+
+	public boolean getMenstrualCycleAwarenessOptions(String options) {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		List<WebElement> menstrualOptions = wait
+				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblOptionsForMenstrualCycleAwareness));
+
+		for (WebElement op : menstrualOptions) {
+			if (op.getText().equals(options))
 				return true;
 		}
 		return false;
