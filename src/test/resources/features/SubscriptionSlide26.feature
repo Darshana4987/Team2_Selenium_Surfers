@@ -1,3 +1,4 @@
+@Subscription
 Feature: Subcription Management page verification
 
 Background:
