@@ -65,15 +65,25 @@ public class OnBoardingPagePart1 {
 	private By msgInvalidValueError = By.xpath("//p[contains(@class,'text-xs text-red')]");
 	private By headerMenstrualCycleAwareness = By.xpath("//h2[contains(text(),'Menstrual Cycle Awareness')]");
 	private By txaUnderstandingYourCycle = By.xpath("//p[contains(text(),'Understanding your cycle helps')]");
-	private By txaDoYouCurrentlyTrack = By.xpath("//h3[contains(text(),'Do you currently track')]");
+	// private By txaDoYouCurrentlyTrack = By.xpath("//h3[contains(text(),'Do you
+	// currently track')]");
+	private By txtQuestionsAboutMenstruation = By.xpath("//h3[contains(@class,'text-lg')]");
 	private By rdoTotalRdButtonsStep5 = By.xpath("//input[@type='radio']");
 	private By lblOptionsForMenstrualCycleAwareness = By.xpath("//label[contains(@class,'block text')]");
 	private By txtFirstName = By.xpath("//input[@id='name']");
 	private By txtAge = By.xpath("//input[@id='age']");
-	// private By rdoImnotSure=By.xpath("//div[contains(@class,'h-3')]");
-	// private By rdoImnotSure=By.xpath("//div[contains(@class,'h-3 w-3')]");
 	private By rdoNeverDiagnosed = By.xpath("//span[text()='I have never been diagnosed']");
 	private By rdYesOptionForTrackCycle = By.xpath("//label[text()='Yes']");
+
+	// Step6 UI
+	private By imgCalendar = By.xpath("//input[@type='date']");
+	private By textDateInputField = By.xpath("(//input[@type='date'])[1]");
+	// private By textDateInputField=By.xpath("//input[contains(@class,'w-full
+	// p-3')]");
+	private By lblCycleLength = By.xpath("//label[contains(@class,'block text')]");
+	private By sliderBar = By.xpath("//input[@id='cycle-length']");
+	private By txtCycleLengthValue = By.xpath("//span[contains(@class,'ml-3')]");
+	private By txtInformationText = By.xpath("//p[contains(text(),'Average cycle length')]");
 
 	private WebDriverWait wait;
 
@@ -217,7 +227,8 @@ public class OnBoardingPagePart1 {
 
 	// Step3
 	public boolean isBackButtonVisible() {
-		return driver.findElement(btnBack).isDisplayed();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(btnBack)).isDisplayed();
 	}
 
 	public boolean isBackButtonEnabled() {
@@ -227,7 +238,6 @@ public class OnBoardingPagePart1 {
 	public boolean isContinueButtonVisible() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(btnContinue)).isDisplayed();
-		// return driver.findElement(btnContinue).isDisplayed();
 	}
 
 	public boolean isContinueButtonEnabled() {
@@ -325,7 +335,8 @@ public class OnBoardingPagePart1 {
 	// step5
 
 	public String getTitleForAllSteps() {
-		return driver.findElement(headerTitleForAll).getText();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(headerTitleForAll)).getText();
 	}
 
 	public boolean isContinueButtonEnabledForStep5() {
@@ -335,7 +346,7 @@ public class OnBoardingPagePart1 {
 
 	public String getDescriptionTextForSteps() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtDescriptionText)).getText();		
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtDescriptionText)).getText();
 	}
 
 	public void enterInvalidAge(String invalidAge) {
@@ -371,9 +382,9 @@ public class OnBoardingPagePart1 {
 		driver.findElement(rdoNeverDiagnosed).click();
 	}
 
-	public String getDoYouCurrentlyTrackQuestion() {
+	public String getQuestionAboutMestruation() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(txaDoYouCurrentlyTrack)).getText();
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtQuestionsAboutMenstruation)).getText();
 	}
 
 	public int getRadioButtonCountForStep5() {
@@ -390,6 +401,44 @@ public class OnBoardingPagePart1 {
 				return true;
 		}
 		return false;
+	}
+
+	// step5 functionality and step6UI
+	public void selectMenstralCycleInfo() {
+		driver.findElement(rdYesOptionForTrackCycle).click();
+	}
+
+	public boolean isErrorMessageDisplayed() {
+		return false;
+	}
+
+	public boolean isCalendarIconVisible() {
+		return driver.findElement(imgCalendar).isDisplayed();
+	}
+
+	public boolean getDateInputField() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(textDateInputField)).isDisplayed();
+	}
+
+	public String getLabelUnderDateField() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(lblCycleLength)).getText();
+	}
+
+	public boolean isSliderControlVisible() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(sliderBar)).isDisplayed();
+	}
+
+	public String getCycleLengthValue() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtCycleLengthValue)).getText();
+	}
+
+	public String getInformationText() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtInformationText)).getText();
 	}
 
 }
