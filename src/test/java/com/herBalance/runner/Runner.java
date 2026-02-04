@@ -13,9 +13,8 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 @CucumberOptions(features = "src/test/resources/features", 
 		glue = { "com.herBalance.hooks","com.herBalance.stepDefinitions" }, 
-		tags = "", 
-		plugin = { "pretty",
-				"html:cucumber-reports.html" }, 
+		tags = "@Subscription", 
+		plugin = { "pretty","html:cucumber-reports.html" }, 
 		dryRun = false, 
 		monochrome = false)
 public class Runner extends AbstractTestNGCucumberTests {
