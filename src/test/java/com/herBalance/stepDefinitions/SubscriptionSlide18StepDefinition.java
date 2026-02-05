@@ -97,5 +97,51 @@ public class SubscriptionSlide18StepDefinition {
 	    List<WebElement> tiles = subscriptionSlide18.getPlanTiles();
 	    Assert.assertTrue(tiles.size() == 3);
 	}
+	
+	@Then("{string} section title is displayed inside free plan tile")
+	public void section_title_is_displayed_inside_free_plan_tile(String text) {
+	    Assert.assertTrue(subscriptionSlide18.planTitleTextDisplayed(text), text + "title not displayed");
+	}
+	
+	@Then("{string} should be displayed for section title")
+	public void text_should_be_displayed_for_section_title(String text) {
+		Assert.assertTrue(subscriptionSlide18.planTitleSubTextDisplayed(text), text + "sub text under title not displayed");
+	}
 
+	@Then("{string} header text should be displayed inside the plan tile")
+	public void header_text_should_be_displayed_inside_the_plan_tile(String text) {
+		Assert.assertTrue(subscriptionSlide18.planHeaderTextDisplayed(text), text + "header not visible");
+	}
+	
+	@Then("{string} sub header text should be displayed inside plan tile")
+	public void sub_header_text_should_be_displayed_inside_plan_tile(String text) {
+		Assert.assertTrue(subscriptionSlide18.planHeaderSubTextDisplayed(text), text + "sub header not visible");
+	}
+	
+	@Then("{string} message should be visible for free plan checklist")
+	public void message_should_be_visible_for_free_plan_checklist(String text)  {
+		Assert.assertTrue(subscriptionSlide18.freePlanCheckListDisplayed(text), text + "checklist message not displayed");
+	}
+	
+	@Then("{string} message should be visible for monthly plan checklist")
+	public void message_should_be_visible_for_monthly_plan_checklist(String text) {
+		Assert.assertTrue(subscriptionSlide18.monthlyPlanCheckListDisplayed(text), text + "checklist message not displayed");
+	}
+
+	@Then("{string} message should be visible for three month plan checklist")
+	public void message_should_be_visible_for_three_month_plan_checklist(String text) {
+		Assert.assertTrue(subscriptionSlide18.threeMonthPlanCheckListDisplayed(text), text + "checklist message not displayed");
+	}
+
+	@Then("User should be able to see subscribe now button for {string} tile")
+	public void user_should_be_able_to_see_subscribe_now_button_for_tile(String text) {
+		WebElement element = subscriptionSlide18.getSubscribeNowButton(text);
+		Assert.assertTrue(subscriptionSlide18.getSubscribeNowButton(text).isDisplayed());
+		Assert.assertEquals(element.getText(), "Subscribe Now", "Subscribe Now button not visible for " + text);
+	}
+
+	@Then("subscribe now button for {string} tile should be enabled")
+	public void subscribe_now_button_for_tile_should_be_enabled(String text) {
+	    Assert.assertTrue(subscriptionSlide18.getSubscribeNowButton(text).isEnabled(), "subscribe now button for "+text+ "not enabled");
+	}
 }

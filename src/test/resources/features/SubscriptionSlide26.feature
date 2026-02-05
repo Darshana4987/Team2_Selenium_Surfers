@@ -1,12 +1,15 @@
+@Subscription
 Feature: Subcription Management page verification
 
 Background:
 Given User logged in to Her balance application and is on dashboard
+@Subs1
 Scenario: Verify that user is able to navigate to Subscription page from dashboard profile button dropdown
 When The user clicks on profile button on dashboard
 Then The user clicks Subscription option from the profile dropdown
 And The user navigates to Subscription page
 
+@Subs
 Scenario Outline: Verify Subscription page elements
 When The user clicks on profile button on dashboard
 Then The user clicks Subscription option from the profile dropdown
@@ -24,10 +27,9 @@ Examples:
 | Headerfield4		| End Date:								 |
 | Heading4			| Subscription Benefits 				 |
 | Button1Subs 		| Go To Dashboard						 |
-#| Paragraph2		| Your subscription payment history		 |
-#| Heading6			| Free Plan								 |
 | Button2Hist		| Go To Dashboard					  	 |
 | ButtonPlans       | View Available Plans				  	 |
-
+#| Paragraph2		| Your subscription payment history		 |
+#| Heading6			| Free Plan								 |
 
 

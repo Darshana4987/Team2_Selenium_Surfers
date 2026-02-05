@@ -158,7 +158,6 @@ public class MenstrualPhaseLogStepDef {
 	    Assert.assertEquals(details, expected.get("Details"), "Phase details not matching with onboarding data");
 	}
 
-
-
+	
 
 }

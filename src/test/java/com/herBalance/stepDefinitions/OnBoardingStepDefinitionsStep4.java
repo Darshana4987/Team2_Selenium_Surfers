@@ -75,7 +75,7 @@ public class OnBoardingStepDefinitionsStep4 {
 
 	@Then("Question {string} should be visible")
 	public void question_should_be_visible(String expectedQuestion) {
-		Assert.assertEquals(onBoardingPage.getDoYouCurrentlyTrackQuestion(), expectedQuestion);
+		Assert.assertEquals(onBoardingPage.getQuestionAboutMestruation(), expectedQuestion);
 	}
 
 	@Then("{int} radio button should be visible on step5")
