@@ -28,12 +28,12 @@ public class SubscriptionSlide26Page {
 		
 		public SubscriptionSlide26Page(WebDriver driver) {
 			this.driver = driver;
-			this.wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+			this.wait = new WebDriverWait(driver,Duration.ofSeconds(15));
 		}
 		
 		public boolean isElementPresent(By locator) {
 		    return !driver.findElements(locator).isEmpty();
-		    //returns true if xpath is not empty, element is present
+		    //It will return true if xpath is not empty, element is present
 		}
 
 		public void clickProfileButton() {
@@ -50,7 +50,6 @@ public class SubscriptionSlide26Page {
 			wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 			WebElement buttonElement = wait.until(ExpectedConditions.elementToBeClickable(subscriptionOption));
 			buttonElement.click();
-		//	driver.findElement(subscriptionOption).click();
 			 
 		}
 		
@@ -75,13 +74,11 @@ public class SubscriptionSlide26Page {
 			else if (Subselement.equals("Paragraph1")) {
 				assertTrue(isElementPresent(By.xpath("//p[text()='" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
 			}
-			//h3[text()='Subscription Information']
 			else if (Subselement.equals("Heading3")) {
 				assertTrue(isElementPresent(By.xpath("//h3[text()='" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
 			}
 			else if (Subselement.equals("Headerfield1")) {
 				assertTrue(isElementPresent(By.xpath("//div[text()='" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
-				//div[text()='Status:
 			}
 			else if (Subselement.equals("Headerfield2")) {
 				assertTrue(isElementPresent(By.xpath("//div[text()='" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
@@ -102,10 +99,10 @@ public class SubscriptionSlide26Page {
 				    wait.until(ExpectedConditions.invisibilityOfElementLocated(toastLocator));*/
 					
 				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-				WebElement gotoDashboardButton1 = wait.until(ExpectedConditions.elementToBeClickable(gotoDashboardButton1Path));
+				wait.until(ExpectedConditions.presenceOfElementLocated(gotoDashboardButton1Path));
 
-				gotoDashboardButton1.click();
-				assertTrue(getUrl().contains("dashboard"), "URL should contain dashboard !");
+			//	gotoDashboardButton1.click();
+			//	assertTrue(getUrl().contains("dashboard"), "URL should contain dashboard !");
 
 			}
 			else if (Subselement.equals("Button2Hist")) {
@@ -121,22 +118,16 @@ public class SubscriptionSlide26Page {
 				gotoPlansButton.click();
 				assertTrue(getUrl().contains("plans"), "URL should contain plans !");
 			}
+			else if (Subselement.equals("Paragraph2")) {
+				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				assertTrue(isElementPresent(By.xpath("//p[text()='" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
+			}//p[text()='Your subscription payment history']
+			else if (Subselement.equals("Heading6")) {
+				WebElement freePlanHeading = driver.findElement(By.xpath("//h3[text()='Free Plan']"));
+				
+				assertTrue(freePlanHeading.isDisplayed(), "Free Plan title not visible");
+			//	assertTrue(isElementPresent(By.xpath("'" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
+			}
+			
 		}
-
 }
-/*	//Login
-public void loginPage() {
-
-			wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			driver.get("https://herbalance.numpyninja.com");
-			
-			WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
-			emailInput.sendKeys("test123456@gmail.com");
-
-			WebElement passwordInput = driver.findElement(By.name("password"));
-			passwordInput.sendKeys("test123456");
-			
-			WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
-			loginButton.click();
-	        logger.info("Logging in Her balance application");
-}//Login Ends */

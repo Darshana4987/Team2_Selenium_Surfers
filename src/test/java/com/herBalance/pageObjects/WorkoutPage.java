@@ -1,53 +1,71 @@
 package com.herBalance.pageObjects;
 
-import static org.testng.Assert.assertTrue;
-
 import java.time.Duration;
+import java.util.List;
+
+import static org.testng.Assert.assertTrue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
-
 public class WorkoutPage {
-	
-	private By workoutButton = By.xpath("//span[text()='Workout']/parent::button"); //a[@href='/workouts']/button");
-	
 	private static Logger logger = LogManager.getLogger();
 	public WebDriver driver;
 	WebDriverWait wait;
-		
+	
+	//private By cycleDayNumberTab = By.xpath("//div[@role='tabpanel' and @data-state='active']//span[starts-with(text(),'Cycle Day')]");
+	private By cycleDayNumberTabPath = By.xpath("//div[@role='tablist']//button[@role='tab']");
+	private By completeButtonPath = By.xpath("//div[@role='tabpanel' and @data-state='active']//button[.//text()[normalize-space()='Complete'] or .//text()[normalize-space()='Completed']]");
+	private By generateWorkoutButtonPath = By.xpath("//button[@data-testid='button-generate-next-workout']");
+	private By workoutCompleteXpath = By.xpath("//li[@role='status' and @data-state='open']//div[text()='Workout completed!']");
+	private By generateNextWorkoutStatusXpath = By.xpath("//li[@role='status' and @data-state='open']//div[contains(@class,'text-lg')]");
+	
 //	@FindBy(xpath=("//button[text()='Generate Workout Plan']"))
 //	WebElement generateWorkoutBtn;
 	
 	public WorkoutPage(WebDriver driver) {
 		this.driver = driver;
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
-	public boolean isElementPresent(By locator) {
-	    return !driver.findElements(locator).isEmpty();
-	    //returns true if xpath is not empty, element is present
+	public void loginPage() {
+
+		// driver = DriverFactory.getDriver(); // your driver setup
+				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				driver.get("https://herbalance.numpyninja.com");
+				
+				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
+				emailInput.sendKeys("test12345@gmail.com");
+
+				WebElement passwordInput = driver.findElement(By.name("password"));
+				passwordInput.sendKeys("test12345");
+				
+				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
+				loginButton.click();
+		        logger.info("Logging in Her balance application");
 	}
-		
+	
 	public void clickWorkoutBtn() {
 		
-		    wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.elementToBeClickable(workoutButton)).click();
-			
 		//driver.findElement(WorkoutBtn).click();
-		/* WebElement workoutBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/workouts']/button")));
+		 WebElement workoutBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/workouts']/button")));
 		
 		 ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);" , workoutBtn);
 		 ((JavascriptExecutor) driver).executeScript("arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true}));", workoutBtn);
-		 logger.info("Workout button clicked"); */
-	 
+		 logger.info("Workout button clicked"); 
+		 
+		 
+	}
+	public boolean isElementPresent(By locator) {
+	    return !driver.findElements(locator).isEmpty();
 	}
 	
 	public String getUrl() {
@@ -55,7 +73,7 @@ public class WorkoutPage {
 		return driver.getCurrentUrl();
 	}
 	
-	public void seePageElement(String element, String value) {
+	public void seepageElement(String element, String value) {
 		
 		
 		//driver.findElement(element, value);
@@ -81,7 +99,7 @@ public class WorkoutPage {
 			assertTrue(isElementPresent(By.xpath("//button[text()='Generate Workout Plan']")),value+" "+element+" Present ");
 		}
 		else {
-			Assert.assertEquals(element.toString(), "XYZ", "Undefined Scenario Element.");
+			Assert.assertEquals(element.toString(), "XYZ", "Undefined Scenarion Element.");
 		}
 	}
 
@@ -98,18 +116,39 @@ public class WorkoutPage {
 		    assertTrue(true,"Generate Workout Plan Button not Present ");
 		}
 		
-	/*	
-		if (generateWorkoutBtn.isDisplayed()) 
-		{
-		   generateWorkoutBtn.click();
-		} 
-		else 
-		{
-			System.out.println(" Workout PLan already Generated !!");
-			throw new SkipException("Dashboard not found");
-			//return;
+	}
+	
+	public boolean verifyCycleDayTabs() {
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        boolean completeFlag = false;
+		List<WebElement> cycleTabs = wait.until(
+		    ExpectedConditions.presenceOfAllElementsLocatedBy(cycleDayNumberTabPath));
+
+		for (WebElement tab : cycleTabs) {
+		    wait.until(ExpectedConditions.elementToBeClickable(tab)).click();
+		    System.out.println(" Tab Name:"+tab.getText());
+		    //WebElement completeButton = driver.findElement(completeButtonPath);
+		    WebElement completeButton = wait.until(ExpectedConditions.presenceOfElementLocated(completeButtonPath));
+
+		   	boolean isEnabled = completeButton.isEnabled();
+		   	System.out.println("Complete button enabled: " + isEnabled);
+		   	if (isEnabled)
+		   	{
+		   		completeButton.click(); 
+		   		completeFlag=isElementPresent(workoutCompleteXpath);;
+		   	}
 		}
-			*/
+		
+		return completeFlag;
+
+	}
+	
+	public boolean generateNextWorkout() {
+		 wait.until(ExpectedConditions.elementToBeClickable(generateWorkoutButtonPath)).click();	
+		 WebElement generateNextWorkoutStatus = wait.until(ExpectedConditions.presenceOfElementLocated(generateNextWorkoutStatusXpath));
+		 System.out.println("Generate Next Workout Status :" + generateNextWorkoutStatus.getText());
+ 		 return generateNextWorkoutStatus.getText().contains("Success");
+
 	}
 
 	public void seeSection(String elementTitle, String values) {
@@ -154,20 +193,3 @@ public class WorkoutPage {
 	}
 	
 }
-/* //Login
-	public void loginPage() {
-
-		// driver = DriverFactory.getDriver(); // your driver setup
-				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-				driver.get("https://herbalance.numpyninja.com");
-				
-				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
-				emailInput.sendKeys("test123456@gmail.com");
-
-				WebElement passwordInput = driver.findElement(By.name("password"));
-				passwordInput.sendKeys("test123456");
-				
-				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
-				loginButton.click();
-		        logger.info("Logging in Her balance application");
-	}//Login Ends */

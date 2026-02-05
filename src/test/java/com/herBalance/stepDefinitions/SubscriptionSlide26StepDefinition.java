@@ -16,12 +16,11 @@ public class SubscriptionSlide26StepDefinition {
 	private SubscriptionSlide26Page subscriptionSlide26Page;
 	private LoginPageObject loginPageObject;
 	WebDriverWait wait;
-	//private final Scenario scenario;
     
 	public SubscriptionSlide26StepDefinition() {
 		subscriptionSlide26Page = new SubscriptionSlide26Page(DriverFactory.getDriver());
 		loginPageObject = new LoginPageObject(DriverFactory.getDriver());
-		//this.scenario = scenario;
+	
 	}
 	
 	@Given("User logged in to Her balance application and is on dashboard")
