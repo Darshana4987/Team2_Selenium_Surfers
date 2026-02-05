@@ -13,12 +13,12 @@ import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.herBalance.driverFactory.DriverFactory;
 
-public class OnBoardingPageStep6 {
+public class OnBoardingPagePart2 {
 
 	private WebDriver driver;
 	WebDriverWait wait;
 
-	public OnBoardingPageStep6(WebDriver driver) {
+	public OnBoardingPagePart2(WebDriver driver) {
 		this.driver = driver;
 	}
 

@@ -5,21 +5,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.herBalance.driverFactory.DriverFactory;
 import com.herBalance.pageObjects.OnBoardingPagePart1;
-import com.herBalance.pageObjects.OnBoardingPageStep6;
+import com.herBalance.pageObjects.OnBoardingPagePart2;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
-public class OnBoardingStepDefinitionStep6 {
+public class OnBoardingStepDefinitionPart2 {
 	
-	private static final Logger logger = LoggerFactory.getLogger(OnBoardingStepDefinitionStep6.class);
+	private static final Logger logger = LoggerFactory.getLogger(OnBoardingStepDefinitionPart2.class);
 	
-	private OnBoardingPageStep6 obj_OnboardStep6 ;
+	private OnBoardingPagePart2 obj_OnboardStep6 ;
 	private OnBoardingPagePart1 onBoardingPage;
 
-	public OnBoardingStepDefinitionStep6() {
+	public OnBoardingStepDefinitionPart2() {
 		
-		obj_OnboardStep6 = new OnBoardingPageStep6(DriverFactory.getDriver());
+		obj_OnboardStep6 = new OnBoardingPagePart2(DriverFactory.getDriver());
 	//	onBoardingPage = new OnBoardingPagePart1(DriverFactory.getDriver());
 	}
 	
