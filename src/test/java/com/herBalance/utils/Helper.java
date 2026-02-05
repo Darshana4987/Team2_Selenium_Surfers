@@ -21,13 +21,13 @@ public class Helper {
 		return daysBetween;
 	}
 	
-	public static Double calculateCycleProgress() throws IOException {
+	public static String calculateCycleProgress() throws IOException {
 		Double cycleDay = (double) calculateCycleDay();
 		int cycleLength = Integer.parseInt(cycleLengthFromTestData());
 		logger.info("cycle day: " + cycleDay);
 		String progress = String.format("%.4f", (cycleDay/cycleLength) * 100);
 		logger.info("cycle day: " + cycleDay + "Bar Progress : " + progress);
-		return Double.parseDouble(progress);
+		return progress;
 	}
 	
 	public static String lastPeriodDateFromTestData() throws IOException {
