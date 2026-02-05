@@ -3,8 +3,7 @@ Feature: Onboarding step 5 Functionality and Step 6 UI verification
 
   Background:
     Given User is in step5 of onboarding
-
-  @Bug
+ 
   Scenario: Error message for without selecting menstrual cycle
     When User clicks continue button without selecting menstrual cycle
     Then Error message "Please select your menstrual cycle track" should be displayed
