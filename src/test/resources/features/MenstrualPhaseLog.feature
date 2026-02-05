@@ -1,3 +1,4 @@
+@Menstrual
 Feature: Menstrual Phase Log page
 
 Background:
@@ -102,8 +103,50 @@ Given User is on the Her Balance Dashboard with the Activity Insights submenu ex
 When User clicks on Menstrual Phase Logs
 Then Subsection heading reflects the Current Phase in the correct format  
 
-@now @current_cycle
+@current_cycle
 Scenario: Verify the content below subsection heading 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
 Then Display content should match current phase 
+
+@upcoming_phases
+Scenario:  Verify upcoming phases section heading text
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see upcoming phases heading text
+
+@upcoming_phases
+Scenario: Verify upcoming phases section subtext
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see upcoming phases heading subtext
+
+@upcoming_phases
+Scenario: Verify upcoming phases section has 4 subsections
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see four subsections for upcoming phases section
+
+@upcoming_phases
+Scenario: Verify upcoming phases subsection heading text
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see "<subsection>" heading text for upcoming phases
+Examples:
+|       subsection   |
+|   Menstrual Phase  |
+|    Follicular Phase|
+|   Ovulation Phase  |
+|    Luteal Phase    |
+
+@upcoming_phases
+Scenario: Verify start date format for each upcoming phase section
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should be able to see correct start date format for "<subsection>"
+Examples: 
+|       subsection   |
+|   Menstrual Phase  |
+|    Follicular Phase|
+|   Ovulation Phase  |
+|    Luteal Phase    |

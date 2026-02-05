@@ -1,15 +1,20 @@
 package com.herBalance.pageObjects;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.herBalance.utils.Helper;
 
 
 public class MenstrualPhaseLogPage {
@@ -37,6 +42,13 @@ public class MenstrualPhaseLogPage {
 	private By nextPeriodExpected = By.xpath("//div[text()='Next period expected']/parent::div/div[2]");
 	private By currentPhaseDetailsHeading = By.xpath(".//div[2]/div[3]/div[1]");
 	private By currentPhaseDetailsContent = By.xpath(".//div[2]/div[3]/div[2]");
+	
+	//upcoming phases
+	private By upcomingPhasesHeader = By.xpath("//h3[text()='Upcoming Phases']");
+	private By upcomingPhasesSubText = By.xpath("//p[text()='Plan ahead with your cycle phases']");
+	private By upcomingPhasesSections = By.xpath("//div[@class='space-y-4']");
+	private By upcomingPhasesSubSectionHeading = By.xpath("./div[1]/div/span");
+	private By upcomingPhasesStartDate = By.xpath("./div[2]/span");
 	
 	private By currentCycleStatusLabels(String name) {
 		return By.xpath(String.format("//div[text()='%s']", name));
@@ -82,10 +94,11 @@ public class MenstrualPhaseLogPage {
 		       
 	}
 	
+
 	public void clickActivityInsights() {
-		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-					wait.until(
-							ExpectedConditions.elementToBeClickable(activityButton)).click();
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+		wait.until(ExpectedConditions.presenceOfElementLocated(activityButton));
+		driver.findElement(activityButton).click();
 	}
 	
 	public void clickMenstrualPhaseLogs() {
@@ -172,4 +185,53 @@ public class MenstrualPhaseLogPage {
 		return driver.findElement(currentPhaseDetailsContent).getText();
 	}
 
+	public WebElement getUpcomingPhasesHeader() {
+		return driver.findElement(upcomingPhasesHeader);
+	}
+	
+	public WebElement getUpcomingPhasesSubText() {
+		return driver.findElement(upcomingPhasesSubText);
+	}
+	
+	public List<WebElement> getUpcomingPhasesSections() {
+		WebElement parent = driver.findElement(upcomingPhasesSections);
+		return parent.findElements(By.xpath("./div"));
+	}
+	
+	public boolean upcomingPhasesSectionHeadingDisplayed(String phase) {
+		boolean found = false;
+		List<WebElement> sections = getUpcomingPhasesSections();
+		for (WebElement section : sections) {
+			WebElement sectionHeading = section.findElement(upcomingPhasesSubSectionHeading);
+			if (sectionHeading.getText().equals(phase) && sectionHeading.isDisplayed()) {
+				found = true;
+				break;
+			}
+		}
+		return found;
+	}
+	
+	public String getStartFormat(String phase) throws IOException {
+		String current = Helper.calculateMenstrualPhase();
+		if (phase.equals(current)) {
+			return "Started";
+		}
+		else {
+			return "Starts";
+		}
+	}
+	
+	public String GetUpcomingPhasesStartDate(String phase) {
+		List<WebElement> sections = getUpcomingPhasesSections();
+		for (WebElement section : sections) {
+			WebElement sectionHeading = section.findElement(upcomingPhasesSubSectionHeading);
+			System.out.println("section: " + sectionHeading.getText());
+			if (sectionHeading.getText().equals(phase)) {
+				String startDate = section.findElement(upcomingPhasesStartDate).getText();
+				return startDate;
+			}
+			
+		}
+		return null;
+	}
 }

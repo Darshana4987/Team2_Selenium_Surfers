@@ -4,6 +4,8 @@ package com.herBalance.stepDefinitions;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -103,8 +105,8 @@ public class MenstrualPhaseLogStepDef {
 		WebElement progressBar = menstrualPhaseLogPage.getMenstrualProgressBar();
 		String style = progressBar.getAttribute("style");
 		Double percentage = Double.parseDouble(style.replaceAll("[^0-9.]", ""));
-		Double progressValue = 100 - percentage;
-		Assert.assertEquals(progressValue, Helper.calculateCycleProgress(), "cycle Progress not matched with onboarding data");
+		String barProgress = String.format("%.4f", 100 - percentage);
+		Assert.assertEquals(barProgress, Helper.calculateCycleProgress(), "cycle Progress not matched with onboarding data");
 	}
 
 	@Then("User should be able to see all labels {string} in Current Cycle Status section")
@@ -158,6 +160,48 @@ public class MenstrualPhaseLogStepDef {
 	    Assert.assertEquals(details, expected.get("Details"), "Phase details not matching with onboarding data");
 	}
 
-	
+	@Then("User should see upcoming phases heading text")
+	public void user_should_see_upcoming_phases_heading_text() {
+	    Assert.assertTrue(menstrualPhaseLogPage.getUpcomingPhasesHeader().isDisplayed(), "Upcoming phase heading text not visible");
+	}
+
+	@Then("User should see upcoming phases heading subtext")
+	public void user_should_see_upcoming_phases_heading_subtext() {
+		Assert.assertTrue(menstrualPhaseLogPage.getUpcomingPhasesSubText().isDisplayed(), "Upcoming phase heading subtext not visible");
+	}
+
+	@Then("User should see four subsections for upcoming phases section")
+	public void user_should_see_four_subsections_for_upcoming_phases_section() {
+	    List<WebElement> sections = menstrualPhaseLogPage.getUpcomingPhasesSections();
+	    logger.info("no of sections: "+ sections.size());
+	    Assert.assertTrue(sections.size() == 4);
+	}
+
+	@Then("User should see {string} heading text for upcoming phases")
+	public void user_should_see_heading_text_for_upcoming_phases(String phase) {
+		Assert.assertTrue(menstrualPhaseLogPage.upcomingPhasesSectionHeadingDisplayed(phase));
+	}
+
+	@Then("User should be able to see correct start date format for {string}")
+	public void user_should_be_able_to_see_correct_start_date_format_for(String phase) throws IOException {
+		boolean validation = true;
+		String startDate = menstrualPhaseLogPage.GetUpcomingPhasesStartDate(phase);
+		String startFormat = menstrualPhaseLogPage.getStartFormat(phase);
+		System.out.println("Start Date: " + startDate);
+		Assert.assertTrue(startDate.startsWith(startFormat), "Does not have starts text for start date");
+		String date = startDate.replace(startFormat, "").trim();
+		System.out.println(date);
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
+		String year = String.valueOf(LocalDate.now().getYear());
+		try {
+			LocalDate.parse(date + " " + year , formatter);
+		} catch (DateTimeParseException e) {
+			validation = false;
+		}
+		Assert.assertTrue(validation, "Start date is not in MMM DD format");
+	}
+
+
+
 
 }
