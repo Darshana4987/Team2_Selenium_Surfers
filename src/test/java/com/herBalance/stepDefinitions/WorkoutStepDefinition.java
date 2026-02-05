@@ -3,28 +3,39 @@ package com.herBalance.stepDefinitions;
 import org.testng.Assert;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.herBalance.driverFactory.DriverFactory;
+import com.herBalance.pageObjects.LoginPageObject;
 import com.herBalance.pageObjects.WorkoutPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WorkoutStepDefinition {
+	
+	private static Logger logger = LogManager.getLogger();
 	private WorkoutPage workoutPage;
+	private LoginPageObject loginPageObject;
+	
 	
 	public WorkoutStepDefinition() {
 		workoutPage = new WorkoutPage(DriverFactory.getDriver());
+		loginPageObject = new LoginPageObject(DriverFactory.getDriver());
 	}
 	WebDriverWait wait;
 
 	@Given("User is on login page")
 	public void user_is_on_login_page() {
-		workoutPage.loginPage();
+		loginPageObject.getusernamePwd();
+		loginPageObject.loginbtn();
+		logger.info("Logging in Her balance application");
 
 	}
 
 	@When("The user clicks the Workout button on dashboard")
 	public void the_user_clicks_the_workout_button_on_dashboard() {
 		workoutPage.clickWorkoutBtn();
+		logger.info("Workout button clicked"); 
 	}
 
 	@Then("User should navigate to Workout page")
