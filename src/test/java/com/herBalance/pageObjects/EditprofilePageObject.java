@@ -15,7 +15,6 @@ public class EditprofilePageObject {
     private WebDriver driver;
     private WebDriverWait wait;
 
-    // ================= LOCATORS =================
 
     private By userProfileButton =
             By.xpath("//button[.//span[contains(@class,'font-medium')]]");
@@ -44,14 +43,12 @@ public class EditprofilePageObject {
     private By updateNameAndAgeSubText =
             By.xpath("//p[text()='Update your name and age']");
 
-    // ================= CONSTRUCTOR =================
 
     public EditprofilePageObject(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
-    // ================= ACTIONS / CHECKS =================
 
     public String getCurrentUrl() {
         return driver.getCurrentUrl();

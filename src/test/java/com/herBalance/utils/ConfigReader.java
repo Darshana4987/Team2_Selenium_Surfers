@@ -5,43 +5,64 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 public class ConfigReader {
 
-	private static ThreadLocal<Properties> property = new ThreadLocal<Properties>();
+	private static Logger logger = LoggerFactory.getLogger(ConfigReader.class);
 	private static String browserType = null;
-	public static Properties prop;
+	private static Properties prop;
 
 	public static void loadProperties() {
 		FileInputStream fis;
 		try {
-			fis = new FileInputStream("src/test/resources/config.properties"); 
-			
+			fis = new FileInputStream("src/test/resources/config.properties");
+
 			prop = new Properties();
 			try {
 				prop.load(fis);
-			
-				property.set(prop);
-				
+
 				if (getBrowserType() == null || getBrowserType().isEmpty()) {
-					setBrowserType(property.get().getProperty("browser"));
+					setBrowserType(prop.getProperty("browser"));
 				}
-		
+
 			} catch (IOException e) {
-				e.printStackTrace();
-				throw new RuntimeException("Config properties file not found");
+				logger.error("Unable to load config properities. {}", e.getMessage());
+				throw new RuntimeException("Unable to load config properties file.");
 			}
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-
+			logger.error("Config properties file not found. {}", e.getMessage());
+			throw new RuntimeException("Config properties file not found.");
 		}
 	}
 
 	public static String getUsername() {
-		return property.get().getProperty("username");
+		return prop.getProperty("userName");
 	}
 
 	public static String getPassword() {
-		return property.get().getProperty("password");
+		return prop.getProperty("password");
+	}
+
+	public static String getUrl() {
+		return prop.getProperty("url");
+	}
+
+	public static String getUseremail() {
+		return prop.getProperty("useremail");
+	}
+
+	public static String getpassword1() {
+		return prop.getProperty("password1");
+	}
+
+	public static String getpassword2() {
+		return prop.getProperty("password2");
+	}
+
+	public static String getTestDataPath() {
+		return prop.getProperty("test_data_path");
 	}
 
 	public static String getBrowserType() {
@@ -52,10 +73,4 @@ public class ConfigReader {
 		if (browser != null && !browser.isBlank())
 			browserType = browser;
 	}
-
-	public static String getUrl() {
-		return property.get().getProperty("url");
-
-	}
-
 }

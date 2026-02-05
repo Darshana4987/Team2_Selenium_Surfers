@@ -11,11 +11,10 @@ import com.herBalance.utils.ConfigReader;
 
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 
-@CucumberOptions(features = "src/test/resources/features", 
+@CucumberOptions(features = "src/test/resources/features/AuthPageUIVerification.feature", 
 		glue = { "com.herBalance.hooks","com.herBalance.stepDefinitions" }, 
-		tags = "", 
-		plugin = { "pretty",
-				"html:cucumber-reports.html" }, 
+		tags = "@Subs1", 
+		plugin = { "pretty","html:cucumber-reports.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}, 
 		dryRun = false, 
 		monochrome = false)
 public class Runner extends AbstractTestNGCucumberTests {
