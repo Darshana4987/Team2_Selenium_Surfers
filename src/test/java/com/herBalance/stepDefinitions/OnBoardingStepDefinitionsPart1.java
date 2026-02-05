@@ -1,5 +1,7 @@
 package com.herBalance.stepDefinitions;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
@@ -12,6 +14,7 @@ import io.cucumber.java.en.When;
 public class OnBoardingStepDefinitionsPart1 {
 	private OnBoardingPagePart1 onBoardingPage;
 	private OnBoardingPageCommon onBoardingPageCommon;
+	private Logger logger = LogManager.getLogger();
 
 	public OnBoardingStepDefinitionsPart1() {
 		onBoardingPage = new OnBoardingPagePart1(DriverFactory.getDriver());
@@ -21,11 +24,13 @@ public class OnBoardingStepDefinitionsPart1 {
 	@Given("User is on sign up page")
 	public void userIsOnSignUpPage() {
 		onBoardingPageCommon.navigateToSignInPage();
+		logger.info("User navigated to sign-up page");
 	}
 
 	@When("User clicks register button after entering valid details")
 	public void userClicksRegisterButtonAfterEnteringValidDetails() {
 		onBoardingPageCommon.clickRegister();
+		logger.info("User clicked Register button");
 	}
 
 	@Then("Title of the page should be {string}")
@@ -41,17 +46,20 @@ public class OnBoardingStepDefinitionsPart1 {
 	@Then("Onboarding progress bar is displayed")
 	public void onboardingProgressBarIsDisplayed() {
 		Assert.assertTrue(onBoardingPageCommon.isOnBoardingProcessBarVisible());
+		logger.info("Onboarding progress bar is displayed");
 	}
 
 	@Then("Progress bar shows the current step as {string}")
 	public void progressBarShowsTheCurrentStepAs(String expectedStepNumber) {
 		Assert.assertEquals(onBoardingPageCommon.getProcessBarStepNumber(), expectedStepNumber);
+		logger.info("Progress bar shows the current step as " + expectedStepNumber);
 	}
 
 	@Then("Upload PDF button is displayed")
 	public void uploadPDFbuttonIsDisplayed() {
 		String expectedButtonText = "Upload PDF";
 		Assert.assertTrue(onBoardingPage.isUploadPDFButtonAndButtonTextVisible(expectedButtonText));
+		logger.info("Upload PDF button is displayed");
 	}
 
 	@Then("Upload PDF button should be enabled")
@@ -95,16 +103,19 @@ public class OnBoardingStepDefinitionsPart1 {
 	@When("User clicks continue without report button")
 	public void userClicksContinueWithoutReportButton() {
 		onBoardingPageCommon.clickContunueWithOutReportButton();
+		logger.info("User clicked continue without report button");
 	}
 
 	// OnBoarding Step 1 Blood Report Upload Functionality
 	@Given("User is in upload blood report page")
 	public void user_is_in_upload_blood_report_page() {
 		onBoardingPageCommon.navigatesToStep2();
+		logger.info("User is in upload blood report page");
 	}
 
 	@When("User clicks on Upload PDF button by selecting invalid file upload")
 	public void user_clicks_on_upload_pdf_button_by_selecting_invalid_file_upload() {
+		logger.info("User selecting invalid file upload");
 		onBoardingPage.selectInvalidFile();
 	}
 
@@ -115,6 +126,7 @@ public class OnBoardingStepDefinitionsPart1 {
 
 	@When("User clicks on Upload PDF button by selecting file over 10MB")
 	public void user_clicks_on_upload_pdf_button_by_selecting_file_over_10mb() {
+		logger.info("User selecting file over 10MB");
 		onBoardingPage.selectFileExceeding10MB();
 	}
 
@@ -149,22 +161,26 @@ public class OnBoardingStepDefinitionsPart1 {
 	@When("User clicks continue button")
 	public void user_clicks_continue_button() {
 		onBoardingPageCommon.clickContinue();
+		logger.info("User clicked continue button");
 	}
 
 	// step3
 	@When("User clicks continue without report")
 	public void user_clicks_continue_without_report() {
 		onBoardingPageCommon.clickContunueWithOutReportButton();
+		logger.info("User clicks continue without report");
 	}
 
 	@Then("OnBoarding progress bar is displayed")
 	public void on_boarding_progress_bar_is_displayed() {
 		Assert.assertTrue(onBoardingPageCommon.isOnBoardingProcessBarVisible());
+		logger.info("OnBoarding progress bar is displayed");
 	}
 
 	@Then("Back button is displayed")
 	public void back_button_is_displayed() {
 		Assert.assertTrue(onBoardingPageCommon.isBackButtonVisible());
+		logger.info("Back button is displayed");
 	}
 
 	@Then("Back button should be enabled")
@@ -175,6 +191,7 @@ public class OnBoardingStepDefinitionsPart1 {
 	@Then("Continue button should be visible")
 	public void continue_button_should_be_visible() {
 		Assert.assertTrue(onBoardingPageCommon.isContinueButtonVisible());
+		logger.info("Continue button should be visible");
 	}
 
 	@Then("Continue button should be enabled")
@@ -217,6 +234,7 @@ public class OnBoardingStepDefinitionsPart1 {
 	public void user_clicks_continue_by_selecting_one_or_more_health_conditions() {
 		onBoardingPage.clickToSelectHealthCondition();
 		onBoardingPageCommon.clickContinue();
+		logger.info("User clicked continue by selecting one or more health conditions");
 	}
 
 	@Then("Should see the title {string}")
@@ -258,6 +276,7 @@ public class OnBoardingStepDefinitionsPart1 {
 	@Given("User is in step4 of onboarding")
 	public void user_is_in_step4_of_onboarding() {
 		onBoardingPageCommon.navigatesToStep4();
+		logger.info("User is in step4 of onboarding");
 	}
 
 	@When("User clicks continue button after entering {string} in first name")
@@ -322,6 +341,7 @@ public class OnBoardingStepDefinitionsPart1 {
 	@Given("User is in step5 of onboarding")
 	public void user_is_in_step5_of_onboarding() {
 		onBoardingPageCommon.navigatesToStep5();
+		logger.info("User is in step5 of onboarding");
 	}
 
 	@When("User clicks continue button without selecting menstrual cycle")
