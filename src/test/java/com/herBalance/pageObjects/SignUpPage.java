@@ -64,7 +64,7 @@ public class SignUpPage {
 	    logger.info("Logging in Her balance application");
 	    
 	}
-	
+	/*
 	public void getUserEmail()
 	{
 	
@@ -74,7 +74,7 @@ public class SignUpPage {
 
 	driver.findElement(confirmPassword).sendKeys(ConfigReader.getpassword2());
 	
-	}
+	}*/
 	
 	public void clickTerms()
 	{
@@ -100,5 +100,28 @@ public class SignUpPage {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(headerTitle)).getText();
 	}
+	 public void enterUsername(String username) {
+	        driver.findElement(email).sendKeys(username);
+	    }
+
+	    public void enterPassword(String password1) {
+	        driver.findElement(password).sendKeys(password1);
+	    }
+
+	    public void enterConfirmPassword(String confirmPassword1) {
+	        driver.findElement(confirmPassword).sendKeys(confirmPassword1);
+	    }
+
+	    public void clickRegister() {
+	        driver.findElement(register).click();
+	        
+	    }
+	    
+	  public void registerUser(String username, String password, String confirmPassword) {
+	        enterUsername(username);
+	        enterPassword(password);
+	        enterConfirmPassword(confirmPassword);
+	        clickRegister();
+	    }
 }
 
