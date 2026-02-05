@@ -1,14 +1,13 @@
-@work
-Feature: Workout Page verification
+@workMain
+Feature: Workout Page UI verification
 
 Background:
-Given User logged in to Her balance application
-Scenario: Verify that user is able to navigate to Workout page from dashboard
+Given User is on login page
 When The user clicks the Workout button on dashboard
 Then User should navigate to Workout page
 
 Scenario Outline: Verify Workout page elements
-When The user clicks the Workout button on dashboard
+#When The user clicks the Workout button on dashboard
 Then User should see page "<element>" as "<value>"
 
 Examples:
@@ -22,12 +21,12 @@ Examples:
 
 @GeneratePlan
 Scenario: Verify Generate Workout Plan button is clickable on Workout page
-When The user clicks the Workout button on dashboard
+#When The user clicks the Workout button on dashboard
 Then User clicks Generate Workout Plan button 
 
 Scenario Outline: Verify Generated Workout Plan Section Details on Workout page
-When The user clicks the Workout button on dashboard
-And User should see the section with "<elementTitle>" as "<values>"
+#When The user clicks the Workout button on dashboard
+Then  User should see the section with "<elementTitle>" as "<values>"
 
 Examples:
 | elementTitle 		 | values 							|
@@ -39,9 +38,11 @@ Examples:
 | Button4            | Generate Next Work Out 			|
 | Header4            | About Daily Workouts 			|
 
+
 Scenario: Verify Complete button is clickable on Cycle Days phase Workout section
-When The user clicks the Complete button on dashboard
-Then User clicks on Generating Next Work Out button
+Then  The user clicks complete button on each Cycle Day Tabs 
+And  Workout phase should be marked as Completed
 
-
-
+Scenario: Verify Generate Next Workout button is clickable on Cycle Days phase Workout section
+Then  The user clicks Generate Next Workout button
+#And  Next Workout should be Generated

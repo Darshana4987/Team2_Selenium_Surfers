@@ -29,7 +29,7 @@ Examples:
 | Button1Subs 		| Go To Dashboard						 |
 | Button2Hist		| Go To Dashboard					  	 |
 | ButtonPlans       | View Available Plans				  	 |
-#| Paragraph2		| Your subscription payment history		 |
-#| Heading6			| Free Plan								 |
+| Paragraph2		| Your subscription payment history		 |
+| Heading6			| Free Plan								 |
 
 

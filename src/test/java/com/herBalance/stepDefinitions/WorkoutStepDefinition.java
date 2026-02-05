@@ -2,10 +2,7 @@ package com.herBalance.stepDefinitions;
 
 import org.testng.Assert;
 import org.testng.SkipException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.herBalance.driverFactory.DriverFactory;
 import com.herBalance.hooks.Hooks;
@@ -14,34 +11,33 @@ import com.herBalance.pageObjects.WorkoutPage;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class WorkoutStepDefinition {
-	
 	private static Logger logger = LogManager.getLogger();
 	private WorkoutPage workoutPage;
 	private LoginPageObject loginPageObject;
-	WebDriverWait wait;
-	//private final Scenario scenario;
-    
+	
+	
 	public WorkoutStepDefinition() {
 		workoutPage = new WorkoutPage(DriverFactory.getDriver());
 		loginPageObject = new LoginPageObject(DriverFactory.getDriver());
-		//this.scenario = scenario;
 	}
-	
-	@Given("User logged in to Her balance application")
-	public void User_logged_in_to_her_balance_application() {
+	WebDriverWait wait;
+
+	@Given("User is on login page")
+	public void user_is_on_login_page() {
 		loginPageObject.getusernamePwd();
 		loginPageObject.loginbtn();
-		logger.info("Logging in Her balance application");
+		//workoutPage.loginPage();
+		//logger.info("Logging in Her balance application");
 
 	}
 
 	@When("The user clicks the Workout button on dashboard")
 	public void the_user_clicks_the_workout_button_on_dashboard() {
 		workoutPage.clickWorkoutBtn();
-		
 		if (Hooks.scenarioTags.contains("@GeneratePlan")) 
 		{
 			if (!workoutPage.isElementPresent(By.xpath("//button[text()='Generate Workout Plan']")))
@@ -60,7 +56,7 @@ public class WorkoutStepDefinition {
 	@Then("User should see page {string} as {string}")
 	public void user_should_see_page_element_as(String element, String value) {
 		// System.out.println("Element :"+element);
-		workoutPage.seePageElement(element, value);
+		workoutPage.seepageElement(element, value);
 
 	}
 
@@ -73,18 +69,17 @@ public class WorkoutStepDefinition {
 	public void user_should_see_the_section_with_as(String elementTitle, String values) {
 		workoutPage.seeSection(elementTitle, values);
 	}
-
-	@When("The user clicks the Complete button on dashboard")
-	public void the_user_clicks_the_complete_button_on_dashboard() {
-	    
+	@Then("The user clicks complete button on each Cycle Day Tabs")
+	public void the_user_clicks_complete_button() {
+		Assert.assertTrue(workoutPage.verifyCycleDayTabs(),"Complete Button Enabled");
 	}
 
-	@Then("User clicks on Generating Next Work Out button")
-	public void user_clicks_on_generating_next_work_out_button() {
-	   
+	@Then("Workout phase should be marked as Completed")
+	public void workout_phase_should_be_marked_complete() {
+		Assert.assertTrue(workoutPage.getUrl().contains("workouts"), "Failed");
 	}
-
-
-
-
+    @Then("The user clicks Generate Next Workout button")
+    public void the_user_click_generate_next_workput_button() {
+		Assert.assertTrue(workoutPage.generateNextWorkout(), "Next Workout Generated ! ");
+	}
 }
