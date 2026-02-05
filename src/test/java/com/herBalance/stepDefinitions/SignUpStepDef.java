@@ -18,6 +18,7 @@ public class SignUpStepDef {
 
 	public SignUpStepDef() {
 		signupobj = new SignUpPage(DriverFactory.getDriver());
+		
 	}
 
 	WebDriverWait wait;
@@ -63,7 +64,7 @@ public class SignUpStepDef {
 		 
 	        String username = testData.get("Username");
 	        String password = testData.get("Password");
-	        String confirmPassword = testData.get("ConfirmPassword");
+	        String confirmPassword = testData.get("Confirm Password");
 
 	        signupobj.registerUser(username, password, confirmPassword);
 
