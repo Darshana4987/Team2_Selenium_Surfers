@@ -28,7 +28,11 @@ public class OnBoardingStepDefinitionPart2 {
 	@Given("User is in step six of onboarding")
 	public void user_is_in_step_six_of_onboarding() {
 
-		obj_OnBoardingPageCommon.navigatesToStep6();
+		obj_OnBoardingPageCommon.navigatesToStep5();
+		obj_OnboardStepPart2.clickMenstrualCycleAwarenessOptions();
+		obj_OnBoardingPageCommon.clickContinue();
+		//obj_OnBoardingPageCommon.navigatesToStep6();
+		
 		logger.info("You are on the Onboard Process Step 6");
 	}
 
@@ -88,6 +92,7 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_continue_button_after_entering_invalid_value_in_date() {
 
 		obj_OnboardStepPart2.enterInvalid_lastMenstrualDate();
+		obj_OnBoardingPageCommon.clickContinue();
 
 	}
 

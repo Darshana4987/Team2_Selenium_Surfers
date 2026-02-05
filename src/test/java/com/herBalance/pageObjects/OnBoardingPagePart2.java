@@ -60,6 +60,25 @@ public class OnBoardingPagePart2 {
 
 	/* Methods Definitions */
 
+	
+	// Step 5
+	
+	public void clickMenstrualCycleAwarenessOptions() { // delete this method
+
+//		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+//		wait.until(ExpectedConditions.visibilityOf(driver.findElement(menstrualCycleAwarenessOptions))).click();
+
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		WebElement yesRadio = wait.until(
+		    ExpectedConditions.elementToBeClickable(By.id("yes"))
+		);
+
+		if (!yesRadio.isSelected()) {
+		    yesRadio.click();
+		}
+	}
+	
 	// Step 6
 
 	public void gotoSignPage() {
@@ -93,13 +112,6 @@ public class OnBoardingPagePart2 {
 		wait.until(ExpectedConditions.elementToBeClickable(button));
 
 		button.click();
-	}
-
-	public void clickMenstrualCycleAwarenessOptions() { // delete this method
-
-		wait = new WebDriverWait(driver, Duration.ofSeconds(20));
-		wait.until(ExpectedConditions.visibilityOf(driver.findElement(menstrualCycleAwarenessOptions))).click();
-
 	}
 
 	public void clickHealthCondition() { // delete this method
@@ -157,16 +169,25 @@ public class OnBoardingPagePart2 {
 	}
 
 	public void enterlastMenstrualDate() {
+		
+		 WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
-		Actions actions = new Actions(driver);
-		actions.moveToElement(driver.findElement(inputCalenderControl)).click().sendKeys("25/01/2026").build()
-				.perform();
+		    WebElement dateInput = wait.until(
+		        ExpectedConditions.visibilityOfElementLocated(inputCalenderControl)
+		    );
+		    
+		    dateInput.clear();
+		    dateInput.sendKeys("25/01/2026");
+
+//		Actions actions = new Actions(driver);
+//		actions.moveToElement(driver.findElement(inputCalenderControl)).click().sendKeys("25/01/2026").build()
+//				.perform();
 	}
 
 	public void enterInvalid_lastMenstrualDate() {
 
 		Actions actions = new Actions(driver);
-		actions.moveToElement(driver.findElement(inputCalenderControl)).click().sendKeys("25/01/2027").build()
+		actions.moveToElement(driver.findElement(inputCalenderControl)).click().sendKeys("35/13/2026").build()
 				.perform();
 	}
 
@@ -201,7 +222,13 @@ public class OnBoardingPagePart2 {
 
 	public String getErrorText_InvalidDate() {
 
-		return driver.findElement(errormsgInvalidDate).getText();
+			try {
+				return driver.findElement(errormsgInvalidDate).getText();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return null;	
 	}
 
 	public String getprogressBarCurrentStep() {
