@@ -34,7 +34,7 @@ public class OnBoardingPagePart2 {
 	private By continueBtn = By.xpath("//button[contains(text(),'Continue')]");
 	private By backBtn = By.xpath("//button[contains(text(),'Back')]");
 	private By progressBarCurrentStep = By.xpath("//span[normalize-space()='6 of 10']");
-	private By errormsgInvalidDate = By.xpath("//p[contains(text(),'Please select your last period start date')]");
+	private By errormsgInvalidDate = By.xpath("//p[contains(normalize-space(),'last period start date')]");
 	private By inputCalenderControl = By.xpath("//input[@type='date']");
 	private By slider = By.xpath("//input[@id='cycle-length']");
 
