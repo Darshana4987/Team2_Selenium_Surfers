@@ -62,7 +62,9 @@ public class ConfigReader {
 	public static String getTestDataPath() {
 		return property.get().getProperty("test_data_path");
 	}
-	
+	/*public static String getTestDataPath1() {
+		return property.get().getProperty("test_data_path1");
+	}*/
 	public static String getBrowserType() {
 		return browserType;
 	}
