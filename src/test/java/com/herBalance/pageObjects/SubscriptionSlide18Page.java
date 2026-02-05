@@ -21,7 +21,19 @@ public class SubscriptionSlide18Page {
 	
 	private By header = By.xpath("//h1[contains(text(), 'Transformation Journey')]");
 	private By subtext = By.xpath("//p[contains(text(), 'All plans') and contains(text(), 'optimal results')]");
-	private By planTiles = By.xpath("//h2[contains(text(), '7 Days Trial')]/ancestor::div[4]");
+	private By planTiles = By.xpath("//div[contains(@class,'grid')]");
+	private By planTitleText = By.xpath("./div/div/h2");
+	private By planTitleSubText = By.xpath("./div/div/p");
+	private By planHeaderText = By.xpath("//p[contains(@class, 'font-semibold')]");
+	private By planSubHeaderText = By.xpath("//p[contains(@class, 'text-xs')]");
+	private By freePlanChecklist = By.xpath("//p[text()='Free']/../../ul");
+	private By monthlyPlanChecklist = By.xpath("//p[text()='$39.99']/../../ul");
+	private By threeMonthPlanChecklist = By.xpath("//p[text()='$99.99']/../../ul");
+	//private By freePlanCheckMark = By.xpath("//*[name()='svg' and contains(@class,'lucide-check')]");
+	
+	private By subscribeNowButton(String text) {
+		return By.xpath(String.format("//h2[contains(text(),'%s')]/../../div[3]/button", text));
+	}
 	
 	
 	public SubscriptionSlide18Page(WebDriver driver) {
@@ -59,5 +71,96 @@ public class SubscriptionSlide18Page {
 	public List<WebElement> getPlanTiles() {
 		WebElement parent = driver.findElement(planTiles);
 		return parent.findElements(By.xpath("./div"));
+	}
+	
+	public boolean planTitleTextDisplayed(String planText) {
+		List<WebElement> tiles = getPlanTiles();
+		Boolean displayed = false;
+		for (WebElement tile : tiles) {
+			String text = tile.findElement(planTitleText).getText();
+			if (text.contains(planText)) {
+				displayed = true;
+				break;
+			}
+		}
+		return displayed;
+	}
+	
+	public boolean planTitleSubTextDisplayed(String subText) {
+		List<WebElement> tiles = getPlanTiles();
+		Boolean displayed = false;
+		for (WebElement tile : tiles) {
+			String text = tile.findElement(planTitleSubText).getText();
+			System.out.println(text);
+			if (text.contains(subText)) {
+				displayed = true;
+				break;
+			}
+		}
+		return displayed;
+	}
+	
+	public boolean planHeaderTextDisplayed(String headerText) {
+		List<WebElement> headers = driver.findElements(planHeaderText);
+		Boolean displayed = false;
+		for (WebElement header  : headers) {
+			if (header.getText().contains(headerText)) {
+				displayed = true;
+				break;
+			}
+		}
+		return displayed;
+	}
+	
+	public boolean planHeaderSubTextDisplayed(String subHeaderText) {
+		List<WebElement> subHeaders = driver.findElements(planSubHeaderText);
+		Boolean displayed = false;
+		for (WebElement subHeader  : subHeaders) {
+			if (subHeader.getText().contains(subHeaderText)) {
+				displayed = true;
+				break;
+			}
+		}
+		return displayed;
+	}
+	
+	public boolean freePlanCheckListDisplayed(String text) {
+		boolean displayed = false;
+		WebElement checklistParent = driver.findElement(freePlanChecklist);
+		List<WebElement> checklist = checklistParent.findElements(By.xpath("./li"));
+		for (WebElement element : checklist) {
+			if (element.getText().contains(text)) {
+				displayed = true;
+			}
+		}
+		return displayed;
+	}
+	
+	public boolean monthlyPlanCheckListDisplayed(String text) {
+		boolean displayed = false;
+		WebElement checklistParent = driver.findElement(monthlyPlanChecklist);
+		List<WebElement> checklist = checklistParent.findElements(By.xpath("./li"));
+		for (WebElement element : checklist) {
+			if (element.getText().contains(text)) {
+				displayed = true;
+			}
+		}
+		return displayed;
+	}
+	
+	public boolean threeMonthPlanCheckListDisplayed(String text) {
+		boolean displayed = false;
+		WebElement checklistParent = driver.findElement(threeMonthPlanChecklist);
+		List<WebElement> checklist = checklistParent.findElements(By.xpath("./li"));
+		for (WebElement element : checklist) {
+			if (element.getText().contains(text)) {
+				displayed = true;
+			}
+		}
+		return displayed;
+	}
+	
+	public WebElement getSubscribeNowButton(String text) {
+		return driver.findElement(subscribeNowButton(text));
 	}
 }
