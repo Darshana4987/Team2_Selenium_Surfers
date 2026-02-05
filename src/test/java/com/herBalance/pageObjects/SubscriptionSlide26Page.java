@@ -2,8 +2,6 @@ package com.herBalance.pageObjects;
 
 import static org.testng.Assert.assertTrue;
 import java.time.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,51 +11,33 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SubscriptionSlide26Page {
 	
-	//div[@role='menuitem']/a[@href='/subscription']
+	//div[@role='menuitem']/a[@href='/subscription']  (//a[@href='/dashboard'])[2]
 	//div[@role='menuitem']/a[@href='/subscription']
 		private By subscriptionOption = By.xpath("//div[@role='menu']//a[@href='/subscription']"); //contains(@class,'items-center') and //div[contains(.,'Subscription'
 		private By profileButton = By.xpath("//button[contains(@class,'flex') and contains(@class,'items-center')]" + "[.//span[contains(@class,'font-medium') and contains(@class,'text-[#6A5ACD]')]]");    
-	    	
-		private By gotoDashboardButton1Path = By.xpath("//h3[text()='Subscription Benefits']/ancestor::div[contains(@class,'rounded-lg')]//a[@href='/dashboard']/button");
+		private By gotoDashboardButton1Path = By.xpath("(//button[text()='Go to Dashboard'])[1]");
+		//h3[text()='Subscription Benefits']/ancestor::div[contains(@class,'rounded-lg')]//a[@href='/dashboard']/button
 			    //"//div[contains(@class,'bg-gray-50') and contains(@class,'rounded-lg')]//a[@href='/dashboard']/button"
 			
 		private By gotoDashboardButton2Path = By.xpath("//h3[text()='Subscription History']/ancestor::div[contains(@class,'rounded-lg')]//a[@href='/dashboard']/button");
 		private By gotoPlansButtonPath = By.xpath("//div[contains(@class,'rounded-lg')]//a[@href='/plans']/button");
 	//	private By headingSubsManagement = By.xpath("//h1[@class='text-2xl font-bold text-gray-800 mb-6']");
 		
-		private static Logger logger = LogManager.getLogger();
-		
 		public WebDriver driver;
 		WebDriverWait wait;
 		
 		public SubscriptionSlide26Page(WebDriver driver) {
 			this.driver = driver;
+			this.wait = new WebDriverWait(driver,Duration.ofSeconds(10));
 		}
 		
 		public boolean isElementPresent(By locator) {
 		    return !driver.findElements(locator).isEmpty();
 		    //returns true if xpath is not empty, element is present
 		}
-		//Login
-		public void loginPage() {
 
-					wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-					driver.get("https://herbalance.numpyninja.com");
-					
-					WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
-					emailInput.sendKeys("test123456@gmail.com");
-
-					WebElement passwordInput = driver.findElement(By.name("password"));
-					passwordInput.sendKeys("test123456");
-					
-					WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
-					loginButton.click();
-			        logger.info("Logging in Her balance application");
-		}//Login Ends
-		
 		public void clickProfileButton() {
-		    wait = new WebDriverWait(driver, Duration.ofSeconds(15));
-
+				wait = new WebDriverWait(driver, Duration.ofSeconds(15));
 		    	WebElement userProfileButton = wait.until(ExpectedConditions.elementToBeClickable(profileButton));
 
 		    	Actions actions = new Actions(driver);
@@ -67,10 +47,8 @@ public class SubscriptionSlide26Page {
 		}
 		
 		public void clickSubscriptionOption() {
-			//wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			WebElement buttonElement = wait.until(
-			        ExpectedConditions.elementToBeClickable(subscriptionOption)
-			);
+			wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			WebElement buttonElement = wait.until(ExpectedConditions.elementToBeClickable(subscriptionOption));
 			buttonElement.click();
 		//	driver.findElement(subscriptionOption).click();
 			 
@@ -118,7 +96,12 @@ public class SubscriptionSlide26Page {
 				assertTrue(isElementPresent(By.xpath("//h3[text()='" + Subsvalue + "']")),Subsvalue+" "+Subsvalue+" Present ");
 			}
 			else if (Subselement.equals("Button1Subs")) {
-				
+			/*	// Proceed with the click
+				    By toastLocator = By.cssSelector("li[role='status']");
+				// Wait until any active toast messages are gone
+				    wait.until(ExpectedConditions.invisibilityOfElementLocated(toastLocator));*/
+					
+				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 				WebElement gotoDashboardButton1 = wait.until(ExpectedConditions.elementToBeClickable(gotoDashboardButton1Path));
 
 				gotoDashboardButton1.click();
@@ -141,3 +124,19 @@ public class SubscriptionSlide26Page {
 		}
 
 }
+/*	//Login
+public void loginPage() {
+
+			wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			driver.get("https://herbalance.numpyninja.com");
+			
+			WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
+			emailInput.sendKeys("test123456@gmail.com");
+
+			WebElement passwordInput = driver.findElement(By.name("password"));
+			passwordInput.sendKeys("test123456");
+			
+			WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
+			loginButton.click();
+	        logger.info("Logging in Her balance application");
+}//Login Ends */

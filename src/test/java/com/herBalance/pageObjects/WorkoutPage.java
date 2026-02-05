@@ -1,20 +1,17 @@
 package com.herBalance.pageObjects;
 
 import java.time.Duration;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 public class WorkoutPage {
 	
-	private static Logger logger = LogManager.getLogger();
 	public WebDriver driver;
 	WebDriverWait wait;
 	
@@ -24,32 +21,16 @@ public class WorkoutPage {
 	public WorkoutPage(WebDriver driver) {
 		this.driver = driver;
 	}
-
-	public void loginPage() {
-
-		// driver = DriverFactory.getDriver(); // your driver setup
-				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-				driver.get("https://herbalance.numpyninja.com");
-				
-				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
-				emailInput.sendKeys("test123456@gmail.com");
-
-				WebElement passwordInput = driver.findElement(By.name("password"));
-				passwordInput.sendKeys("test123456");
-				
-				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
-				loginButton.click();
-		        logger.info("Logging in Her balance application");
-	}
 	
 	public void clickWorkoutBtn() {
 		
 		//driver.findElement(WorkoutBtn).click();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		 WebElement workoutBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/workouts']/button")));
 		
 		 ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);" , workoutBtn);
 		 ((JavascriptExecutor) driver).executeScript("arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true}));", workoutBtn);
-		 logger.info("Workout button clicked"); 
+		
 	}
 	
 	public String getUrl() {
@@ -152,3 +133,20 @@ public class WorkoutPage {
 	}
 	
 }
+
+/*	public void loginPage() {
+
+		// driver = DriverFactory.getDriver(); // your driver setup
+				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+				driver.get("https://herbalance.numpyninja.com");
+				
+				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
+				emailInput.sendKeys("test123456@gmail.com");
+
+				WebElement passwordInput = driver.findElement(By.name("password"));
+				passwordInput.sendKeys("test123456");
+				
+				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
+				loginButton.click();
+		        logger.info("Logging in Her balance application");
+	}*/
