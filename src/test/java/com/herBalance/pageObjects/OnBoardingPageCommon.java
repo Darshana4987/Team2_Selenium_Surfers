@@ -75,6 +75,41 @@ public class OnBoardingPageCommon {
 		enterValidPersonalDetails();
 		clickContinue();
 	}
+	
+	public void navigatesToStep6() {
+		navigatesToStep4();
+		enterValidPersonalDetails();
+		clickContinue();
+	}
+	
+	public void navigatesToStep7() {
+		navigatesToStep4();
+		enterValidPersonalDetails();
+		clickContinue();
+	}
+	
+	public void navigatesToStep8() {
+		navigatesToStep4();
+		enterValidPersonalDetails();
+		clickContinue();
+	}
+	
+	public void navigatesToStep9() {
+		navigatesToStep4();
+		enterValidPersonalDetails();
+		clickContinue();
+	}
+	
+	public void navigatesToStep10() {
+		navigatesToStep4();
+		enterValidPersonalDetails();
+		clickContinue();
+	}
+	public void navigatesToStep11() {
+		navigatesToStep4();
+		enterValidPersonalDetails();
+		clickContinue();
+	}
 
 	public void clickContunueWithOutReportButton() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
