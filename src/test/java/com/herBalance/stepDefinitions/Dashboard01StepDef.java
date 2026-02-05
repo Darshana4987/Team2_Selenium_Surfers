@@ -17,7 +17,7 @@ public class Dashboard01StepDef {
 		dashboardObj = new DashboardPage1(DriverFactory.getDriver());
 	}
 
-	//WebDriverWait wait;
+	WebDriverWait wait;
 
 	
 }

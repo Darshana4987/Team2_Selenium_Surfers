@@ -1,4 +1,5 @@
 package com.herBalance.pageObjects;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
@@ -21,13 +22,14 @@ public class LoginPageObject {
 	private By loginButton = By.xpath("//button[@type='submit' and normalize-space()='LogIn']");
 	private By dashboardHeader = By.xpath("//h1[contains(normalize-space(), 'Dashboard')]");
 	private By errorMessageLocator = By.xpath("//div[@class='error-message' or contains(text(),'Login Failed') ]");
-	private By emptyErrorMsg =By.xpath("//p[contains(text(), 'Email is required') or contains(text(), 'Password is required')]");
-	private By logoHerBalance =By.xpath("//img[@alt='HerBalance Logo']");
-	private By logintabactive =By.xpath("//button[@role='tab' and normalize-space()='Login' and @data-state='active']");
+	private By emptyErrorMsg = By
+			.xpath("//p[contains(text(), 'Email is required') or contains(text(), 'Password is required')]");
+	private By logoHerBalance = By.xpath("//img[@alt='HerBalance Logo']");
+	private By logintabactive = By
+			.xpath("//button[@role='tab' and normalize-space()='Login' and @data-state='active']");
 	private By showPasswordCheckbox = By.xpath("//button[@id='showPassword' and @role='checkbox']");
 	private By passwordfield = By.xpath("//input[@name='password']");
 	private By passwordInputField = By.xpath("//input[@type='password' and @name='password']");
-	
 
 	public LoginPageObject(WebDriver driver) {
 		this.driver = driver;
@@ -35,31 +37,30 @@ public class LoginPageObject {
 	}
 
 	public void geturll() {
-		
+
 		driver.get(ConfigReader.getUrl());
 	}
 
-	public void getusernamePwd()
-	{
+	public void getusernamePwd() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(usernameInput)).sendKeys(ConfigReader.getUsername());
 		wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInput)).sendKeys(ConfigReader.getPassword());
-		
+
 	}
 
-	public void loginbtn()
-	{
+	public void loginbtn() {
 		wait.until(ExpectedConditions.visibilityOfElementLocated(loginButton)).click();
 		logger.info("Logging in Her balance application");
 
 	}
 
 	public boolean isDashboardLoaded() {
-		
+
 		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//h1[contains(text(),'Dashboard')]")));
 		return driver.getCurrentUrl().contains("/dashboard");
 	}
+
 	private By tabByName(String tabName) {
-		
+
 		return By.xpath("//button[@role='tab' and normalize-space()='" + tabName + "']");
 	}
 
@@ -71,47 +72,53 @@ public class LoginPageObject {
 			return false;
 		}
 	}
+
 	public WebElement verifyLogo() {
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(logoHerBalance));
 	}
+
 	public boolean isShowPasswordOptionVisible() {
 		try {
 			WebElement showPassword = wait.until(ExpectedConditions.visibilityOfElementLocated(showPasswordCheckbox));
 			return showPassword.isDisplayed();
 		} catch (Exception e) {
 			return false;
-			}
+		}
 	}
+
 	public boolean isPasswordFieldVisibleAndMasked() {
 		try {
-		WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInputField));
-		return passwordField.isDisplayed()&& "password".equals(passwordField.getAttribute("type"))&& "••••••••".equals(passwordField.getAttribute("placeholder"));
+			WebElement passwordField = wait.until(ExpectedConditions.visibilityOfElementLocated(passwordInputField));
+			return passwordField.isDisplayed() && "password".equals(passwordField.getAttribute("type"))
+					&& "••••••••".equals(passwordField.getAttribute("placeholder"));
 		} catch (Exception e) {
-		return false;
-		}
-		}
-	
-	public boolean isLoginTabActive() {
-		try {
-		WebElement loginTab = wait.until(ExpectedConditions.visibilityOfElementLocated(logintabactive));
-		return loginTab.isDisplayed();
-		} catch (Exception e) {
-		return false;
+			return false;
 		}
 	}
-	private By emailInputField(String placeholderText) {
-		
-			return By.xpath("//input[@type='email' and @placeholder='" + placeholderText + "']");
-		}
-	public boolean isEmailFieldVisibleWithPlaceholder(String placeholderText) {
-		
+
+	public boolean isLoginTabActive() {
 		try {
-			
-		WebElement emailField = wait.until(ExpectedConditions.visibilityOfElementLocated(emailInputField(placeholderText)));
-		return emailField.isDisplayed()&& placeholderText.equals(emailField.getAttribute("placeholder"));
+			WebElement loginTab = wait.until(ExpectedConditions.visibilityOfElementLocated(logintabactive));
+			return loginTab.isDisplayed();
+		} catch (Exception e) {
+			return false;
 		}
-		catch (Exception e) {
-		return false;
-}
-}
+	}
+
+	private By emailInputField(String placeholderText) {
+
+		return By.xpath("//input[@type='email' and @placeholder='" + placeholderText + "']");
+	}
+
+	public boolean isEmailFieldVisibleWithPlaceholder(String placeholderText) {
+
+		try {
+
+			WebElement emailField = wait
+					.until(ExpectedConditions.visibilityOfElementLocated(emailInputField(placeholderText)));
+			return emailField.isDisplayed() && placeholderText.equals(emailField.getAttribute("placeholder"));
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

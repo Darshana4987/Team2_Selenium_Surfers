@@ -49,6 +49,10 @@ public class ConfigReader {
 		return prop.getProperty("url");
 	}
 
+	 public static String getLaunchUrl() {
+	        return prop.getProperty("launchUrl");
+
+	    }
 	public static String getUseremail() {
 		return prop.getProperty("useremail");
 	}
