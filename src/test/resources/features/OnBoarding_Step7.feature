@@ -1,4 +1,4 @@
-Feature: Onboarding step 7 Functionality and Step 8 UI verification
+Feature: Onboarding step 7 Functionality and Step 8 UI verification.
 
 Background: User completes onboarding until step 6
 

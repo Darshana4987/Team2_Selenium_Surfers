@@ -1,10 +1,14 @@
 package com.herBalance.stepDefinitions;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
 import com.herBalance.pageObjects.SignUpPage;
+import com.herBalance.utils.ExcelReader;
 
 import io.cucumber.java.en.*;
 
@@ -14,9 +18,11 @@ public class SignUpStepDef {
 
 	public SignUpStepDef() {
 		signupobj = new SignUpPage(DriverFactory.getDriver());
+		
 	}
 
 	WebDriverWait wait;
+	 Map<String, String> testData;
 
 	@Given("User is on the herbalance launch page")
 	public void user_is_on_the_herbalance_launch_page() {
@@ -44,12 +50,23 @@ public class SignUpStepDef {
 	}
 
 	@When("User enters valid username,password, confirm password and clicks register button")
-	public void user_enters_valid_username_password_confirm_password_and_clicks_register_button() {
+	public void user_enters_valid_username_password_confirm_password_and_clicks_register_button() throws IOException {
            
-		signupobj.signUpButtonClick();
+		/*
+		 * Using config properties
 		signupobj.getUserEmail();
 		signupobj.clickTerms();
-		signupobj.registerButton();
+		signupobj.registerButton();*/
+	
+		signupobj.signUpButtonClick();
+		
+		 testData = ExcelReader.readExcelData("SignUp", "TC_01");
+		 
+	        String username = testData.get("Username");
+	        String password = testData.get("Password");
+	        String confirmPassword = testData.get("Confirm Password");
+
+	        signupobj.registerUser(username, password, confirmPassword);
 
 	}
 

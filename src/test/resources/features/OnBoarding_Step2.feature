@@ -22,4 +22,4 @@ Feature: Onboarding Step 2 only after blood report upload
   Scenario: Navigation to step 3
     When User clicks on Upload PDF button by selecting valid file
     When User clicks continue button
-    Then Should be redirected to step3
+    Then Redirected to Step 3

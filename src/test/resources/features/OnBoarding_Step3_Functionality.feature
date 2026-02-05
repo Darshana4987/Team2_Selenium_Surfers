@@ -6,7 +6,7 @@ Feature: Onboarding step 3 Functionality and Step 4 UI verification
 
   Scenario: Navigation to Step 4
     When User clicks continue by selecting one or more health conditions
-    Then Redirected to Step4
+    Then Redirected to Step 4
 
   Scenario: Display onboarding progress
     When User clicks continue by selecting one or more health conditions
@@ -32,11 +32,11 @@ Feature: Onboarding step 3 Functionality and Step 4 UI verification
     When User clicks continue by selecting one or more health conditions
     Then Continue button should be enabled
 
-  Scenario: Title for Step4
+  Scenario: Title for Step 4
     When User clicks continue by selecting one or more health conditions
     Then Should see the title "Personal Details"
 
-  Scenario: Description text for step4
+  Scenario: Description text for step 4
     When User clicks continue by selecting one or more health conditions
     Then Description text "Let's get to know you better to personalize your experience." should be displayed
 
