@@ -1,4 +1,5 @@
-@Regression
+
+@tag @Regression
 Feature: Launchpage test
 
   @LaunchPageTC01
