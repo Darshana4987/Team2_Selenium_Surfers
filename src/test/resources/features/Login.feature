@@ -1,3 +1,4 @@
+@Regression
 Feature: Login Functionality on HerBallance Auth page
 # Non-Functional tests
 
