@@ -28,11 +28,8 @@ public class OnBoardingStepDefinitionPart2 {
 	@Given("User is in step six of onboarding")
 	public void user_is_in_step_six_of_onboarding() {
 
-		obj_OnBoardingPageCommon.navigatesToStep5();
-		obj_OnboardStepPart2.clickMenstrualCycleAwarenessOptions();
-		obj_OnBoardingPageCommon.clickContinue();
-		//obj_OnBoardingPageCommon.navigatesToStep6();
-		
+		obj_OnBoardingPageCommon.navigatesToStep6();
+
 		logger.info("You are on the Onboard Process Step 6");
 	}
 
@@ -72,8 +69,20 @@ public class OnBoardingStepDefinitionPart2 {
 	@When("User clicks back button in step {int}")
 	public void user_clicks_back_button_in_step(Integer int1) {
 
-		obj_OnBoardingPageCommon.clickBackButton();;
+		obj_OnBoardingPageCommon.clickBackButton();
+	
+
+	}
+	@Then("Description for current phase should be displayed {string}")
+	public void description_for_current_phase_should_be_displayed(String expectedDescription) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.getDescriptionForStep6(), expectedDescription);
 		
+	}
+	@When("User selecting last menstrual date")
+	public void user_selecting_last_menstrual_date() {
+		
+		obj_OnboardStepPart2.enterlastMenstrualDate();  
 	}
 
 	@Then("User redirected to back Step {int}")
@@ -103,12 +112,29 @@ public class OnBoardingStepDefinitionPart2 {
 		logger.info("Please select your last period start date");
 	}
 
+	@Then("Redirected to Step7")
+	public void redirected_to_step7() {
+
+		String actualStepNumber = obj_OnBoardingPageCommon.getProcessBarStepNumber();
+		Assert.assertTrue(actualStepNumber.contains("7"));
+
+	}
+	@Then("{string} title should be displayed for step7")
+	public void title_should_be_displayed_for_step7(String expectedTitle_Step7) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.getTitleForStep6(), expectedTitle_Step7);
+
+	}
+
 	// Step 7
 
 	@Given("User is in step seven of onboarding")
 	public void user_is_in_step_seven_of_onboarding() {
 
 		obj_OnBoardingPageCommon.navigatesToStep7();
+		obj_OnboardStepPart2.enterlastMenstrualDate();
+		obj_OnBoardingPageCommon.clickContinue();
+
 		logger.info("You are on the Onboard Process Step 7");
 	}
 
@@ -116,7 +142,7 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_continue_button_without_entering_current_weight() {
 
 		obj_OnboardStepPart2.enterEmptyWeight();
-		obj_OnboardStepPart2.clickContinueBtn();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("Error message {string} should be displayed for empty weight")
@@ -130,7 +156,7 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_continue_button_after_entering_invalid_weight() {
 
 		obj_OnboardStepPart2.enterInvalidWeight();
-		obj_OnboardStepPart2.clickContinueBtn();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("Error message {string} shouldbe displayed for invalid weight")
@@ -144,7 +170,7 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_continue_button_without_entering_height() {
 
 		obj_OnboardStepPart2.enterEmptyHeight();
-		obj_OnboardStepPart2.clickContinueBtn();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("Error message {string} should be displayed for empty height")
@@ -158,7 +184,7 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_continue_button_after_entering_invalid_height() {
 
 		obj_OnboardStepPart2.enterInvalidHeight();
-		obj_OnboardStepPart2.clickContinueBtn();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("Error message {string} should be displayed for invalid height")
@@ -200,6 +226,7 @@ public class OnBoardingStepDefinitionPart2 {
 
 		obj_OnboardStepPart2.enterWeight();
 		obj_OnboardStepPart2.enterHeight();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("BMI bar should be displayed")
@@ -222,40 +249,28 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_is_in_step_eight_of_onboarding() {
 
 		obj_OnBoardingPageCommon.navigatesToStep8();
+		obj_OnboardStepPart2.enterlastMenstrualDate();
+		obj_OnBoardingPageCommon.clickContinue();
+		obj_OnboardStepPart2.enterWeight();
+		obj_OnboardStepPart2.enterHeight();
+		obj_OnBoardingPageCommon.clickContinue();
+
 		logger.info("You are on the Onboard Process Step 8");
 
-	}
-
-	@When("User clicks any of the dietary options")
-	public void user_clicks_any_of_the_dietary_options() {
-
-		obj_OnboardStepPart2.selectPescatarianRedioBtn();
-		obj_OnboardStepPart2.clickContinueBtn();
-	}
-
-	@Then("Selected diet should be highlighted")
-	public void selected_diet_should_be_highlighted() {
-
-		// Assert.assertTrue();
 	}
 
 	@When("User clicks continue after selecting any dietary options")
 	public void user_clicks_continue_after_selecting_any_dietary_options() {
 
-		obj_OnboardStepPart2.clickContinueBtn();
+		obj_OnboardStepPart2.selectPescatarianRedioBtn();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
-	@Then("Radio {string} for Dietary Preferences should be visible")
-	public void radio_for_dietary_preferences_should_be_visible(String option) {
+	@Then("{int} Radio options for Dietary Preferences should be visible")
+	public void radio_options_for_dietary_preferences_should_be_visible(Integer int1) {
 
-//		Assert.assertTrue("Dietary option not visible: " + option,
-//				 obj_OnboardStep8.isDietaryOptionVisible(option));
-//		
-//		Assert.assertTrue(obj_OnboardStep8.isDietaryOptionVisible());
-	}
-
-	@Then("Radio button should be displayed in all the sections")
-	public void radio_button_should_be_displayed_in_all_the_sections() {
+		Assert.assertEquals(obj_OnboardStepPart2.getRadioBtnCountForStep8(), int1);
+		logger.info("4 options is visible");
 
 	}
 
@@ -266,26 +281,47 @@ public class OnBoardingStepDefinitionPart2 {
 		Assert.assertTrue(actualStepNumber.contains("9"));
 	}
 
-	@When("User clicks back button in step8")
-	public void user_clicks_back_button_in_step8() {
+	@When("User clicks back button in step7")
+	public void user_clicks_back_button_in_step7() {
 
-		obj_OnboardStepPart2.clickBackBtn();
+		obj_OnBoardingPageCommon.clickBackButton();
 	}
-
-	@Then("Redirected to Step7")
-	public void redirected_to_step7() {
-
-		String actualStepNumber = obj_OnBoardingPageCommon.getProcessBarStepNumber();
-		Assert.assertTrue(actualStepNumber.contains("7"));
+	
+	@Then("{string} should be displayed for step9")
+	public void should_be_displayed_for_step9(String title) {
+		
+		Assert.assertEquals(obj_OnboardStepPart2.geTitleStep9(),title);
+	}
+	
+	@Then("{string} for step9")
+	public void for_step9(String descriptionForStep9) {
+	    
+		Assert.assertEquals(obj_OnboardStepPart2.getDescriptionForStep9(),descriptionForStep9);
+	}
+	
+	@Then("{string} Info should be displayed for step9")
+	public void info_should_be_displayed_for_step9(String infoForStep9) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.geInfoForStep9(),infoForStep9);
 
 	}
-
+	
 	// Step 9
 
 	@Given("User is in step nine of onboarding")
 	public void user_is_in_step_nine_of_onboarding() {
 
 		obj_OnBoardingPageCommon.navigatesToStep9();
+		obj_OnboardStepPart2.enterlastMenstrualDate();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.enterWeight();
+		obj_OnboardStepPart2.enterHeight();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.selectPescatarianRedioBtn();
+		obj_OnBoardingPageCommon.clickContinue();
+		
 		logger.info("You are on the Onboard Process Step 9");
 	}
 
@@ -293,15 +329,21 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_any_of_the_activity_level() {
 
 		obj_OnboardStepPart2.selectSedentaryRedioBtn();
-		obj_OnBoardingPageCommon.isContinueButtonEnabled();
-
+	}
+	
+	@Then("{int} Radio options activity level should be visible")
+	public void radio_options_activity_level_should_be_visible(Integer expectedRadioButtonCount) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.getRadioBtnCountForStep9(), expectedRadioButtonCount);
+		logger.info("4 options is visible");
+		
 	}
 
 	@When("User clicks continue after selecting any activity level")
 	public void user_clicks_continue_after_selecting_any_activity_level() {
 
 		obj_OnboardStepPart2.selectSedentaryRedioBtn();
-		obj_OnboardStepPart2.clickContinueBtn();
+		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("Redirected to Step10")
@@ -316,5 +358,146 @@ public class OnBoardingStepDefinitionPart2 {
 
 		Assert.assertTrue(obj_OnboardStepPart2.getPhysicalActivityLevelOptions(expectedOption));
 	}
+	
+	@Then("Progress bar shows the current step as  {string}")
+	public void progress_bar_shows_the_current_step_as(String progressBarCurrentStep) {
+	
+	Assert.assertEquals(obj_OnBoardingPageCommon.getProcessBarStepNumber(), progressBarCurrentStep);
+	logger.info("Current progress bar shows 10 of 11");
+  
+	}
 
+	@Then("{string} should be displayed")
+	public void should_be_displayed(String expectedTitle_ForStep10) {
+		
+		Assert.assertEquals(obj_OnboardStepPart2.geTitleStep10(),expectedTitle_ForStep10);
+	}
+	
+	@Then("{string} description for step10")
+	public void description_for_step10(String expectedDescription_ForStep10) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.getDescriptionForStep10(),expectedDescription_ForStep10);
+	}
+	
+	// Step10
+	
+	@Given("User is in step ten of onboarding")
+	public void user_is_in_step_ten_of_onboarding() {
+	   
+		obj_OnBoardingPageCommon.navigatesToStep9();
+		obj_OnboardStepPart2.enterlastMenstrualDate();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.enterWeight();
+		obj_OnboardStepPart2.enterHeight();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.selectPescatarianRedioBtn();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.selectSedentaryRedioBtn();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		logger.info("You are on the Onboard Process Step 10");
+	}
+
+	@When("User clicks continue after selecting any options under Food Allergies & Sensitivities")
+	public void user_clicks_continue_after_selecting_any_options_under_food_allergies_sensitivities() {
+		
+		obj_OnboardStepPart2.selectYES_RedioBtn();
+		obj_OnboardStepPart2.selectFoodAllergy();
+		obj_OnBoardingPageCommon.clickContinue();
+	}
+
+	@Then("Redirected to Step11")
+	public void redirected_to_step11() {
+		
+		String actualStepNumber = obj_OnBoardingPageCommon.getProcessBarStepNumber();
+		Assert.assertTrue(actualStepNumber.contains("11"));
+	}
+	
+	@Then("Following radio button {string} should be visible for step11")
+	public void following_radio_button_should_be_visible_for_step11(String expectedOptions) {
+	   
+		Assert.assertTrue(obj_OnboardStepPart2.isFoodAllergyOptionsLabelVisible(expectedOptions));
+
+	}
+	
+	@Then("{string} title should be displayed for step11")
+	public void title_should_be_displayed_for_step11(String expectedTitle_ForStep11) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.geTitleStep11(),expectedTitle_ForStep11);
+
+	}
+	
+	@Then("{string} description for step11 should be displayed.")
+	public void description_for_step11_should_be_displayed(String expectedDescription_ForStep11) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.getDescriptionForStep11(),expectedDescription_ForStep11);
+
+	}
+	
+	
+	// Step11
+	
+	@Given("User is in step eleven of onboarding")
+	public void user_is_in_step_eleven_of_onboarding() {
+	   
+		obj_OnBoardingPageCommon.navigatesToStep9();
+		obj_OnboardStepPart2.enterlastMenstrualDate();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.enterWeight();
+		obj_OnboardStepPart2.enterHeight();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.selectPescatarianRedioBtn();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.selectSedentaryRedioBtn();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		obj_OnboardStepPart2.selectYES_RedioBtn();
+		obj_OnboardStepPart2.selectFoodAllergy();
+		obj_OnBoardingPageCommon.clickContinue();
+		
+		logger.info("You are on the Onboard Process Step 10");
+		
+	}
+	
+	@When("User clicks complete button after entering any options under Medications & Supplements")
+	public void user_clicks_complete_button_after_entering_any_options_under_medications_supplements() {
+		
+		obj_OnboardStepPart2.selectRedioBtnForMedication();
+		obj_OnboardStepPart2.selectRedioBtnForSuppliments();
+		obj_OnboardStepPart2.btnCompleteClicked();
+	}
+	@Then("Should be navigated to subscription page {string}")
+	public void should_be_navigated_to_subscription_page(String expectedTitle_ForSubcriptionPage) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.geTitleSubcriptionPage(),expectedTitle_ForSubcriptionPage);
+	}
+	
+	@When("User clicks continue button without selecting any option")
+	public void user_clicks_continue_button_without_selecting_any_option() {
+	   
+		obj_OnboardStepPart2.btnCompleteClicked();
+	}
+	
+	@Then("{string} error message should be displayed for step11")
+	public void error_message_should_be_displayed_for_step11(String expectedErrorMessage) {
+	   
+		Assert.assertEquals(obj_OnboardStepPart2.getErrorMessgaeForStep11(),expectedErrorMessage);
+	}
+	
+	@When("User clicks any options under Medications & Supplements")
+	public void user_clicks_any_options_under_medications_supplements() {
+	   
+		obj_OnboardStepPart2.selectRedioBtnForMedication();
+	}
+
+	@Then("Radio button in the selected section forn step11 for should be marked as selected")
+	public void radio_button_in_the_selected_section_forn_step11_for_should_be_marked_as_selected() {
+	  
+	}
 }
