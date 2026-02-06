@@ -18,26 +18,26 @@ public class WorkoutStepDefinition {
 	private static Logger logger = LogManager.getLogger();
 	private WorkoutPage workoutPage;
 	private LoginPageObject loginPageObject;
-	
+	WebDriverWait wait;
 	
 	public WorkoutStepDefinition() {
 		workoutPage = new WorkoutPage(DriverFactory.getDriver());
 		loginPageObject = new LoginPageObject(DriverFactory.getDriver());
 	}
-	WebDriverWait wait;
-
+	
 	@Given("User is on login page")
 	public void user_is_on_login_page() {
 		loginPageObject.getusernamePwd();
 		loginPageObject.loginbtn();
-		//workoutPage.loginPage();
-		//logger.info("Logging in Her balance application");
+		logger.info("Logging in Her balance application");
 
 	}
 
 	@When("The user clicks the Workout button on dashboard")
 	public void the_user_clicks_the_workout_button_on_dashboard() {
-		workoutPage.clickWorkoutBtn();
+		//workoutPage.clickWorkoutBtn();
+		workoutPage.waitForToastsToDisappear();
+		Assert.assertTrue(workoutPage.clickWorkoutBtn(), " Workout Page Opened");
 		if (Hooks.scenarioTags.contains("@GeneratePlan")) 
 		{
 			if (!workoutPage.isElementPresent(By.xpath("//button[text()='Generate Workout Plan']")))
@@ -50,24 +50,22 @@ public class WorkoutStepDefinition {
 	@Then("User should navigate to Workout page")
 	public void user_should_navigate_to_workout_page() {
 		Assert.assertTrue(workoutPage.getUrl().contains("workouts"), "Failed");
-		
 	}
 
 	@Then("User should see page {string} as {string}")
 	public void user_should_see_page_element_as(String element, String value) {
-		// System.out.println("Element :"+element);
-		workoutPage.seepageElement(element, value);
+		Assert.assertTrue(workoutPage.seepageElement(element, value),value+" "+element+" Present ");
 
 	}
 
 	@Then("User clicks Generate Workout Plan button")
 	public void user_clicks_generate_workout_plan_button() {
-		workoutPage.generateWorkoutPlanBtn();
+		Assert.assertTrue(workoutPage.generateWorkoutPlanBtn(),"Workout Plan Generated ! ");
 	}
 
 	@Then("User should see the section with {string} as {string}")
 	public void user_should_see_the_section_with_as(String elementTitle, String values) {
-		workoutPage.seeSection(elementTitle, values);
+		Assert.assertTrue(workoutPage.seeSection(elementTitle, values)," "+elementTitle+" "+values+" Present ");
 	}
 	@Then("The user clicks complete button on each Cycle Day Tabs")
 	public void the_user_clicks_complete_button() {
@@ -80,6 +78,12 @@ public class WorkoutStepDefinition {
 	}
     @Then("The user clicks Generate Next Workout button")
     public void the_user_click_generate_next_workput_button() {
-		Assert.assertTrue(workoutPage.generateNextWorkout(), "Next Workout Generated ! ");
+		Assert.assertTrue(workoutPage.generateNextWorkout(), "Generate Next Workout Button Clicked ! ");
 	}
+    
+    @Then("Next Workout should be Generated")
+    public void next_workout_should_be_generated() {
+		Assert.assertTrue(workoutPage.verifyGenerateNextWorkout(), "Next Workout Generated ! ");
+	}
+    
 }

@@ -19,14 +19,12 @@ public class ActivityInsightsWTPage {
 	//span[text()='Activity Insights']/parent::button
 	private By activityInsightsButton = By.xpath("//button[.//span[text()='Activity Insights']]");
 	private By currentWeightPath = By.xpath("//p[contains(@class,'text-sm') and contains(@class,'text-gray-600')][text()='Current Weight']/following-sibling::p[contains(@class,'font-bold')]");
-	//		    	    "/following-sibling::p[contains(@class,'font-bold')]";
 	private By trackWeightPath = By.xpath("//div[@role='menuitem']//a[@href='/track/weight']");
 	private By logWeightMessage = By.xpath("//div[contains(@class,'text-lg') and contains(@class,'font-bold')]");
 	private By successMessagePath = By.xpath("//li[@role='status' and @data-state='open']//div[text()='Weight Logged Successfully']");
 	private By errorMessagePath = By.xpath("//li[@role='status' and @data-state='open']//div[text()='Error']");
 	private By backToDashboardButton = By.xpath("//button[contains(@class,'text-violet-600')]");
-
-
+	
 	public ActivityInsightsWTPage(WebDriver driver) {
 		this.driver = driver;
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -68,11 +66,57 @@ public class ActivityInsightsWTPage {
 			return isElementPresent(By.xpath("//h1[text()='" + value + "']"));
 		}
 		else if (element.equals("Paragraph1")) {
-			WebElement loginButtoparaText = driver.findElement(By.xpath("//p[contains(@class,'text-sm') and contains(@class,'text-gray-600') and contains(@class,'capitalize')]"));
-			System.out.println("Paragraph:."+loginButtoparaText.getText());
+			WebElement paraText = driver.findElement(By.xpath("//p[contains(@class,'text-sm') and contains(@class,'text-gray-600') and contains(@class,'capitalize')]"));
+			System.out.println("Paragraph:."+paraText.getText());
 			return true;
 		} 
-		else
+		else if (element.equals("Card1")) {
+			WebElement cardText = driver.findElement(By.xpath("//p[text()='Starting Weight']"));
+			System.out.println("Card1:."+cardText.getText());
+			return true;
+		}
+		else if (element.equals("Card2")) {
+			WebElement currentWeightText = driver.findElement(By.xpath("//p[text()='Current Weight']"));
+			System.out.println("Card2:."+currentWeightText.getText());
+			return true;
+		}
+		else if (element.equals("Card3")) {
+			WebElement goalWeightText = driver.findElement(By.xpath("//p[text()='Goal Weight']"));
+			System.out.println("Card2:."+goalWeightText.getText());
+			return true;
+		}
+		else if (element.equals("Heading1")) {
+			WebElement overwiewText = driver.findElement(By.xpath("//h3[text()='Progress Overview']"));
+			System.out.println("Heading1:."+overwiewText.getText());
+			return true;
+		}
+		
+		else if (element.equals("Paragraph2")) {
+			WebElement progressText = driver.findElement(By.xpath("//h3[text()='Weight Loss Progress']"));
+			System.out.println("Paragraph2:."+progressText.getText());
+			return true;
+		}
+		else if (element.equals("Paragraph3")) {
+			WebElement wLostText = driver.findElement(By.xpath("//p[text()='Weight Lost']"));
+			System.out.println("Paragraph3:."+wLostText.getText());
+			return true;
+		}
+		else if (element.equals("Paragraph4")) {
+			WebElement paraText = driver.findElement(By.xpath("//p[text()='Remaining']"));
+			System.out.println("Paragraph4:."+paraText.getText());
+			return true;
+		}
+		else if (element.equals("Heading2")) {
+			WebElement headingText = driver.findElement(By.xpath("//h3[text()='Weight Progression Over Time']"));
+			System.out.println("Heading2:."+headingText.getText());
+			return true;
+		}
+	/*	else if (element.equals("Heading3")) {
+			WebElement headingText = driver.findElement(By.xpath(""));
+			System.out.println("Heading3:."+headingText.getText());
+			return true;
+		} */
+		
 		{
 			return false;
 		}
@@ -95,8 +139,7 @@ public class ActivityInsightsWTPage {
 
 			System.out.println("Logged Weight : "+weight);
 			return isElementPresent(successMessagePath);
-			// return (currentWeight.getText().contains(weight));
-			//return true;
+		
 		}
 		else if (logMessage.equals("Error"))
 		{
@@ -122,21 +165,16 @@ public class ActivityInsightsWTPage {
 	public boolean verifyCurrentWeightGraph() {
 
 		Actions actions = new Actions(driver);
-
 		WebElement point = driver.findElement(By.xpath("//*[local-name()='g' and contains(@class,'recharts-line-dots')]//*[local-name()='circle']"));
-				
 		actions.moveToElement(point).perform();
-
 		WebElement tooltip = driver.findElement(By.xpath("//div[contains(@class,'recharts-tooltip-wrapper')]"));
-				
 		System.out.println("ToolTip:"+tooltip.getText());
 		return true;
 	}
 
 	public boolean backToDashboard() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		WebElement goToDashboardButton = wait.until(
-				ExpectedConditions.elementToBeClickable(backToDashboardButton));
+		WebElement goToDashboardButton = wait.until(ExpectedConditions.elementToBeClickable(backToDashboardButton));
 		goToDashboardButton.click();
 		return true;
 	}
@@ -145,6 +183,5 @@ public class ActivityInsightsWTPage {
 
 		return driver.getTitle();
 	}
-
 
 }
