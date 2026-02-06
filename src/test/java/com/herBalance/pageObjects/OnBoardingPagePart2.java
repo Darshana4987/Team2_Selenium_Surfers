@@ -4,14 +4,13 @@ import java.time.Duration;
 import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.NoAlertPresentException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import com.herBalance.driverFactory.DriverFactory;
+
 
 public class OnBoardingPagePart2 {
 
@@ -37,6 +36,11 @@ public class OnBoardingPagePart2 {
 	private By errormsgInvalidDate = By.xpath("//p[contains(normalize-space(),'last period start date')]");
 	private By inputCalenderControl = By.xpath("//input[@type='date']");
 	private By slider = By.xpath("//input[@id='cycle-length']");
+	private By descriptionForStep6 = By.xpath("//p[contains(text(),'This phase influences energy')]");
+	private By titleForStep7 = By.xpath("//h2[text()='Current Weight and Height']");
+
+	
+	
 
 	// Step 7
 	private By inputWeight = By.xpath("//input[@id='weight']");
@@ -53,10 +57,51 @@ public class OnBoardingPagePart2 {
 
 	// Step 8
 	private By pescatarianRedioBtn = By.xpath("//label[@for='pescatarian']");
+	private By titleStep9 = By.xpath("//h2[contains(@class,'font-poppins') and normalize-space()='Physical Activity Level']");
+	private By descriptionForStep9 = By.xpath("//p[contains(normalize-space(),'current exercise routine')]");
+	private By infoForStep9 = By.xpath("//p[contains(@class,'text-sm') and contains(normalize-space(),'fitness plan')]");
+	private By redioBtnCountStep8 = By.xpath("//input[@type='radio']");
+
 
 	// Step9
 	private By sedentaryRedioBtn = By.xpath("//label[@for='sedentary']");
 	private By redioBtnCountStep9 = By.xpath("//input[@type='radio']");
+	private By titleStep10 = By.xpath("//h2[contains(normalize-space(),'Food Allergies')]");
+	private By descriptionStep10 = By.xpath("//p[contains(normalize-space(),'food allergies or intolerances')]");
+	private By infoForStep10 = By.xpath("//p[contains(normalize-space(),'Food sensitivities can impact digestion')]");
+
+	// Step10
+	
+	private By radioBtnYES_FoodAllergies = By.xpath("//label[@for='allergies']");
+	private By lblFoodAllergy = By.xpath("//label[@for='allergen-Dairy']");
+	private By titleStep11 = By.xpath("//h2[text()='Medications & Supplements']");
+	private By descriptionStep11 = By.xpath("//p[text()='Do you currently take any medications or supplements?']");
+
+
+	// Step11
+	
+	private By radioOptionForMedication = By.xpath("//button[@id='prescription']");
+	private By radioOptionSuppliments = By.xpath("//label[@for='medication-Thyroid medication']");
+	
+	private By titleForSubcriptionPage = By.xpath("//h1[text()='Choose Your Transformation Journey']");
+	private By btnComplete = By.xpath("//button[text()='Complete']");
+
+	private By errorPopUpMessage = By.xpath("//*[text()='Please select an option']");
+	
+	
+	
+	
+
+	
+	
+
+	
+	
+	
+	
+	
+
+	
 
 	/* Methods Definitions */
 
@@ -235,6 +280,22 @@ public class OnBoardingPagePart2 {
 
 		return driver.findElement(progressBarCurrentStep).getText();
 	}
+	
+	public String getDescriptionForStep6() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionForStep6)).getText();
+	}
+	
+	
+	public String getTitleForStep6() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(titleForStep7)).getText();
+	}
+	
+	
+	
 
 	// Step 7
 
@@ -252,12 +313,16 @@ public class OnBoardingPagePart2 {
 
 	public void enterWeight() {
 
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(inputWeight)).click().sendKeys("60").build().perform();
 	}
 
 	public void enterHeight() {
 
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(inputHeight)).click().sendKeys("154").build().perform();
 	}
@@ -347,39 +412,76 @@ public class OnBoardingPagePart2 {
 
 	// Step 8
 
-	private By dietaryOption(String option) {
-		return By.xpath("//label[normalize-space()='" + option + "']");
-	}
-
-	public boolean isDietaryOptionVisible(String option) {
-
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(dietaryOption(option))).isDisplayed();
-
-		// return driver.findElement(BMIcalculatorBar).isDisplayed();
-
-	}
-
 	public void selectPescatarianRedioBtn() {
 
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(pescatarianRedioBtn))).click();
 
 	}
+	public boolean isRadioButtonEnabled() {
+		
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
+		driver.findElement(redioBtnCountStep8).click();
+		return driver.findElement(redioBtnCountStep8).isEnabled();
+	}
+	
+	public String geTitleStep9() {
 
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(titleStep9)).getText();
+	}
+	
+	public String getDescriptionForStep9() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionForStep9)).getText();
+	}
+	
+	public String geInfoForStep9() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(infoForStep9)).getText();
+	}
+	
+	public int getRadioBtnCountForStep8() {
+
+		return driver.findElements(redioBtnCountStep8).size();
+	}
+	
+	
+	
 	// Step 9
 
 	public void selectSedentaryRedioBtn() {
 
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 		wait.until(ExpectedConditions.visibilityOf(driver.findElement(sedentaryRedioBtn))).click();
-
 	}
-
+	
 	public int getRadioBtnCountForStep9() {
 
 		return driver.findElements(redioBtnCountStep9).size();
 	}
+	
+	public String geTitleStep10() {
 
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(titleStep10)).getText();
+	}
+	
+	public String getDescriptionForStep10() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionStep10)).getText();
+	}
+	
+	public String geInfoForStep10() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(infoForStep10)).getText();
+	}
+	
 	public boolean getPhysicalActivityLevelOptions(String options) {
 
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
@@ -391,6 +493,87 @@ public class OnBoardingPagePart2 {
 				return true;
 		}
 		return false;
+	}
+	
+	// Step10
+	
+	public void selectYES_RedioBtn() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(radioBtnYES_FoodAllergies))).click();
+	}
+	public void selectFoodAllergy() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(lblFoodAllergy))).click();
+	}
+	
+	public boolean isFoodAllergyOptionsLabelVisible(String foodAllergyOptionLabel) {
+		
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		List<WebElement> bloodPressureLabel = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblFoodAllergy));
+	
+		for (WebElement b : bloodPressureLabel) {
+			if (b.getText().equals(foodAllergyOptionLabel))
+				return true;
+		}
+		return false;
+	}
+	
+	
+	public String geTitleStep11() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(titleStep11)).getText();
+	}
+	
+	public String getDescriptionForStep11() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(descriptionStep11)).getText();
+	}
+	
+	
+	// Step 11
+	
+	
+	
+	public void selectRedioBtnForMedication() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(radioOptionForMedication))).click();
+	}
+	
+	public void btnCompleteClicked() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(btnComplete))).click();
+	}
+	
+	public void selectRedioBtnForSuppliments() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		wait.until(ExpectedConditions.visibilityOf(driver.findElement(radioOptionSuppliments))).click();
+	}
+	
+	public String geTitleSubcriptionPage() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(titleForSubcriptionPage)).getText();
+	}
+	
+	public String getErrorMessgaeForStep11() {
+
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(errorPopUpMessage)).getText();
+	}
+	
+	public boolean isRadioBtnForMedicationSelected() {
+		
+		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		
+		driver.findElement(radioOptionForMedication).click();
+		return driver.findElement(radioOptionForMedication).isSelected();
 	}
 
 }
