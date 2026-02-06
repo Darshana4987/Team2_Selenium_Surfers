@@ -50,6 +50,15 @@ public class MenstrualPhaseLogPage {
 	private By upcomingPhasesSubSectionHeading = By.xpath("./div[1]/div/span");
 	private By upcomingPhasesStartDate = By.xpath("./div[2]/span");
 	
+	//next period
+	private By nextPeriodHeading = By.xpath("//h3[text()='Next Period']");
+	private By nextPeriodDate = By.xpath("//h3[text()='Next Period']/../../div[2]/div/div[1]");
+	private By daysRemaining = By.xpath("//h3[text()='Next Period']/../../div[2]/div/div[2]");
+	
+	private By currentPhaseHeading(String name) {
+		return By.xpath(String.format("//span[text()='%s']/ancestor::div[3]", name));
+	}
+	
 	private By currentCycleStatusLabels(String name) {
 		return By.xpath(String.format("//div[text()='%s']", name));
 	}
@@ -74,24 +83,6 @@ public class MenstrualPhaseLogPage {
 	
 	public MenstrualPhaseLogPage(WebDriver driver) {
 		this.driver = driver;
-	}
-	
-	public void loginPage() {
-
-		// driver = DriverFactory.getDriver(); // your driver setup
-				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-				driver.get("https://herbalance.numpyninja.com");
-				
-				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
-				emailInput.sendKeys("test123456@gmail.com");
-
-				WebElement passwordInput = driver.findElement(By.name("password"));
-				passwordInput.sendKeys("test123456");
-				
-				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
-				loginButton.click();
-		        logger.info("Logging in Her balance application");
-		       
 	}
 	
 
@@ -225,7 +216,6 @@ public class MenstrualPhaseLogPage {
 		List<WebElement> sections = getUpcomingPhasesSections();
 		for (WebElement section : sections) {
 			WebElement sectionHeading = section.findElement(upcomingPhasesSubSectionHeading);
-			System.out.println("section: " + sectionHeading.getText());
 			if (sectionHeading.getText().equals(phase)) {
 				String startDate = section.findElement(upcomingPhasesStartDate).getText();
 				return startDate;
@@ -233,5 +223,20 @@ public class MenstrualPhaseLogPage {
 			
 		}
 		return null;
+	}
+	
+	public String currentPhaseHighlighted() throws IOException {
+		String phase = Helper.calculateMenstrualPhase();
+		WebElement current = driver.findElement(currentPhaseHeading(phase));
+		return current.getCssValue("background-color");
+	}
+	
+	public WebElement getNextPeriodHeading() {
+		return driver.findElement(nextPeriodHeading);
+	}
+	
+	public String getNextPeriodDate() {
+		WebElement date = driver.findElement(nextPeriodDate);
+		return date.getText();
 	}
 }
