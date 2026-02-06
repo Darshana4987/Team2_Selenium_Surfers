@@ -50,9 +50,7 @@ public class ActivityInsightsWTPage {
 	public void waitForToastsToDisappear() {
 
 		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-		List<WebElement> closeButtons = driver.findElements(
-		    By.xpath("//button[@toast-close]")
-		);
+		List<WebElement> closeButtons = driver.findElements(By.xpath("//button[@toast-close]"));
 		for (WebElement btn : closeButtons) {
 		    try {
 		        wait.until(ExpectedConditions.elementToBeClickable(btn)).click();
