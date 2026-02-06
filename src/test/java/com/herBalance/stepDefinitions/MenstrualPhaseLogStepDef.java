@@ -12,6 +12,7 @@ import java.util.Map;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
@@ -187,10 +188,8 @@ public class MenstrualPhaseLogStepDef {
 		boolean validation = true;
 		String startDate = menstrualPhaseLogPage.GetUpcomingPhasesStartDate(phase);
 		String startFormat = menstrualPhaseLogPage.getStartFormat(phase);
-		System.out.println("Start Date: " + startDate);
 		Assert.assertTrue(startDate.startsWith(startFormat), "Does not have starts text for start date");
 		String date = startDate.replace(startFormat, "").trim();
-		System.out.println(date);
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
 		String year = String.valueOf(LocalDate.now().getYear());
 		try {
@@ -201,7 +200,31 @@ public class MenstrualPhaseLogStepDef {
 		Assert.assertTrue(validation, "Start date is not in MMM DD format");
 	}
 
+	@Then("Current phase should be highlighted in upcoming phases")
+	public void current_phase_should_be_highlighted_in_upcoming_phases() throws IOException {
+		String bgColor = menstrualPhaseLogPage.currentPhaseHighlighted();
+		String actualrgb = Color.fromString(bgColor).asRgb();
+		Assert.assertEquals(actualrgb, "rgb(245, 240, 255)", "Current phase is not highlighted");
+	}
 
+	@Then("User should see next period section heading text")
+	public void user_should_see_next_period_section_heading_text() {
+		Assert.assertTrue(menstrualPhaseLogPage.getNextPeriodHeading().isDisplayed(), "Next period heading not visible");
+	}
 
-
+	@Then("Next period date should be in correct format and as per onboarding data")
+	public void next_period_date_should_be_in_correct_format_and_as_per_onboarding_data() throws IOException {
+	    String nextPeriod = menstrualPhaseLogPage.getNextPeriodDate();
+	    boolean validation = true;
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+	    try {
+			LocalDate.parse(nextPeriod, formatter);
+		} catch (DateTimeParseException e) {
+			validation = false;
+		}
+		Assert.assertTrue(validation, "next period date is not in correct format");
+		String expected = Helper.calculateNextPeriodExpected();
+		DateTimeFormatter expectedFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+		Assert.assertEquals(LocalDate.parse(nextPeriod, formatter), LocalDate.parse(expected, expectedFormatter));
+	}
 }
