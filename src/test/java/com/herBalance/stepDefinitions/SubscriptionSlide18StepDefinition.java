@@ -8,10 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
-import com.herBalance.pageObjects.LoginPageObject;
+import com.herBalance.pageObjects.OnBoardingPageCommon;
 import com.herBalance.pageObjects.OnBoardingPagePart1;
-import com.herBalance.pageObjects.OnBoardingPageStep6;
-import com.herBalance.pageObjects.OnBoardingPageStep7;
+import com.herBalance.pageObjects.OnBoardingPagePart2;
 import com.herBalance.pageObjects.SubscriptionSlide18Page;
 
 import io.cucumber.java.en.Given;
@@ -19,27 +18,31 @@ import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 
 public class SubscriptionSlide18StepDefinition {
-	private static final Logger logger = LoggerFactory.getLogger(OnBoardingStepDefinitionStep7.class);
+	private static final Logger logger = LoggerFactory.getLogger(SubscriptionSlide18StepDefinition.class);
 
-	private OnBoardingPageStep7 obj_OnboardStep7;
-	private OnBoardingPagePart1 onBoardingPage;
-	private OnBoardingPageStep6 obj_OnboardStep6;
-	private LoginPageObject loginPageObject;
+	//private OnBoardingPageStep7 obj_OnboardStep7;
+	private OnBoardingPageCommon onBoardingPageCommon;
+	private OnBoardingPagePart2 onBoardingPagePart2;
+	//private OnBoardingPageStep6 obj_OnboardStep6;
+	//private LoginPageObject loginPageObject;
 	private SubscriptionSlide18Page subscriptionSlide18;
 	
 	public SubscriptionSlide18StepDefinition() {
-		obj_OnboardStep7 = new OnBoardingPageStep7(DriverFactory.getDriver());
-		onBoardingPage = new OnBoardingPagePart1(DriverFactory.getDriver());
-		obj_OnboardStep6 = new OnBoardingPageStep6(DriverFactory.getDriver());
-		loginPageObject = new LoginPageObject(DriverFactory.getDriver());
+		//obj_OnboardStep7 = new OnBoardingPageStep7(DriverFactory.getDriver());
+		onBoardingPageCommon = new OnBoardingPageCommon(DriverFactory.getDriver());
+		onBoardingPagePart2 = new OnBoardingPagePart2(DriverFactory.getDriver());
+		//obj_OnboardStep6 = new OnBoardingPageStep6(DriverFactory.getDriver());
+		//loginPageObject = new LoginPageObject(DriverFactory.getDriver());
 		subscriptionSlide18 = new SubscriptionSlide18Page(DriverFactory.getDriver());
 	}
 
 	@Given("User completes onboarding process until step10")
 	public void user_completes_onboarding_process_until_step10() {
-		onBoardingPage.gotoSignPage();
-		onBoardingPage.clickRgister();  //login
-		onBoardingPage.clickContunueWithOutReportButton(); // Onboard Step 2
+		onBoardingPageCommon.navigateToSignInPage();
+		onBoardingPageCommon.clickRegister();  //Register
+		onBoardingPageCommon.navigatesToStep5();
+		
+		/*onBoardingPage.clickContunueWithOutReportButton(); // Onboard Step 2
 
 		obj_OnboardStep6.clickHealthCondition();
 		obj_OnboardStep6.clickContinueBtn(); // Step 3
@@ -49,23 +52,23 @@ public class SubscriptionSlide18StepDefinition {
 		obj_OnboardStep6.clickContinueBtn(); // step4
 
 		obj_OnboardStep6.clickMenstrualCycleAwarenessOptions();
-		obj_OnboardStep6.clickContinueBtn(); // Step 5
+		obj_OnboardStep6.clickContinueBtn(); */  //step 5
 
-		obj_OnboardStep6.enterlastMenstrualDate(); // Step 6
-		obj_OnboardStep6.clickContinueBtn();
+		onBoardingPagePart2.enterlastMenstrualDate(); // Step 6
+		onBoardingPagePart2.clickContinueBtn();
 		
-		obj_OnboardStep7.enterWeight();
-		obj_OnboardStep7.enterHeight();
-		obj_OnboardStep6.clickContinueBtn(); //step7
+		onBoardingPagePart2.enterWeight();
+		onBoardingPagePart2.enterHeight();
+		onBoardingPagePart2.clickContinueBtn(); //step7
 		
 		subscriptionSlide18.clickDietPreferences();
-		obj_OnboardStep6.clickContinueBtn(); //step8
+		onBoardingPagePart2.clickContinueBtn(); //step8
 		
 		subscriptionSlide18.clickPhysicalActivity();
-		obj_OnboardStep6.clickContinueBtn();  //step9
+		onBoardingPagePart2.clickContinueBtn();  //step9
 		
 		subscriptionSlide18.clickFoodAllergy();
-		obj_OnboardStep6.clickContinueBtn();  //step10
+		onBoardingPagePart2.clickContinueBtn();  //step10
 		
 		subscriptionSlide18.clickMedications();
 		
