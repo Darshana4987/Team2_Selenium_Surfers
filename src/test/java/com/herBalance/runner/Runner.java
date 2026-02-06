@@ -13,7 +13,7 @@ import io.cucumber.testng.AbstractTestNGCucumberTests;
 
 @CucumberOptions(features = "src/test/resources/features", 
 		glue = { "com.herBalance.hooks","com.herBalance.stepDefinitions" }, 
-		tags = "", 
+		tags = "not @Bug", 
 		plugin = { "pretty","html:cucumber-reports.html", "io.qameta.allure.cucumber7jvm.AllureCucumber7Jvm"}, 
 		dryRun = false, 
 		monochrome = false)

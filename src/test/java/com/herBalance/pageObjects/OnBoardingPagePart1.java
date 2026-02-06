@@ -102,7 +102,7 @@ public class OnBoardingPagePart1 {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtSecureProcessingNote)).isDisplayed();
 	}
-	
+
 	public String getUploadYourBloodWorkTitle() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
 		return wait.until(ExpectedConditions.visibilityOfElementLocated(headerTitle)).getText();
@@ -155,7 +155,7 @@ public class OnBoardingPagePart1 {
 	// Step3
 	public String getWantToManuallyQuestionTitle() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtManuallyEnterQuestion)).getText();		
+		return wait.until(ExpectedConditions.visibilityOfElementLocated(txtManuallyEnterQuestion)).getText();
 	}
 
 	public int getradioButtonsCount() {
@@ -182,9 +182,10 @@ public class OnBoardingPagePart1 {
 	// Step4
 	public void clickToSelectHealthCondition() {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		List<WebElement> healthCondition = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblOptionsTextForHealthCondition));
-	
-			for (WebElement hcWebElement : healthCondition) {
+		List<WebElement> healthCondition = wait
+				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblOptionsTextForHealthCondition));
+
+		for (WebElement hcWebElement : healthCondition) {
 			if (hcWebElement.getText().equals("PCOS"))
 				hcWebElement.click();
 		}
@@ -196,8 +197,9 @@ public class OnBoardingPagePart1 {
 
 	public boolean isInputLabelVisible(String inputLabel) {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		List<WebElement> inputBoxLabel = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblInputFields));
-	
+		List<WebElement> inputBoxLabel = wait
+				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblInputFields));
+
 		for (WebElement inputBox : inputBoxLabel) {
 			if (inputBox.getText().equals(inputLabel))
 				return true;
@@ -207,7 +209,8 @@ public class OnBoardingPagePart1 {
 
 	public boolean isHelperTextVisible(String helperText) {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		List<WebElement> helperTextLabel = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(txtHelperTextForLabels));
+		List<WebElement> helperTextLabel = wait
+				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(txtHelperTextForLabels));
 
 		for (WebElement h : helperTextLabel) {
 			if (h.getText().equals(helperText))
@@ -222,8 +225,9 @@ public class OnBoardingPagePart1 {
 
 	public boolean isBloodPressureOptionsLabelVisible(String bloodPressureOptionLabel) {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		List<WebElement> bloodPressureLabel = wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblOptionsForBlooodPressure));
-	
+		List<WebElement> bloodPressureLabel = wait
+				.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(lblOptionsForBlooodPressure));
+
 		for (WebElement b : bloodPressureLabel) {
 			if (b.getText().equals(bloodPressureOptionLabel))
 				return true;
