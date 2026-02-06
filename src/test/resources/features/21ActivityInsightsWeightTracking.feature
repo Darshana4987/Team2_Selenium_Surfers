@@ -16,13 +16,14 @@ Examples:
 | Header1   	| Weight Tracking           		|
 | Paragraph1 	| Free Plan - 7 Days Tracking 		|
 #| Button		| Back to Dashboard 				|
-#| Card1		| Starting Weight					|
-#| Card2		| Current Weight					|
-#| Card3		| Goal Weight						|
-#| Heading1		| Progress Overview 				|
-#| Paragraph2	| Weight Lost						|
-#| Paragraph3	| Remaining							|
-#| Heading2		| Weight Progression Over Time		|
+| Card1	 		| Starting Weight					|
+| Card2			| Current Weight					|
+| Card3			| Goal Weight						|
+| Heading1		| Progress Overview 				|
+| Paragraph2	| Weight Loss Progress				|
+| Paragraph3	| Weight Lost						|
+| Paragraph4	| Remaining					|
+| Heading2		| Weight Progression Over Time		|
 #| Heading3		| Log Today's Weight				|
 
 @activity3

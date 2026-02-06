@@ -9,9 +9,12 @@ import org.apache.logging.log4j.Logger;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.StaleElementReferenceException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
@@ -27,6 +30,7 @@ public class WorkoutPage {
 	private By generateWorkoutButtonPath = By.xpath("//button[@data-testid='button-generate-next-workout']");
 	private By workoutCompleteXpath = By.xpath("//li[@role='status' and @data-state='open']//div[text()='Workout completed!']");
 	private By generateNextWorkoutStatusXpath = By.xpath("//li[@role='status' and @data-state='open']//div[contains(@class,'text-lg')]");
+    private By toolTipPath = By.xpath("//li[@data-state='open']//button[@toast-close]");
 	
 //	@FindBy(xpath=("//button[text()='Generate Workout Plan']"))
 //	WebElement generateWorkoutBtn;
@@ -36,34 +40,57 @@ public class WorkoutPage {
 		wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 	}
 
+	public void waitForToastsToDisappear() {
+	
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+
+		List<WebElement> closeButtons = driver.findElements(By.xpath("//button[@toast-close]"));
+
+		for (WebElement btn : closeButtons) {
+		    try {
+		        wait.until(ExpectedConditions.elementToBeClickable(btn)).click();
+		    } catch (Exception ignored) {}
+		}
+
+	}
+
 	public void loginPage() {
 
-		// driver = DriverFactory.getDriver(); // your driver setup
 				wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 				driver.get("https://herbalance.numpyninja.com");
 				
 				WebElement emailInput = wait.until(ExpectedConditions.visibilityOfElementLocated(By.name("username")));
-				emailInput.sendKeys("test12345@gmail.com");
+				emailInput.sendKeys("xyz1234@gmail.com");
 
 				WebElement passwordInput = driver.findElement(By.name("password"));
-				passwordInput.sendKeys("test12345");
+				passwordInput.sendKeys("xyz1234");
 				
 				WebElement loginButton = driver.findElement(By.xpath("//button[@type='submit' and text()='LogIn']"));
 				loginButton.click();
 		        logger.info("Logging in Her balance application");
+		        waitForToastsToDisappear();
 	}
 	
-	public void clickWorkoutBtn() {
+	public boolean clickWorkoutBtn() {
 		
-		//driver.findElement(WorkoutBtn).click();
-		 WebElement workoutBtn = wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//a[@href='/workouts']/button")));
+		try {
+		 WebElement workoutButtton = wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/workouts']/button")));
 		
-		 ((JavascriptExecutor)driver).executeScript("arguments[0].scrollIntoView(true);" , workoutBtn);
-		 ((JavascriptExecutor) driver).executeScript("arguments[0].dispatchEvent(new MouseEvent('click',{bubbles:true}));", workoutBtn);
+		 Actions actionsWorkButton = new Actions(driver);
+		 actionsWorkButton.moveToElement(workoutButtton).click().perform();		 
 		 logger.info("Workout button clicked"); 
-		 
-		 
+		 return true;
+		}
+		catch (StaleElementReferenceException e) {
+		    System.out.println("StaleElementRefrence — handling exception");
+		    WebElement workoutButtton = wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(By.xpath("//a[@href='/workouts']/button")));
+			
+		    Actions actionsWorkButton = new Actions(driver);
+			actionsWorkButton.moveToElement(workoutButtton).click().perform();
+		    return true;
+		} 
 	}
+	
 	public boolean isElementPresent(By locator) {
 	    return !driver.findElements(locator).isEmpty();
 	}
@@ -73,49 +100,46 @@ public class WorkoutPage {
 		return driver.getCurrentUrl();
 	}
 	
-	public void seepageElement(String element, String value) {
+	public boolean checkUrl(String url) {
+		WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+		return wait.until(ExpectedConditions.urlContains(url));
+	}
+	
+	public boolean seepageElement(String element, String value) {
 		
-		
-		//driver.findElement(element, value);
 		if (element.equals("Header1")) {
-			assertTrue(isElementPresent(By.xpath("//h1[text()='" + value + "']")),value+" "+element+" Present ");
+			return isElementPresent(By.xpath("//h1[text()='" + value + "']"));
 		}
 		else if (element.equals("Link")) {
-			assertTrue(isElementPresent(By.xpath("//span[@class='text-sm' and text()='" + value + "']")),value+" "+element+" Present ");
+			return isElementPresent(By.xpath("//span[@class='text-sm' and text()='" + value + "']"));
 		} 
 		
 		else if (element.equals("Header2")) {
-			assertTrue(isElementPresent(By.xpath("//h2[text()='" + value + "']")),value+" "+element+" Present ");
+			return isElementPresent(By.xpath("//h2[text()='" + value + "']"));
 		}
 		
 		else if (element.equals("Paragraph")) {
-			assertTrue(isElementPresent(By.xpath("//h2[text()='Daily Workout Plan']/parent::div/p")),value+" "+element+" Present ");			
+			return isElementPresent(By.xpath("//h2[text()='Daily Workout Plan']/parent::div/p"));			
 		}
 		
 		else if (element.equals("Header3")) {
-			assertTrue(isElementPresent(By.xpath("//h3[text()='No workout plan found']")),value+" "+element+" Present ");
+			return isElementPresent(By.xpath("//h3[text()='No workout plan found']"));
 		}
 		else if (element.equals("Button")) {
-			assertTrue(isElementPresent(By.xpath("//button[text()='Generate Workout Plan']")),value+" "+element+" Present ");
+			return isElementPresent(By.xpath("//button[text()='Generate Workout Plan']"));
 		}
 		else {
-			Assert.assertEquals(element.toString(), "XYZ", "Undefined Scenarion Element.");
+			return false;
 		}
 	}
 
-	public void generateWorkoutPlanBtn() {
-		//generateWorkoutBtn.click();
+	public boolean generateWorkoutPlanBtn() {
 		
-		try {
-			WebElement generateWorkoutBtn = driver.findElement(By.xpath("//button[text()='Generate Workout Plan']"));
-			System.out.println(" Button Text:\t" + generateWorkoutBtn.getText());
-			generateWorkoutBtn.click();
-			Assert.assertEquals(generateWorkoutBtn.getText(), "Generate Workout Plan", "Text not matching.");
-		} catch (NoSuchElementException e) {
-		    System.out.println("Element not found — handling exception");
-		    assertTrue(true,"Generate Workout Plan Button not Present ");
-		}
-		
+		//wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		WebElement generateWorkoutButton = wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(By.xpath("//button[text()='Generate Workout Plan']")));
+		generateWorkoutButton.click();
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(By.id("loading-spinner")));
+		return true;
 	}
 	
 	public boolean verifyCycleDayTabs() {
@@ -127,7 +151,6 @@ public class WorkoutPage {
 		for (WebElement tab : cycleTabs) {
 		    wait.until(ExpectedConditions.elementToBeClickable(tab)).click();
 		    System.out.println(" Tab Name:"+tab.getText());
-		    //WebElement completeButton = driver.findElement(completeButtonPath);
 		    WebElement completeButton = wait.until(ExpectedConditions.presenceOfElementLocated(completeButtonPath));
 
 		   	boolean isEnabled = completeButton.isEnabled();
@@ -144,52 +167,61 @@ public class WorkoutPage {
 	}
 	
 	public boolean generateNextWorkout() {
-		 wait.until(ExpectedConditions.elementToBeClickable(generateWorkoutButtonPath)).click();	
+
+		 wait.until(ExpectedConditions.visibilityOfElementLocated(generateWorkoutButtonPath));
+		 WebElement generateNextWorkoutButton = wait.ignoring(StaleElementReferenceException.class).until(ExpectedConditions.elementToBeClickable(generateWorkoutButtonPath));
+		 generateNextWorkoutButton.click();
 		 WebElement generateNextWorkoutStatus = wait.until(ExpectedConditions.presenceOfElementLocated(generateNextWorkoutStatusXpath));
 		 System.out.println("Generate Next Workout Status :" + generateNextWorkoutStatus.getText());
- 		 return generateNextWorkoutStatus.getText().contains("Success");
+ 		 return true;
 
 	}
+	
+	public boolean verifyGenerateNextWorkout() {
+		 WebElement generateNextWorkoutStatus = wait.until(ExpectedConditions.presenceOfElementLocated(generateNextWorkoutStatusXpath));
+		 System.out.println("Generate Next Workout Status :" + generateNextWorkoutStatus.getText());
+		 return generateNextWorkoutStatus.getText().contains("Success");
 
-	public void seeSection(String elementTitle, String values) {
-		System.out.println("ElementTitle :\t" + elementTitle);
+	}
+	
+	public boolean seeSection(String elementTitle, String values) {
+		
 		if (elementTitle.equals("Header2")) {
-			assertTrue(isElementPresent(By.xpath("//h2[text()='Daily Workout Plan']")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle2 :\t" + values+" "+elementTitle);
+			return isElementPresent(By.xpath("//h2[text()='Daily Workout Plan']"));			
 		}
-		
-		if (elementTitle.equals("Button1")) {
-			assertTrue(isElementPresent(By.xpath("//button[@role='tab' and @aria-selected='true']")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle3 :\t" + values+" "+elementTitle);
-
-		}
-		
-		if (elementTitle.equals("Header3")) {
-			assertTrue(isElementPresent(By.xpath("//div[normalize-space()='Luteal']")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle4 :\t" + values+" "+elementTitle);
-		}
-		
-		if (elementTitle.equals("Button2")) {
-			assertTrue(isElementPresent(By.xpath("//button[contains(text(),'Complete')]")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle5 :\t" + values+" "+elementTitle);
-		}
-	
-		if (elementTitle.equals("Button3")) {
-			assertTrue(isElementPresent(By.xpath("//button[contains(text(),'View All Exercises')]")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle6 :\t" + values+" "+elementTitle);
-		}
-	
-		if (elementTitle.equals("Button4")) {
-			assertTrue(isElementPresent(By.xpath("//button[contains(text(),'Generate Next Work Out')]")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle7 :\t" + values+" "+elementTitle);
-		}
-		
-		if (elementTitle.equals("Header4")) {
-			assertTrue(isElementPresent(By.xpath("//h3[text()='About Daily Workouts']")),values+" "+elementTitle+" Present ");
-			System.out.println("ElementTitle8 :\t" + values+" "+elementTitle);
-		}
+		else if (elementTitle.equals("CycleTabs")) {
+			List<WebElement> cycleTabs = wait.until(
+				    ExpectedConditions.presenceOfAllElementsLocatedBy(cycleDayNumberTabPath));
 			
+			return (!cycleTabs.isEmpty());
+		} 
+		else if (elementTitle.equals("Button2")) {
+			return isElementPresent(By.xpath("//button[contains(text(),'Complete')]"));
+		}
+		else if (elementTitle.equals("Button3")) {
+			return isElementPresent(By.xpath("//button[contains(text(),'View All Exercises')]"));
+		}
+		else if (elementTitle.equals("Button4")) {
+			return isElementPresent(By.xpath("//button[contains(text(),'Generate Next Work Out')]"));
+		}	
+		else if (elementTitle.equals("Header4")) {
+			return isElementPresent(By.xpath("//h3[text()='About Daily Workouts']"));
+		}
+		else if (elementTitle.equals("Workput Plan Phase")) {
+			return isElementPresent(By.xpath("//span[text()='Phase:']/following-sibling::span"));
+		}
+		else if (elementTitle.equals("Workput Plan Energy")) {
+			return isElementPresent(By.xpath("//span[text()='Energy:']/following-sibling::span"));
+		}
+		else if (elementTitle.equals("Workput Plan Focus")) {
+			return isElementPresent(By.xpath("//span[text()='Focus:']/following-sibling::span"));
+		}
+		else
+		{
+			return false;
+		}
+	
 		
 	}
-	
+
 }
