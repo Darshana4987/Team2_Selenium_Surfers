@@ -1,3 +1,4 @@
+@Regression
 Feature: Check the appearance of the dashboad page
 
   @dashboard1
