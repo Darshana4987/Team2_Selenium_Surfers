@@ -66,6 +66,17 @@ public class Dashboard02stepsDef {
         healthPageObject.clickLoginButton();
         logger.info("Clicked login button on HerBalance auth page");
     }
+   
+
+    @Then("Card includes heart icon, condition name, and info icon with related text")
+    public void card_styling_and_icons_displayed() {
+        Assert.assertTrue(
+                healthPageObject.isCardStylingCorrect(),
+                "Health condition card styling or icons are incorrect"
+        );
+        logger.info("Health condition card styling and icons are correct");
+    }
+
 
 }
   
