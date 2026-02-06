@@ -6,10 +6,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import com.herBalance.utils.ConfigReader;
 
 public class DriverFactory {
 
@@ -32,7 +28,6 @@ public class DriverFactory {
 			break;
 
 		default:
-			//LoggerFactory.getLogger().error("Unexpected value for browser: {}",browserType);
 			throw new IllegalStateException("Unexpected value for browserType: " + browserType);
 
 		}
