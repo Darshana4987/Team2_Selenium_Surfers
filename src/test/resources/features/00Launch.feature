@@ -1,3 +1,4 @@
+
 @tag @Regression
 Feature: Launchpage test
 

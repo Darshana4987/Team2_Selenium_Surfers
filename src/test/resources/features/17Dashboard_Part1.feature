@@ -12,3 +12,5 @@ Feature: Check the appearance of the dashboad page
     Given User is on the HerBalance auth page
     When User clicks the login button after entering valid username and password
     Then The user should see the username on the top right corner of the dashboard page
+
+    
