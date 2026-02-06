@@ -76,6 +76,8 @@ public class OnBoardingPageCommon {
 		clickContinue();
 	}
 	
+	// Step 6 to Step 11
+	
 	public void navigatesToStep6() {
 		navigatesToStep5();
 		selectMenstralCycleInfo();
