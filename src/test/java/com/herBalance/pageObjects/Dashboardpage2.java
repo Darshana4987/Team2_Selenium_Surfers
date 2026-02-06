@@ -104,6 +104,7 @@ public class Dashboardpage2 {
             throw e;
         }
     }
+    
 
     public boolean isDashboardLoaded() {
         try {
