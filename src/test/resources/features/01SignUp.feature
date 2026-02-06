@@ -1,3 +1,4 @@
+@Regression
 Feature: Sign Up functionality on auth page
 
   @tag1
