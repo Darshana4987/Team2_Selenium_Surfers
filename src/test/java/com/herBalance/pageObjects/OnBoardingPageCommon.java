@@ -2,8 +2,6 @@ package com.herBalance.pageObjects;
 
 import java.time.Duration;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -32,10 +30,8 @@ public class OnBoardingPageCommon {
 	private By txtDescriptionText = By.xpath("//p[@class='text-black mb-6']");
 	private By btnBack = By.xpath("//button[text()='Back']");
 	private By rdYesOptionForTrackCycle = By.xpath("//label[text()='Yes']");
-	private By popup = By.xpath("//button[@type='button']");
 
 	private WebDriverWait wait;
-	private Logger logger = LogManager.getLogger();
 
 	public OnBoardingPageCommon(WebDriver driver) {
 		this.driver = driver;
@@ -67,7 +63,6 @@ public class OnBoardingPageCommon {
 	public void navigatesToStep3() {
 		navigatesToStep2();
 		clickContunueWithOutReportButton();
-		clearSucessfulRegistationPopUp();
 	}
 
 	public void navigatesToStep4() {
@@ -80,41 +75,30 @@ public class OnBoardingPageCommon {
 		enterValidPersonalDetails();
 		clickContinue();
 	}
-
+	
 	public void navigatesToStep6() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
+		navigatesToStep5();
+		selectMenstralCycleInfo();
 		clickContinue();
 	}
-
+	
 	public void navigatesToStep7() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep6();
 	}
-
+	
 	public void navigatesToStep8() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep7();
 	}
-
+	
 	public void navigatesToStep9() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep8();
 	}
-
+	
 	public void navigatesToStep10() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep9();
 	}
-
 	public void navigatesToStep11() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep10();
 	}
 
 	public void clickContunueWithOutReportButton() {
@@ -123,17 +107,7 @@ public class OnBoardingPageCommon {
 	}
 
 	public void clickContinue() {
-		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
-		wait.until(ExpectedConditions.elementToBeClickable(btnContinue)).click();
-	}
-
-	public void clearSucessfulRegistationPopUp() {
-		try {
-			wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-			wait.until(ExpectedConditions.elementToBeClickable(popup)).click();
-		} catch (Exception e) {
-			logger.error("Unable to clear sucessful registation pop-up and click continue button. {}", e.getMessage());
-		}
+		driver.findElement(btnContinue).click();
 	}
 
 	public void enterValidPersonalDetails() {
