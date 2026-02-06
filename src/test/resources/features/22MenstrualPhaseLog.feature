@@ -4,7 +4,7 @@ Feature: Menstrual Phase Log page
 Background:
 Given User is logged in to Herbalance app
 
-@Buttons_visible 
+@now @Buttons_visible 
 Scenario: Verify user can see all sections of Menstrual Log Page 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
@@ -150,3 +150,21 @@ Examples:
 |    Follicular Phase|
 |   Ovulation Phase  |
 |    Luteal Phase    |
+
+@upcoming_phases
+Scenario: Verify current phase is highlighted in upcoming phases section
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then Current phase should be highlighted in upcoming phases
+
+@next_period 
+Scenario: Verify next period section heading is displayed
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see next period section heading text
+
+@next_period 
+Scenario: Verify next period date is displayed in correct format as per onboarding data
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then Next period date should be in correct format and as per onboarding data

@@ -58,6 +58,15 @@ public class Helper {
 		}
 	}
 	
+	/*public static LocalDate calculateStartDateForEachPhase(String phase) throws IOException {
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+		LocalDate periodDate = LocalDate.parse(lastPeriodDateFromTestData(), formatter);
+		String current = calculateMenstrualPhase();
+		LocalDate today = LocalDate.now();
+		
+	}*/
+	
+	
 	public static String calculateNextPeriodExpected() throws IOException {
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
 		LocalDate periodDate = LocalDate.parse(lastPeriodDateFromTestData(), formatter);
