@@ -1,4 +1,4 @@
-@workMain
+@workMain @Regression
 Feature: Workout Page UI verification
 
 Background:
