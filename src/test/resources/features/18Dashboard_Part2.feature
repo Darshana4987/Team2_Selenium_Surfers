@@ -1,0 +1,1 @@
+Feature: Check the appearance of the dashboad page Part 2 
