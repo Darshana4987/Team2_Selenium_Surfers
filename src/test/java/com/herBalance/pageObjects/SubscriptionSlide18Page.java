@@ -1,12 +1,16 @@
 package com.herBalance.pageObjects;
 
+import java.time.Duration;
 import java.util.List;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class SubscriptionSlide18Page {
 	private static Logger logger = LogManager.getLogger();
@@ -29,7 +33,7 @@ public class SubscriptionSlide18Page {
 	private By freePlanChecklist = By.xpath("//p[text()='Free']/../../ul");
 	private By monthlyPlanChecklist = By.xpath("//p[text()='$39.99']/../../ul");
 	private By threeMonthPlanChecklist = By.xpath("//p[text()='$99.99']/../../ul");
-	//private By freePlanCheckMark = By.xpath("//*[name()='svg' and contains(@class,'lucide-check')]");
+	private By onboardingCompletePopUp = By.xpath("//li[@role='status']/button");
 	
 	private By subscribeNowButton(String text) {
 		return By.xpath(String.format("//h2[contains(text(),'%s')]/../../div[3]/button", text));
@@ -58,6 +62,8 @@ public class SubscriptionSlide18Page {
 	
 	public void clickComplete() {
 		driver.findElement(complete).click();
+		logger.info("Onboarding complete. Closing popup");
+		closeOnboardingCompletePopup();
 	}
 	
 	public WebElement getSubscriptionHeader() {
@@ -79,6 +85,7 @@ public class SubscriptionSlide18Page {
 		for (WebElement tile : tiles) {
 			String text = tile.findElement(planTitleText).getText();
 			if (text.contains(planText)) {
+				logger.info(planText + "title text visible in the page");
 				displayed = true;
 				break;
 			}
@@ -93,6 +100,7 @@ public class SubscriptionSlide18Page {
 			String text = tile.findElement(planTitleSubText).getText();
 			System.out.println(text);
 			if (text.contains(subText)) {
+				logger.info(subText + "title sub text visible in the page");
 				displayed = true;
 				break;
 			}
@@ -105,6 +113,7 @@ public class SubscriptionSlide18Page {
 		Boolean displayed = false;
 		for (WebElement header  : headers) {
 			if (header.getText().contains(headerText)) {
+				logger.info(headerText + "visible in the page");
 				displayed = true;
 				break;
 			}
@@ -117,6 +126,7 @@ public class SubscriptionSlide18Page {
 		Boolean displayed = false;
 		for (WebElement subHeader  : subHeaders) {
 			if (subHeader.getText().contains(subHeaderText)) {
+				logger.info(subHeaderText + "visible in the page");
 				displayed = true;
 				break;
 			}
@@ -130,6 +140,7 @@ public class SubscriptionSlide18Page {
 		List<WebElement> checklist = checklistParent.findElements(By.xpath("./li"));
 		for (WebElement element : checklist) {
 			if (element.getText().contains(text)) {
+				logger.info("free plan checklist "+ text + "visible in the page");
 				displayed = true;
 			}
 		}
@@ -142,6 +153,7 @@ public class SubscriptionSlide18Page {
 		List<WebElement> checklist = checklistParent.findElements(By.xpath("./li"));
 		for (WebElement element : checklist) {
 			if (element.getText().contains(text)) {
+				logger.info("monthly plan checklist "+ text + "visible in the page");
 				displayed = true;
 			}
 		}
@@ -154,6 +166,7 @@ public class SubscriptionSlide18Page {
 		List<WebElement> checklist = checklistParent.findElements(By.xpath("./li"));
 		for (WebElement element : checklist) {
 			if (element.getText().contains(text)) {
+				logger.info("3 month plan checklist "+ text + "visible in the page");
 				displayed = true;
 			}
 		}
@@ -162,5 +175,15 @@ public class SubscriptionSlide18Page {
 	
 	public WebElement getSubscribeNowButton(String text) {
 		return driver.findElement(subscribeNowButton(text));
+	}
+	
+	public void closeOnboardingCompletePopup() {
+		try {
+			WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+			wait.until(ExpectedConditions.elementToBeClickable(onboardingCompletePopUp));
+			driver.findElement(onboardingCompletePopUp).click();
+		} catch(Exception e) {
+			//popup not appear
+		}
 	}
 }
