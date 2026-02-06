@@ -7,6 +7,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class OnBoardingPageCommon {
 	private WebDriver driver;
@@ -30,6 +32,8 @@ public class OnBoardingPageCommon {
 	private By txtDescriptionText = By.xpath("//p[@class='text-black mb-6']");
 	private By btnBack = By.xpath("//button[text()='Back']");
 	private By rdYesOptionForTrackCycle = By.xpath("//label[text()='Yes']");
+	private By popup = By.xpath("//button[@type='button']");
+	private Logger logger = LogManager.getLogger();
 
 	private WebDriverWait wait;
 
@@ -63,6 +67,7 @@ public class OnBoardingPageCommon {
 	public void navigatesToStep3() {
 		navigatesToStep2();
 		clickContunueWithOutReportButton();
+		clearSucessfulRegistationPopUp();
 	}
 
 	public void navigatesToStep4() {
@@ -75,30 +80,31 @@ public class OnBoardingPageCommon {
 		enterValidPersonalDetails();
 		clickContinue();
 	}
-	
+
 	// Step 6 to Step 11
-	
+
 	public void navigatesToStep6() {
 		navigatesToStep5();
 		selectMenstralCycleInfo();
 		clickContinue();
 	}
-	
+
 	public void navigatesToStep7() {
 		navigatesToStep6();
 	}
-	
+
 	public void navigatesToStep8() {
 		navigatesToStep7();
 	}
-	
+
 	public void navigatesToStep9() {
 		navigatesToStep8();
 	}
-	
+
 	public void navigatesToStep10() {
 		navigatesToStep9();
 	}
+
 	public void navigatesToStep11() {
 		navigatesToStep10();
 	}
@@ -109,7 +115,17 @@ public class OnBoardingPageCommon {
 	}
 
 	public void clickContinue() {
-		driver.findElement(btnContinue).click();
+		wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+		wait.until(ExpectedConditions.elementToBeClickable(btnContinue)).click();
+	}
+
+	public void clearSucessfulRegistationPopUp() {
+		try {
+			wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+			wait.until(ExpectedConditions.elementToBeClickable(popup)).click();
+		} catch (Exception e) {
+			logger.error("Unable to clear sucessful registation pop-up and click continue button. {}", e.getMessage());
+		}
 	}
 
 	public void enterValidPersonalDetails() {
