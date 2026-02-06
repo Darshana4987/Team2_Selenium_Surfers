@@ -9,7 +9,6 @@ import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
 import com.herBalance.pageObjects.OnBoardingPageCommon;
-import com.herBalance.pageObjects.OnBoardingPagePart1;
 import com.herBalance.pageObjects.OnBoardingPagePart2;
 import com.herBalance.pageObjects.SubscriptionSlide18Page;
 
@@ -20,57 +19,39 @@ import io.cucumber.java.en.When;
 public class SubscriptionSlide18StepDefinition {
 	private static final Logger logger = LoggerFactory.getLogger(SubscriptionSlide18StepDefinition.class);
 
-	//private OnBoardingPageStep7 obj_OnboardStep7;
 	private OnBoardingPageCommon onBoardingPageCommon;
 	private OnBoardingPagePart2 onBoardingPagePart2;
-	//private OnBoardingPageStep6 obj_OnboardStep6;
-	//private LoginPageObject loginPageObject;
 	private SubscriptionSlide18Page subscriptionSlide18;
 	
 	public SubscriptionSlide18StepDefinition() {
-		//obj_OnboardStep7 = new OnBoardingPageStep7(DriverFactory.getDriver());
 		onBoardingPageCommon = new OnBoardingPageCommon(DriverFactory.getDriver());
 		onBoardingPagePart2 = new OnBoardingPagePart2(DriverFactory.getDriver());
-		//obj_OnboardStep6 = new OnBoardingPageStep6(DriverFactory.getDriver());
-		//loginPageObject = new LoginPageObject(DriverFactory.getDriver());
 		subscriptionSlide18 = new SubscriptionSlide18Page(DriverFactory.getDriver());
 	}
 
 	@Given("User completes onboarding process until step10")
 	public void user_completes_onboarding_process_until_step10() {
-		onBoardingPageCommon.navigateToSignInPage();
-		onBoardingPageCommon.clickRegister();  //Register
-		onBoardingPageCommon.navigatesToStep5();
 		
-		/*onBoardingPage.clickContunueWithOutReportButton(); // Onboard Step 2
+		onBoardingPageCommon.navigatesToStep5();
 
-		obj_OnboardStep6.clickHealthCondition();
-		obj_OnboardStep6.clickContinueBtn(); // Step 3
-
-		obj_OnboardStep6.enterPersonalDetails();
-		obj_OnboardStep6.clickBloodPressureStatus();
-		obj_OnboardStep6.clickContinueBtn(); // step4
-
-		obj_OnboardStep6.clickMenstrualCycleAwarenessOptions();
-		obj_OnboardStep6.clickContinueBtn(); */  //step 5
+		onBoardingPagePart2.clickMenstrualCycleAwarenessOptions();
+		onBoardingPageCommon.clickContinue();  //step 5
 
 		onBoardingPagePart2.enterlastMenstrualDate(); // Step 6
-		onBoardingPagePart2.clickContinueBtn();
+		onBoardingPageCommon.clickContinue();
 		
 		onBoardingPagePart2.enterWeight();
 		onBoardingPagePart2.enterHeight();
-		onBoardingPagePart2.clickContinueBtn(); //step7
+		onBoardingPageCommon.clickContinue(); //step7
 		
 		subscriptionSlide18.clickDietPreferences();
-		onBoardingPagePart2.clickContinueBtn(); //step8
+		onBoardingPageCommon.clickContinue(); //step8
 		
 		subscriptionSlide18.clickPhysicalActivity();
-		onBoardingPagePart2.clickContinueBtn();  //step9
+		onBoardingPageCommon.clickContinue();  //step9
 		
 		subscriptionSlide18.clickFoodAllergy();
-		onBoardingPagePart2.clickContinueBtn();  //step10
-		
-		subscriptionSlide18.clickMedications();
+		onBoardingPageCommon.clickContinue();  //step10
 		
 	}
 
