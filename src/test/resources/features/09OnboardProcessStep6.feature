@@ -1,5 +1,3 @@
-
-
 Feature: Onboarding step 6 Functionality and Step 7 UI verification
 
 
@@ -13,8 +11,13 @@ Scenario: Error message for without selecting last menstrual date
 Scenario: Progress bar is visible in step 6
 	Given User is in step six of onboarding
   When User clicks continue after selecting last menstrual date
-  Then Progress bar shows the current step "6 of 11"
-
+  Then Progress bar shows the current step "7 of 11"
+  
+Scenario: Error message for invalid value in date
+	Given User is in step six of onboarding
+  When User clicks continue button after entering invalid value in date
+  Then Error message "Please select your last period start date" should be displayed invalid value in date
+   
 Scenario: Navigating back to step 5
 	Given User is in step six of onboarding
   When User clicks back button in step 6
@@ -25,18 +28,6 @@ Scenario: Navigation to Step 7
   When User clicks continue after selecting last menstrual date
   Then User redirected to next Step7
 
-Scenario: Error message for invalid value in date
-	Given User is in step six of onboarding
-  When User clicks continue button after entering invalid value in date
-  Then Error message "Please select your last period start date" should be displayed invalid value in date
- 
- 
- 
- 
- 
- 
- 
- 
  
  
  

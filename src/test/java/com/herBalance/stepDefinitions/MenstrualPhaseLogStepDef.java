@@ -4,12 +4,15 @@ package com.herBalance.stepDefinitions;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.Color;
 import org.testng.Assert;
 
 import com.herBalance.driverFactory.DriverFactory;
@@ -103,8 +106,8 @@ public class MenstrualPhaseLogStepDef {
 		WebElement progressBar = menstrualPhaseLogPage.getMenstrualProgressBar();
 		String style = progressBar.getAttribute("style");
 		Double percentage = Double.parseDouble(style.replaceAll("[^0-9.]", ""));
-		Double progressValue = 100 - percentage;
-		Assert.assertEquals(progressValue, Helper.calculateCycleProgress(), "cycle Progress not matched with onboarding data");
+		String barProgress = String.format("%.4f", 100 - percentage);
+		Assert.assertEquals(barProgress, Helper.calculateCycleProgress(), "cycle Progress not matched with onboarding data");
 	}
 
 	@Then("User should be able to see all labels {string} in Current Cycle Status section")
@@ -158,6 +161,70 @@ public class MenstrualPhaseLogStepDef {
 	    Assert.assertEquals(details, expected.get("Details"), "Phase details not matching with onboarding data");
 	}
 
-	
+	@Then("User should see upcoming phases heading text")
+	public void user_should_see_upcoming_phases_heading_text() {
+	    Assert.assertTrue(menstrualPhaseLogPage.getUpcomingPhasesHeader().isDisplayed(), "Upcoming phase heading text not visible");
+	}
 
+	@Then("User should see upcoming phases heading subtext")
+	public void user_should_see_upcoming_phases_heading_subtext() {
+		Assert.assertTrue(menstrualPhaseLogPage.getUpcomingPhasesSubText().isDisplayed(), "Upcoming phase heading subtext not visible");
+	}
+
+	@Then("User should see four subsections for upcoming phases section")
+	public void user_should_see_four_subsections_for_upcoming_phases_section() {
+	    List<WebElement> sections = menstrualPhaseLogPage.getUpcomingPhasesSections();
+	    logger.info("no of sections: "+ sections.size());
+	    Assert.assertTrue(sections.size() == 4);
+	}
+
+	@Then("User should see {string} heading text for upcoming phases")
+	public void user_should_see_heading_text_for_upcoming_phases(String phase) {
+		Assert.assertTrue(menstrualPhaseLogPage.upcomingPhasesSectionHeadingDisplayed(phase));
+	}
+
+	@Then("User should be able to see correct start date format for {string}")
+	public void user_should_be_able_to_see_correct_start_date_format_for(String phase) throws IOException {
+		boolean validation = true;
+		String startDate = menstrualPhaseLogPage.GetUpcomingPhasesStartDate(phase);
+		String startFormat = menstrualPhaseLogPage.getStartFormat(phase);
+		Assert.assertTrue(startDate.startsWith(startFormat), "Does not have starts text for start date");
+		String date = startDate.replace(startFormat, "").trim();
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMM d yyyy", Locale.ENGLISH);
+		String year = String.valueOf(LocalDate.now().getYear());
+		try {
+			LocalDate.parse(date + " " + year , formatter);
+		} catch (DateTimeParseException e) {
+			validation = false;
+		}
+		Assert.assertTrue(validation, "Start date is not in MMM DD format");
+	}
+
+	@Then("Current phase should be highlighted in upcoming phases")
+	public void current_phase_should_be_highlighted_in_upcoming_phases() throws IOException {
+		String bgColor = menstrualPhaseLogPage.currentPhaseHighlighted();
+		String actualrgb = Color.fromString(bgColor).asRgb();
+		Assert.assertEquals(actualrgb, "rgb(245, 240, 255)", "Current phase is not highlighted");
+	}
+
+	@Then("User should see next period section heading text")
+	public void user_should_see_next_period_section_heading_text() {
+		Assert.assertTrue(menstrualPhaseLogPage.getNextPeriodHeading().isDisplayed(), "Next period heading not visible");
+	}
+
+	@Then("Next period date should be in correct format and as per onboarding data")
+	public void next_period_date_should_be_in_correct_format_and_as_per_onboarding_data() throws IOException {
+	    String nextPeriod = menstrualPhaseLogPage.getNextPeriodDate();
+	    boolean validation = true;
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy", Locale.ENGLISH);
+	    try {
+			LocalDate.parse(nextPeriod, formatter);
+		} catch (DateTimeParseException e) {
+			validation = false;
+		}
+		Assert.assertTrue(validation, "next period date is not in correct format");
+		String expected = Helper.calculateNextPeriodExpected();
+		DateTimeFormatter expectedFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy", Locale.ENGLISH);
+		Assert.assertEquals(LocalDate.parse(nextPeriod, formatter), LocalDate.parse(expected, expectedFormatter));
+	}
 }

@@ -14,6 +14,8 @@ import io.cucumber.java.AfterStep;
 import io.cucumber.java.Before;
 import io.cucumber.java.BeforeAll;
 import io.cucumber.java.Scenario;
+import io.qameta.allure.Allure;
+import java.io.ByteArrayInputStream;
 
 public class Hooks {
 	private WebDriver driver;
@@ -34,8 +36,10 @@ public class Hooks {
 	@AfterStep
 	public void takeScreenshot(Scenario scenario) {
 		if (scenario.isFailed() || scenarioTags.contains("@GeneratePlan")) {
-			final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
-			scenario.attach(screenshot, "image/png", scenario.getName());
+			TakesScreenshot takesScreenshot = (TakesScreenshot) DriverFactory.getDriver();
+			byte[] screenShot = takesScreenshot.getScreenshotAs(OutputType.BYTES);
+			scenario.attach(screenShot, "image/png", scenario.getName());
+			Allure.addAttachment(scenario.getName(), new ByteArrayInputStream(screenShot));
 		}
 	}
 

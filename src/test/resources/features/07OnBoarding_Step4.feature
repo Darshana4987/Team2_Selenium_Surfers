@@ -11,7 +11,8 @@ Feature: Onboarding step 4 Functionality and Step 5 UI verification
     Examples:
       | invalid value |
       |               |
-      
+      | ~@            |
+
   Scenario Outline: Error message for invalid values in age
     When User clicks continue button after entering "<invalid value>" in age
     Then Error message "<error message>" should be displayed in Step4
@@ -32,11 +33,11 @@ Feature: Onboarding step 4 Functionality and Step 5 UI verification
 
   Scenario: Navigating back to step 3
     When User clicks back button in step4
-    Then Should be redirected to step3
+    Then Redirected to Step 3
 
   Scenario: Navigation to Step 5
     When User clicks continue after entering all required details
-    Then Redirected to Step5
+    Then Redirected to Step 5
 
   Scenario: Step 5 UI verification
     When User clicks continue after entering all required details

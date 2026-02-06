@@ -1,9 +1,10 @@
-#Feature: Menstrual Phase Log page
+@Menstrual
+Feature: Menstrual Phase Log page
 
 Background:
 Given User is logged in to Herbalance app
 
-@Buttons_visible 
+@now @Buttons_visible 
 Scenario: Verify user can see all sections of Menstrual Log Page 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
@@ -102,8 +103,68 @@ Given User is on the Her Balance Dashboard with the Activity Insights submenu ex
 When User clicks on Menstrual Phase Logs
 Then Subsection heading reflects the Current Phase in the correct format  
 
-@now @current_cycle
+@current_cycle
 Scenario: Verify the content below subsection heading 
 Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
 When User clicks on Menstrual Phase Logs
 Then Display content should match current phase 
+
+@upcoming_phases
+Scenario:  Verify upcoming phases section heading text
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see upcoming phases heading text
+
+@upcoming_phases
+Scenario: Verify upcoming phases section subtext
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see upcoming phases heading subtext
+
+@upcoming_phases
+Scenario: Verify upcoming phases section has 4 subsections
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see four subsections for upcoming phases section
+
+@upcoming_phases
+Scenario: Verify upcoming phases subsection heading text
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see "<subsection>" heading text for upcoming phases
+Examples:
+|       subsection   |
+|   Menstrual Phase  |
+|    Follicular Phase|
+|   Ovulation Phase  |
+|    Luteal Phase    |
+
+@upcoming_phases
+Scenario: Verify start date format for each upcoming phase section
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should be able to see correct start date format for "<subsection>"
+Examples: 
+|       subsection   |
+|   Menstrual Phase  |
+|    Follicular Phase|
+|   Ovulation Phase  |
+|    Luteal Phase    |
+
+@upcoming_phases
+Scenario: Verify current phase is highlighted in upcoming phases section
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then Current phase should be highlighted in upcoming phases
+
+@next_period 
+Scenario: Verify next period section heading is displayed
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then User should see next period section heading text
+
+@next_period 
+Scenario: Verify next period date is displayed in correct format as per onboarding data
+Given User is on the Her Balance Dashboard with the Activity Insights submenu expanded
+When User clicks on Menstrual Phase Logs
+Then Next period date should be in correct format and as per onboarding data
