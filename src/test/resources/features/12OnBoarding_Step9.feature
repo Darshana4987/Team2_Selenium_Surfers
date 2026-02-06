@@ -7,22 +7,11 @@ Scenario: Continue button behavior upon activity level selection
   When User clicks any of the activity level
   Then Continue button should be enabled
     
-Scenario Outline: 4 sections visibility in step 10
-  When User clicks continue after selecting any activity level
-  Then Radio "<options>" activity level should be visible  
-
-Examples:
-      | options             |
-      | Sedentary   				|
-      | Lightly Active      |
-      | Moderately Active   |
-      | Very Active         |
-
-Scenario: Presence of radio button in all sections
+Scenario: 4 sections visibility in step 9
 	Given User is in step nine of onboarding
-  When User clicks continue after selecting any activity level
-  Then Radio button should be displayed in all the sections for activity level
- 
+  When User clicks any of the activity level
+  Then 4 Radio options activity level should be visible  
+
 Scenario: Navigating back to step 8
 	Given User is in step nine of onboarding
   When User clicks back button in step 9
@@ -33,6 +22,20 @@ Scenario: Navigation to Step 10
   When User clicks continue after selecting any activity level
   Then Redirected to Step10
 
+Scenario: Progress bar is visible in step 10
+	Given User is in step nine of onboarding
+  When User clicks continue after selecting any activity level
+  Then Progress bar shows the current step as  "10 of 11"
+
+Scenario: Title for Step 10
+	Given User is in step nine of onboarding
+  When User clicks continue after selecting any activity level
+  Then "Food Allergies & Sensitivities" should be displayed
+ 
+Scenario: Description text for step 10
+	Given User is in step nine of onboarding
+  When User clicks continue after selecting any activity level
+  Then "Do you have any food allergies or intolerances?" description for step10
 
 
   

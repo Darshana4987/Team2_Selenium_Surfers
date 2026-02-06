@@ -10,7 +10,7 @@ Scenario: Error message for without entering current weight
 Scenario: Error message for invalid weight
 	Given User is in step seven of onboarding
   When User clicks continue button after entering invalid weight
-  Then Error message "Enter a valid weight" shouldbe displayed for invalid weight
+  Then Error message "Please enter a valid weight (30-300 kg)" shouldbe displayed for invalid weight
   
 Scenario: Error message for without entering height
 	Given User is in step seven of onboarding
@@ -20,7 +20,7 @@ Scenario: Error message for without entering height
 Scenario: Error message for invalid height
 	Given User is in step seven of onboarding
   When User clicks continue button after entering invalid height
-  Then Error message "Enter a valid height" should be displayed for invalid height
+  Then Error message "Please enter a valid height (120-250 cm)" should be displayed for invalid height
   
 Scenario: Weight unit dropdowns visibility
 	Given User is in step seven of onboarding
