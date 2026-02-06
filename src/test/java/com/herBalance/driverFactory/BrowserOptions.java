@@ -18,9 +18,9 @@ public class BrowserOptions {
 		options.setPageLoadTimeout(Duration.ofSeconds(40));
 		options.setAcceptInsecureCerts(true);
 		options.setScriptTimeout(Duration.ofSeconds(40));
-		options.addArguments("start-maximized");
+		options.addArguments("--start-maximized");
 		options.addArguments("--incognito");
-		//options.addArguments("--headless=new");
+		options.addArguments("--headless=new");
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
 
@@ -34,8 +34,9 @@ public class BrowserOptions {
 		options.setPageLoadTimeout(Duration.ofSeconds(60));
 		options.setAcceptInsecureCerts(true);
 		options.setScriptTimeout(Duration.ofSeconds(60));
+		options.addArguments("--start-maximized");
 		options.addArguments("--incognito");
-		//options.addArguments("--headless=new");
+		options.addArguments("--headless=new");
 		options.addArguments("--disable-gpu");
 		options.addArguments("--no-sandbox");
 		options.addArguments("--disable-dev-shm-usage");
