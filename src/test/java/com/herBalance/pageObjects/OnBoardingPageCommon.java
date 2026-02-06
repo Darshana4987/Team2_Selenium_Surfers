@@ -77,38 +77,28 @@ public class OnBoardingPageCommon {
 	}
 	
 	public void navigatesToStep6() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
+		navigatesToStep5();
+		selectMenstralCycleInfo();
 		clickContinue();
 	}
 	
 	public void navigatesToStep7() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep6();
 	}
 	
 	public void navigatesToStep8() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep7();
 	}
 	
 	public void navigatesToStep9() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep8();
 	}
 	
 	public void navigatesToStep10() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep9();
 	}
 	public void navigatesToStep11() {
-		navigatesToStep4();
-		enterValidPersonalDetails();
-		clickContinue();
+		navigatesToStep10();
 	}
 
 	public void clickContunueWithOutReportButton() {
