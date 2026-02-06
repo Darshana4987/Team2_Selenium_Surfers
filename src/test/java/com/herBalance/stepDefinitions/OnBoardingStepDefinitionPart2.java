@@ -29,7 +29,6 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_is_in_step_six_of_onboarding() {
 
 		obj_OnBoardingPageCommon.navigatesToStep6();
-
 		logger.info("You are on the Onboard Process Step 6");
 	}
 
@@ -70,15 +69,14 @@ public class OnBoardingStepDefinitionPart2 {
 	public void user_clicks_back_button_in_step(Integer int1) {
 
 		obj_OnBoardingPageCommon.clickBackButton();
-	
-
 	}
+	
 	@Then("Description for current phase should be displayed {string}")
 	public void description_for_current_phase_should_be_displayed(String expectedDescription) {
 	   
 		Assert.assertEquals(obj_OnboardStepPart2.getDescriptionForStep6(), expectedDescription);
-		
 	}
+	
 	@When("User selecting last menstrual date")
 	public void user_selecting_last_menstrual_date() {
 		
@@ -87,14 +85,15 @@ public class OnBoardingStepDefinitionPart2 {
 
 	@Then("User redirected to back Step {int}")
 	public void user_redirected_to_back_step(Integer int1) {
+		
 		obj_OnBoardingPageCommon.clickContinue();
 	}
 
 	@Then("User redirected to next Step7")
 	public void user_redirected_to_next_step7() {
+		
 		String actualStepNumber = obj_OnBoardingPageCommon.getProcessBarStepNumber();
 		Assert.assertTrue(actualStepNumber.contains("7"));
-
 	}
 
 	@When("User clicks continue button after entering invalid value in date")
@@ -102,7 +101,6 @@ public class OnBoardingStepDefinitionPart2 {
 
 		obj_OnboardStepPart2.enterInvalid_lastMenstrualDate();
 		obj_OnBoardingPageCommon.clickContinue();
-
 	}
 
 	@Then("Error message {string} should be displayed invalid value in date")
@@ -123,7 +121,6 @@ public class OnBoardingStepDefinitionPart2 {
 	public void title_should_be_displayed_for_step7(String expectedTitle_Step7) {
 	   
 		Assert.assertEquals(obj_OnboardStepPart2.getTitleForStep6(), expectedTitle_Step7);
-
 	}
 
 	// Step 7
@@ -240,7 +237,6 @@ public class OnBoardingStepDefinitionPart2 {
 
 		String actualStepNumber = obj_OnBoardingPageCommon.getProcessBarStepNumber();
 		Assert.assertTrue(actualStepNumber.contains("8"));
-
 	}
 
 	// Step 8
@@ -271,7 +267,6 @@ public class OnBoardingStepDefinitionPart2 {
 
 		Assert.assertEquals(obj_OnboardStepPart2.getRadioBtnCountForStep8(), int1);
 		logger.info("4 options is visible");
-
 	}
 
 	@Then("Redirected to Step9")
@@ -336,7 +331,6 @@ public class OnBoardingStepDefinitionPart2 {
 	   
 		Assert.assertEquals(obj_OnboardStepPart2.getRadioBtnCountForStep9(), expectedRadioButtonCount);
 		logger.info("4 options is visible");
-		
 	}
 
 	@When("User clicks continue after selecting any activity level")
@@ -420,21 +414,18 @@ public class OnBoardingStepDefinitionPart2 {
 	public void following_radio_button_should_be_visible_for_step11(String expectedOptions) {
 	   
 		Assert.assertTrue(obj_OnboardStepPart2.isFoodAllergyOptionsLabelVisible(expectedOptions));
-
 	}
 	
 	@Then("{string} title should be displayed for step11")
 	public void title_should_be_displayed_for_step11(String expectedTitle_ForStep11) {
 	   
 		Assert.assertEquals(obj_OnboardStepPart2.geTitleStep11(),expectedTitle_ForStep11);
-
 	}
 	
 	@Then("{string} description for step11 should be displayed.")
 	public void description_for_step11_should_be_displayed(String expectedDescription_ForStep11) {
 	   
 		Assert.assertEquals(obj_OnboardStepPart2.getDescriptionForStep11(),expectedDescription_ForStep11);
-
 	}
 	
 	
@@ -498,6 +489,8 @@ public class OnBoardingStepDefinitionPart2 {
 
 	@Then("Radio button in the selected section forn step11 for should be marked as selected")
 	public void radio_button_in_the_selected_section_forn_step11_for_should_be_marked_as_selected() {
+		
+		logger.info("Radio button is selected");
 	  
 	}
 }
